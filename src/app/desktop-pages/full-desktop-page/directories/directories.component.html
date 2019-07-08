@@ -1,0 +1,136 @@
+<div *ngIf="!divEnabled">
+    <app-dirmanagement (datos)="recibirDatos($event)"></app-dirmanagement>
+</div>
+<!-- Basic form layout section start -->
+<div *ngIf="divEnabled">
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-colored-controls">Directorios</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                                <div class="form-body">
+                                    <h4 class="form-section">
+                                        <i class="ft-layers"></i> Directorios</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="directoryName">Nombre del Directorio: </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="directoryName" class="form-control border-primary" name="directoryName" #directoryName="ngModel" [(ngModel)]="dir.directory_name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="description">Descripción: </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="description" class="form-control border-primary" name="description" #description="ngModel" [(ngModel)]="dir.description">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="impClass">Clase: </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="impClass" class="form-control border-primary" name="impClass" #directoryType="ngModel" [(ngModel)]="dir.imp_class">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="dirType">Tipo de Directorio: </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="dirType" class="form-control border-primary" name="dirType" #dirType="ngModel" [(ngModel)]="dir.directory_type">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="dnUser">DN User: </label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control border-primary" type="text" id="dnUser" name="dnUser" #dnUser="ngModel" [(ngModel)]="dir.dnUser">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="directories">DN Groups: </label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control border-primary" type="text" id="dnGroups" name="dnGroups" #dnGroups="ngModel" [(ngModel)]="dir.dnGroups">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="port">Puerto: </label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control border-primary" type="text"  id="port" name="port" #port="ngModel" [(ngModel)]="dir.port">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="url">URL: </label>
+                                                <div class="col-md-9">
+                                                    <input class="form-control border-primary" type="text" id="url" name="url" #url="ngModel" [(ngModel)]="dir.url">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="certificate">Certificado: </label>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control border-primary" type="text" id="certificate" name="certificate" #certificate="ngModel" [(ngModel)]="dir.certificate">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="authentication">Autenticación: </label>
+                                                    <div class="col-md-9">
+                                                        <input class="form-control border-primary" type="text" id="authentication" name="authentication" #authentication="ngModel" [(ngModel)]="dir.authentication">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" for="enabled">Habilitado: </label>
+                                        <div class="col-md-9">
+                                            <select id="enabled" class="form-control border-primary" name="enabled" #enabled="ngModel" [(ngModel)]="opcEnabled" [ngModelOptions]="{standalone: true}">
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions right">
+                                    <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/directories']">Cancelar</button>
+                                    <button type="submit" class="btn btn-raised btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Guardar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- // Basic form layout section end -->

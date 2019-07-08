@@ -1,0 +1,390 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import swal from 'sweetalert2';
+import { NgForm } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import {
+  Profiles, GetActionTables, GetActionInsert, GetActionUpdate, GetTablesUnion, DropTablesUnion,
+  GetMenuPages
+} from '../../../models/desktop';
+import { GetActionService } from '../../../services/getAction.service';
+import { VARGLOBAL } from '../../../services/login-pass.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+
+
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html'
+})
+
+export class ProfileComponent implements OnInit {
+  @ViewChild(DatatableComponent) tblList: DatatableComponent;
+  @ViewChild(DatatableComponent) tblListI: DatatableComponent;
+  public profile: Profiles;
+  public opcEnabled = 'true';
+  public divEnabled = false;
+  public fields: string;
+  public values: string;
+  public lastId: number;
+  public arg: GetActionTables;
+  public menu: GetMenuPages;
+  public argInsert: GetActionInsert;
+  public argUpdate: GetActionUpdate;
+  public tbl: GetTablesUnion;
+  public drp: DropTablesUnion;
+  data = [];
+  rows = [];
+  nivelI = [];
+  nivelII = [];
+  nivelIII = [];
+  opc = new Object();
+  opcI = new Object();
+
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+  selectPages = [];
+  detalleI = [];
+  detalleII = [];
+
+  constructor(
+    private getAction: GetActionService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public translate: TranslateService
+  ) {
+    this.profile = new Profiles(0, '', '', true);
+    this.arg = new GetActionTables('', '', '', '', [{ 'argument': '', 'value': '' }]);
+    this.menu = new GetMenuPages('', '', '', '', [{ 'argument': '', 'value': '' }]);
+    this.profile.created_date = '0';
+    this.argInsert = new GetActionInsert('', '', '', '', [{ 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' }]);
+    this.argUpdate = new GetActionUpdate('', '', '', '', [{ 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' },
+    { 'argument': '', 'value': 0 },
+    { 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' }]);
+    this.tbl = new GetTablesUnion('', '', '', '', [{ 'argument': '', 'value': '' }, { 'argument': '', 'value': '' }]);
+    this.drp = new DropTablesUnion('', '', '', '', [{ 'argument': '', 'value': '' },
+    { 'argument': '', 'value': '' }, { 'argument': '', 'value': '' }]);
+  }
+
+  ngOnInit() {
+    this.onTables();
+    if (this.router.url === '/profiles/new') {
+      this.divEnabled = true;
+    } else {
+      this.divEnabled = false;
+    }
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: 'Select Pages',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      classes: 'myclass custom-class'
+    };
+  }
+
+  onTables() {
+    this.arg.serviceName = 'GET_TABLE';
+    this.arg.userToken = VARGLOBAL.userToken;
+    this.arg.sessionUUID = VARGLOBAL.sessionUUID;
+    this.arg.jsessionID = VARGLOBAL.jsessionID
+    this.arg.serviceArguments[0].argument = 'table';
+    this.arg.serviceArguments[0].value = 'PAGES';
+    this.getAction.tables(this.arg).subscribe(
+      response => {
+        if (response.messageCode === '0') {
+          const dir = response.pages.length;
+          if (dir > 0) {
+            for (let i = 0; i < dir; i++) {
+              const opc: Object = {
+                id: response.pages[i].PAGE_ID,
+                itemName: response.pages[i].PAGE_DESCRIPTION
+              }
+              this.dropdownList[i] = opc;
+            }
+          }
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+
+    /*this.menu.serviceName = 'MENU';
+    this.arg.userToken = VARGLOBAL.userToken;
+    this.arg.sessionUUID = VARGLOBAL.sessionUUID;
+    this.arg.jsessionID = VARGLOBAL.jsessionID
+    this.arg.serviceArguments[0].argument = 'table';
+    this.arg.serviceArguments[0].value = 'PROFILES';
+    this.getAction.tables(this.arg).subscribe(
+      response => {
+        this.data = response.profiles;
+        this.temp = [...this.data];
+        this.rows = this.data;
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )*/
+
+  }
+
+  onSubmit() {
+    this.onSave();
+    if (this.router.url === '/profiles/new') {
+      this.onNew();
+      this.divEnabled = true;
+    } else {
+      this.onUpdate();
+      this.divEnabled = false;
+    }
+  }
+
+  onCancel() {
+    this.divEnabled = false;
+  }
+
+  onSave() {
+    // Campos y valores que se guardaran en la tabla de Usuarios
+    // tslint:disable-next-line:forin
+    for (const propiedad in this.profile) {
+      let valor = this.profile[propiedad];
+      const prop = propiedad;
+      if (valor !== '' && prop !== 'id') {
+        this.fields = propiedad + ',' + this.fields;
+        this.values = this.profile[propiedad] + ',' + this.values;
+      }
+      valor = '';
+    }
+    ;
+    this.fields = this.fields.replace(',undefined', '');
+    this.values = this.values.replace(',undefined', '');
+  }
+
+  getArgInsert() {
+    this.argInsert.serviceName = 'INSERT_DATA';
+    this.argInsert.userToken = VARGLOBAL.userToken;
+    this.argInsert.sessionUUID = VARGLOBAL.sessionUUID;
+    this.argInsert.jsessionID = VARGLOBAL.jsessionID
+    this.argInsert.serviceArguments[0].argument = 'user';
+    this.argInsert.serviceArguments[0].value = VARGLOBAL.user;
+    this.argInsert.serviceArguments[1].argument = 'table_name';
+    this.argInsert.serviceArguments[2].argument = 'fields';
+    this.argInsert.serviceArguments[3].argument = 'values';
+  }
+
+  onNew() {
+    // New features
+    this.getArgInsert();
+    this.argInsert.serviceArguments[1].value = 'USR$PROFILE';
+    this.argInsert.serviceArguments[2].value = this.fields;
+    this.argInsert.serviceArguments[3].value = this.values;
+    this.getAction.doInsert(this.argInsert).subscribe(
+      response => {
+        if (response.messageCode === '0') {
+          this.lastId = response.lastId;
+          for (let i = 0; i < this.selectedItems.length; i++) {
+            this.argInsert.serviceArguments[1].value = 'USR$PROFILE_PAGES';
+            this.argInsert.serviceArguments[2].value = 'profile_id,page_id,enabled'
+            this.argInsert.serviceArguments[3].value = this.lastId + ',' + this.selectedItems[i].id + ',' + 'true';
+            this.getAction.doInsert(this.argInsert).subscribe(
+              res => { },
+              error => {
+                console.log(<any>error);
+              }
+            )
+          }
+          this.divEnabled = false;
+          this.router.navigate(['/profiles']);
+          this.limpiar();
+          swal('Successful!', '', 'success');
+        } else {
+          swal('Error!', 'Unregistered profile. Verify information!', 'error');
+          this.argInsert = new GetActionInsert('', '', '', '', [{ 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' }]);
+          this.fields = '';
+          this.values = '';
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  limpiar() {
+    this.profile = new Profiles(0, '', '', true);
+    this.fields = '';
+    this.values = '';
+    this.selectedItems = [];
+  }
+  recibirDatos(event) {
+    if (event !== null) {
+      this.divEnabled = true;
+      // tslint:disable-next-line:prefer-const
+      let obj = JSON.parse(event);
+      this.profile.id = obj['ID'];
+      this.profile.name = obj['NAME'];
+      this.profile.enabled = obj['ENABLED'];
+      this.ProfilesSelect();
+    } else {
+      this.divEnabled = false;
+    }
+  }
+
+  onUpdate() {
+    // Edit User
+    this.argUpdate.serviceName = 'UPDATE_DATA';
+    this.argUpdate.userToken = VARGLOBAL.userToken;
+    this.argUpdate.sessionUUID = VARGLOBAL.sessionUUID;
+    this.argUpdate.jsessionID = VARGLOBAL.jsessionID
+    this.argUpdate.serviceArguments[0].argument = 'user';
+    this.argUpdate.serviceArguments[0].value = VARGLOBAL.user;
+    this.argUpdate.serviceArguments[1].argument = 'table_name';
+    this.argUpdate.serviceArguments[1].value = 'USR$PROFILE';
+    this.argUpdate.serviceArguments[2].argument = 'id';
+    this.argUpdate.serviceArguments[2].value = this.profile.id;
+    this.argUpdate.serviceArguments[3].argument = 'fields';
+    this.argUpdate.serviceArguments[3].value = this.fields;
+    this.argUpdate.serviceArguments[4].argument = 'values';
+    this.argUpdate.serviceArguments[4].value = this.values;
+    this.getAction.doUpdate(this.argUpdate).subscribe(
+      response => {
+        if (response.messageCode === '0') {
+          // Actualización de Pages/Features
+          this.dropFeatures();
+          for (let i = 0; i < this.selectedItems.length; i++) {
+            this.getArgInsert();
+            this.argInsert.serviceArguments[1].value = 'USR$PROFILE_PAGES';
+            this.argInsert.serviceArguments[2].value = 'profile_id,page_id,enabled'
+            this.argInsert.serviceArguments[3].value = this.profile.id + ',' + this.selectedItems[i].id + ',' + 'true';
+            this.getAction.doInsert(this.argInsert).subscribe(
+              res => { },
+              error => {
+                console.log(<any>error);
+              }
+            )
+          }
+          this.divEnabled = false;
+          this.router.navigate(['/profiles']);
+          this.limpiar();
+          swal('Successful!', '', 'success');
+        } else {
+          swal('Error!', 'Profile not updated. Verify information!', 'error');
+          this.argInsert = new GetActionInsert('', '', '', '', [{ 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' }]);
+          this.argUpdate = new GetActionUpdate('', '', '', '', [{ 'argument': '', 'value': '' },
+          { 'argument': '', 'value': '' }, { 'argument': '', 'value': 0 },
+          { 'argument': '', 'value': '' }, { 'argument': '', 'value': '' }]);
+          this.fields = '';
+          this.values = '';
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  dropFeatures() {
+    this.drp.serviceName = 'DELETE_DATA_UNION';
+    this.drp.userToken = VARGLOBAL.userToken;
+    this.drp.sessionUUID = VARGLOBAL.sessionUUID;
+    this.drp.jsessionID = VARGLOBAL.jsessionID
+    this.drp.serviceArguments[0].argument = 'table_name';
+    this.drp.serviceArguments[0].value = 'USR$PROFILE_PAGES'
+    this.drp.serviceArguments[1].argument = 'filter';
+    this.drp.serviceArguments[1].value = 'profile_id';
+    this.drp.serviceArguments[2].argument = 'id';
+    this.drp.serviceArguments[2].value = this.profile.id.toString();
+    this.getAction.dropTablesUnion(this.drp).subscribe(
+      response => { },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  ProfilesSelect() {
+    // Features Selected
+    this.tbl.serviceName = 'GET_TABLE_UNION';
+    this.tbl.userToken = VARGLOBAL.userToken;
+    this.tbl.sessionUUID = VARGLOBAL.sessionUUID;
+    this.tbl.jsessionID = VARGLOBAL.jsessionID
+    this.tbl.serviceArguments[0].argument = 'table';
+    this.tbl.serviceArguments[0].value = 'PROFILE_PAGES';
+    this.tbl.serviceArguments[1].argument = 'id';
+    this.tbl.serviceArguments[1].value = this.profile.id.toString();
+    this.getAction.tablesUnion(this.tbl).subscribe(
+      response => {
+        if (response.messageCode === '0') {
+          const dir = response.unions.length;
+          for (let i = 0; i < dir; i++) {
+            const opc: Object = {
+              id: response.unions[i].idUnion,
+              itemName: response.unions[i].name
+            }
+            this.selectedItems[i] = opc;
+          }
+        }
+      },
+      error => {
+        console.log(<any>error);
+      }
+    )
+  }
+
+  prueba(valor) {
+    // this.selectPages.push(valor);
+    /*for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].nivelDos.length > 0) {
+        const dos = this.data[i].nivelDos;
+        for (let j = 0; j < dos.length; j++) {
+          if (valor === dos[j].smenu) {
+            // tengo que buscar como activo el checked
+          }
+        }
+      }
+    }*/
+  }
+
+  toggleExpandRow(row) {
+    this.detalleI = [];
+    this.tblList.rowDetail.collapseAllRows();
+    for (let i = 0; i < this.nivelII.length; i++) {
+      if (row.section === this.nivelII[i].smenu) {
+        this.detalleI[i] = this.nivelII[i];
+      }
+    }
+
+    this.detalleI = this.detalleI.filter((i) => i !== null);
+    if (this.detalleI.length > 0) {
+      this.tblList.rowDetail.toggleExpandRow(row);
+    }
+  }
+
+  toggleExpandRowI(row) {
+    this.detalleII = [];
+    for (let i = 0; i < row.submenu.length; i++) {
+      for (let j = 0; j < this.nivelII.length; j++) {
+        /*if (this.nivelII[i].submenu[j].id !== undefined) {
+        }*/
+        /*if (row.submenu[i].id === this.nivelII[j].submenu[j].id) {
+          this.detalleII[j] = this.nivelII[j];
+        }*/
+      }
+    }
+    // this.detalleII = this.detalleII.filter((i) => i !== null);
+    this.tblListI.rowDetail.toggleExpandRow(row);
+  }
+}

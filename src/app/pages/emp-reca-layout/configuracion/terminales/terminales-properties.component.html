@@ -1,0 +1,276 @@
+<div *ngIf="!divEnabled">
+    <app-terminales (datos)="recibirDatos($event)"></app-terminales>
+</div>
+<div *ngIf="divEnabled">
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-colored-controls">Detalle Terminal</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form form-horizontal" #f="ngForm" (ngSubmit)="guardar()">
+                                <div class="form-body">
+                                    <h4 class="form-section">
+                                        <i class="ft-list"></i>Terminal</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="rex">Empresa (Rex):</label>
+                                                <div class="col-md-9">
+                                                    <select disabled class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex" [(ngModel)]="terIU.rex"
+                                                        [ngModelOptions]="{standalone: true}" (change)="sucursal()">
+                                                        <option value="" selected>Seleccione...</option>
+                                                        <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
+                                                    </select>
+
+                                                    <small *ngIf="msjRex" class="label label danger">Empresa Invalida</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="rex">Sucursal:</label>
+                                                <div class="col-md-9">
+                                                    <select disabled class="form-control border-primary" name="suc" #suc="ngModel" [(ngModel)]="terIU.sucursal" [ngModelOptions]="{standalone: true}">
+                                                        <option value="" selected>Seleccione...</option>
+                                                        <option *ngFor="let emp of listSucursal" value={{emp.sucursal}}>{{emp.descripcion}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="ter">Terminal:</label>
+                                                <div class="col-md-9">
+                                                    <input required type="text" id="ter" [disabled]="disabled" class="form-control border-primary" name="ter" #ter="ngModel"
+                                                        [(ngModel)]="terIU.terminal" maxlength="15">
+                                                    <small *ngIf="ter.touched && !ter.valid" class="label label danger">Código
+                                                        Invalido
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="descripcion">Descripción:</label>
+                                                <div class="col-md-9">
+                                                    <input required type="text" id="ter" class="form-control border-primary" name="descripcion" #descripcion="ngModel" [(ngModel)]="terIU.descripcion"
+                                                    maxlength="30">
+                                                    <small *ngIf="descripcion.touched && !descripcion.valid" class="label label danger">Descripción
+                                                        Invalido
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="caja">Nro. Caja:</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="caja" class="form-control border-primary" name="caja" #caja="ngModel" [(ngModel)]="terIU.numeroCaja" maxlength="6">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="ubicacion">Ubicación:</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="ubicacion" class="form-control border-primary" name="ubicacion" #ubicacion="ngModel" [(ngModel)]="terIU.ubicacion"
+                                                    maxlength="30">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="saf">Saf:</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control border-primary" name="saf" #saf="ngModel" [(ngModel)]="terIU.saf" [ngModelOptions]="{standalone: true}">
+                                                        <option value="">Seleccione...</option>
+                                                        <option value="S">SI</option>
+                                                        <option value="N">NO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="bloqueado">Bloqueado:</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control border-primary" name="bloqueado" #bloqueado="ngModel" [(ngModel)]="terIU.bloqueado" [ngModelOptions]="{standalone: true}">
+                                                        <option value="">Seleccione...</option>
+                                                        <option value="S">SI</option>
+                                                        <option value="N">NO</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="cajero">Cajero:</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="cajero" class="form-control border-primary" name="cajero" #cajero="ngModel" [(ngModel)]="terIU.properties.cajero"
+                                                    maxlength="20">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="referencia">Referencia:</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="ref" class="form-control border-primary" name="ref" #ref="ngModel" [(ngModel)]="terIU.properties.referencias"
+                                                    maxlength="1024">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4 class="form-section">
+                                        <i class="ft-list"></i>Montos Límites por Terminal (Alertas)</h4>
+                                    <div>
+                                        <div class="right" *ngIf="!divMon">
+                                            <button id="nLim" type="button" class="btn btn-raised btn-success" (click)="nuevoMonto()">
+                                                <i class="fa ft-plus"></i> Agregar Límite</button>
+                                        </div>
+                                        <div *ngIf="divMon">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <label class="col-md-3 label-control" for="medM">Medio de Pago:</label>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control border-primary" name="medM" #medM="ngModel" [(ngModel)]="mon.medioPago">
+                                                                <option value="" selected>Seleccione...</option>
+                                                                <option *ngFor="let lis of listMP" value={{lis.codigo}}>{{lis.titulo}}</option>
+                                                              </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <label class="col-md-3 label-control" for="monM">Monto:</label>
+                                                        <div class="col-md-9">
+                                                            <input type="number" min=0 id="monM" class="form-control border-primary" name="monM" #monM="ngModel" [(ngModel)]="mon.monto" maxlength="100"
+                                                                onkeypress="if (event.keyCode == 13) {document.getElementById('addLim').click(); return false; }">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <small *ngIf="msjMon" class="label label danger">{{msjMon}}</small>
+                                            </div>
+                                            <div class="form-actions right">
+                                                <button type="button" class="btn btn-danger btn-raised" (click)="cancelMonto()">Cancelar</button>
+                                                <button id="addLim" type="button" class="btn btn-raised btn-success" (click)="addMon()">
+                                                    <i class="fa ft-plus"></i> Agregar</button>
+                                            </div>
+                                        </div>
+                                        <ngx-datatable class="bootstrap" [rows]="montos" [columns]="columns" [columnMode]="'force'" [rowHeight]="'auto'" [reorderable]="reorderable"
+                                            [messages]="{emptyMessage:'No hay resultados disponibles.'}">
+                                            <ngx-datatable-column prop="medioPago" name="Medio de Pago"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="monto" name="Monto">
+                                                <ngx-datatable-column>
+                                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                                        <span *ngIf="!editingMon[rowIndex + '-monto']">{{value | number}}</span>
+                                                        <input *ngIf="editingMon[rowIndex + '-monto']" (blur)="updateMonValue($event, 'monto', rowIndex)" [value]="value">
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                    <div style="text-align: right">
+                                                        <a>{{row['monto'] | number}}</a>
+                                                    </div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop='medioPago' name=''>
+                                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                    <div *ngIf="!editingMon[rowIndex + '-monto']">
+                                                        <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editingMon[rowIndex + '-monto'] = true" [id]="value" title="Editar"></i>
+                                                        <i class="ft-x danger font-medium-1 mr-2" (click)="onEliminar(rowIndex)" [id]="value" title="Eliminar"></i>
+                                                    </div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                        </ngx-datatable>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <h4 class="form-section">
+                                        <i class="ft-list"></i>Límites por Transacción</h4>
+                                    <div class="right" *ngIf="!divAut">
+                                        <button id="nLim" type="button" class="btn btn-raised btn-success" (click)="nuevoAutorizacion()">
+                                            <i class="fa ft-plus"></i> Agregar Límite</button>
+                                    </div>
+                                    <div *ngIf="divAut">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="medA">Medio de Pago:</label>
+                                                    <div class="col-md-9">
+                                                        <select class="form-control border-primary" name="medA" #medA="ngModel" [(ngModel)]="aut.medioPago">
+                                                            <option value="" selected>Seleccione...</option>
+                                                            <option *ngFor="let lis of listMP" value={{lis.codigo}}>{{lis.titulo}}</option>
+                                                          </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-md-3 label-control" for="monA">Monto:</label>
+                                                    <div class="col-md-9">
+                                                        <input type="number" min=0 id="monA" class="form-control border-primary" name="monA" #monA="ngModel" [(ngModel)]="aut.monto" maxlength="100"
+                                                            onkeypress="if (event.keyCode == 13) {document.getElementById('addLimA').click(); return false; }">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small *ngIf="msjAut" class="label label danger">{{msjAut}}</small>
+                                        </div>
+                                        <div class="form-actions right">
+                                            <button type="button" class="btn btn-danger btn-raised" (click)="cancelAutorizacion()">Cancelar</button>
+                                            <button id="addLimA" type="button" class="btn btn-raised btn-success" (click)="addAut()">
+                                                <i class="fa ft-plus"></i> Agregar</button>
+                                        </div>
+                                    </div>
+                                    <ngx-datatable class="bootstrap" [rows]="autorizacion" [columns]="columns" [columnMode]="'force'" [rowHeight]="'auto'" [reorderable]="reorderable"
+                                        [messages]="{emptyMessage:'No hay resultados disponibles.'}">
+                                        <ngx-datatable-column prop="medioPago" name="Medio de Pago"></ngx-datatable-column>
+                                        <ngx-datatable-column prop="monto" name="Monto">
+                                            <ngx-datatable-column>
+                                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+                                                    <span *ngIf="!editingAut[rowIndex + '-monto']">{{value | number}}</span>
+                                                    <input *ngIf="editingAut[rowIndex + '-monto']" (blur)="updateAutValue($event, 'monto', rowIndex)" [value]="value">
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                <div style="text-align: right">
+                                                    <a>{{row['monto'] | number}}</a>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column prop='medioPago' name=''>
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                <div *ngIf="!editingAut[rowIndex + '-monto']">
+                                                    <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editingAut[rowIndex + '-monto'] = true" [id]="value" title="Editar"></i>
+                                                    <i class="ft-x danger font-medium-1 mr-2" (click)="onEliminarAut(rowIndex)" [id]="value" title="Eliminar"></i>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                    </ngx-datatable>
+                                </div>
+                                <div class="form-actions right">
+                                    <button type="button" class="btn btn-info btn-raised" (click)="onVolver()" [routerLink]="['/er/configuracion/terminal']">Volver</button>
+                                    <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,228 @@
+<div *ngIf="!divEnabled">
+  <app-sectionmanagement (datos)="recibirDatos($event)"></app-sectionmanagement>
+</div>
+<!-- Basic form layout section start -->
+<div *ngIf="divEnabled">
+  <section id="horizontal-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="horz-layout-colored-controls">Sección</h4>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                <div class="form-body">
+                  <h4 class="form-section">
+                    <i class="ft-info"></i> Nueva Sección</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="name">Nombre: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="name" #name="ngModel"
+                            [(ngModel)]="valueSection.name" required>
+                          <small *ngIf="name.touched && !name.valid" class="label label danger">Nombre Inválido</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="enabled">Habilitado: </label>
+                        <div class="col-md-9">
+                          <select id="enabled" class="form-control border-primary" name="enabled" #enabled="ngModel"
+                            [(ngModel)]="opcEnabled" [(ngModel)]="valueSection.enabled" [ngModelOptions]="{standalone: true}">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="lev">Nivel: </label>
+                        <div class="col-md-9">
+                          <select class="form-control border-primary" name="lev" #lev="ngModel" [(ngModel)]="nivel"
+                          [(ngModel)]="valueSection.nivel" [ngModelOptions]="{standalone: true}" (change)="onChange()" [disabled]="disNivel">
+                            <option value="I" selected>Primer Nivel</option>
+                            <option value="II">Segundo Nivel</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="ord">Orden: </label>
+                        <div class="col-md-9">
+                          <input type="number" class="form-control border-primary" name="ord" #ord="ngModel"
+                            [(ngModel)]="deploy" min="0" max="99" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="ico">Icon: </label>
+                        <div class="col-md-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control border-primary" aria-describedby="button-addon4"
+                              name="ico" #ico="ngModel" [(ngModel)]="icon">
+                            <div class="input-group-append">
+                              <span class="input-group-btn" id="button-addon4">
+                                <button class="btn btn-raised btn-primary" type="button" (click)="open(content)">
+                                  <i class={{icon}}></i>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="disubmenu">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="smenu">Sub Menu: </label>
+                        <div class="col-md-9">
+                          <select class="form-control border-primary" name="smenu" #smenu="ngModel" [(ngModel)]="submenu"
+                            [ngModelOptions]="{standalone: true}" [(ngModel)]="valueSection.smenu">
+                            <option value="" selected>Seleccione...</option>
+                            <option *ngFor="let sections of list" value={{sections.id}}>{{sections.value}}</option>
+                          </select>
+                          <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions right">
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/sections']">Cancelar</button>
+                  <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                    <i class="fa fa-check-square-o"></i> Guardar
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Seleccione Icono</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="feather-icons ">
+          <div class="row">
+            <div class="col-md-2 col-sm-12 fonticon-container">
+              <i class="ft-alert-circle" (click)="selIcon('ft-alert-circle')"></i>
+              <p class="font-small-2">alert-circle</p>
+            </div>
+            <div class="col-md-2 col-sm-12 fonticon-container">
+              <i class="ft-alert-triangle" (click)="selIcon('ft-alert-triangle')"></i>
+              <p class="font-small-2">alert-triangle</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-bell-off" (click)="selIcon('ft-bell-off')"></i>
+              <p class="font-small-2">bell-off</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-bell" (click)="selIcon('ft-bell')"></i>
+              <p class="font-small-2">bell</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-book" (click)="selIcon('ft-book')"></i>
+              <p class="font-small-2">book</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-calendar" (click)="selIcon('ft-calendar')"></i>
+              <p class="font-small-2">calendar</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-camera" (click)="selIcon('ft-camera')"></i>
+              <p class="font-small-2">camera</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-check-square" (click)="selIcon('ft-check-square')"></i>
+              <p class="font-small-2">check-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-cloud" (click)="selIcon('ft-cloud')"></i>
+              <p class="font-small-2">cloud</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-credit-card" (click)="selIcon('ft-credit-card')"></i>
+              <p class="font-small-2">credit-card</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-delete" (click)="selIcon('ft-delete')"></i>
+              <p class="font-small-2">delete</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-download" (click)="selIcon('ft-download')"></i>
+              <p class="font-small-2">download</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-edit" (click)="selIcon('ft-edit')"></i>
+              <p class="font-small-2">edit</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-filter" (click)="selIcon('ft-filter')"></i>
+              <p class="font-small-2">filter</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-folder" (click)="selIcon('ft-folder')"></i>
+              <p class="font-small-2">folder</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-link" (click)="selIcon('ft-link')"></i>
+              <p class="font-small-2">link</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-lock" (click)="selIcon('ft-lock')"></i>
+              <p class="font-small-2">lock</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-log-in" (click)="selIcon('ft-log-in')"></i>
+              <p class="font-small-2">log-in</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-log-out" (click)="selIcon('ft-log-out')"></i>
+              <p class="font-small-2">log-out</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-message-square" (click)="selIcon('ft-message-square')"></i>
+              <p class="font-small-2">message-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-paperclip" (click)="selIcon('ft-paperclip')"></i>
+              <p class="font-small-2">paperclip</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-plus-square" (click)="selIcon('ft-plus-square')"></i>
+              <p class="font-small-2">plus-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-save" (click)="selIcon('ft-save')"></i>
+              <p class="font-small-2">save</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-settings" (click)="selIcon('ft-settings')"></i>
+              <p class="font-small-2">settings</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+      </div>
+    </ng-template>
+  </section>
+</div>
+<!-- // Basic form layout section end -->

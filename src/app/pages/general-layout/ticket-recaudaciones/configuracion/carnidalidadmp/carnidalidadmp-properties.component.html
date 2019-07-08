@@ -1,0 +1,96 @@
+<div *ngIf="!divEnabled">
+    <app-carnidalidadmp></app-carnidalidadmp>
+</div>
+<div *ngIf="divEnabled">
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-colored-controls">Cardinalidad</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form form-horizontal" #f="ngForm" (ngSubmit)="guardar()">
+                                <div class="form-body">
+                                    <h4 class="form-section">
+                                        <i class="ft-list"></i>Cardinalidad</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="empresa">Empresa (Rex):</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control border-primary" name="empresa" #rex="ngModel"
+                                                        [(ngModel)]="cardinalidadI.empresa" [ngModelOptions]="{standalone: true}">
+                                                        <option value="ALL">Todas las Empresas</option>
+                                                        <option *ngFor="let emp of listEps" selected value={{emp.codigo}}>{{emp.titulo}}</option>
+                                                    </select>
+                                                    <small *ngIf="msjRex" class="label label danger">Empresa Invalida</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="mp1">Medio de Pago 1:</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control border-primary" name="mp1" #mp1="ngModel"
+                                                        [(ngModel)]="cardinalidadI.medioPago1" [ngModelOptions]="{standalone: true}">
+                                                        <option value="">Seleccione...</option>
+                                                        <option *ngFor="let mp of medioPago" selected value={{mp.codigo}}>{{mp.titulo}}</option>
+                                                    </select>
+                                                    <small *ngIf="mp1.touched && !mp1.valid" class="label label danger">Medio de Pago Requerido</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="mp2">Medio de Pago 2:</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control border-primary" name="mp2" #mp2="ngModel"
+                                                        [(ngModel)]="cardinalidadI.medioPago2" [ngModelOptions]="{standalone: true}">
+                                                        <option value="">Seleccione...</option>
+                                                        <option *ngFor="let mp of medioPago" selected value={{mp.codigo}}>{{mp.titulo}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="car1">Cardinalidad:</label>
+                                                <div class="col-md-9">
+                                                    <input type="number" required min=0 class="form-control border-primary" name="car1"
+                                                        #car1="ngModel" [(ngModel)]="cardinalidadI.cardinalidadMedioPago1">
+                                                </div>
+                                                <small *ngIf="car1.touched && !car1.valid" class="label label danger">Cardinalidad Requerido</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="car2">Cardinalidad:</label>
+                                                <div class="col-md-9">
+                                                    <input type="number" min=0 class="form-control border-primary" name="car2"
+                                                        #car2="ngModel" [(ngModel)]="cardinalidadI.cardinalidadMedioPago2">
+                                                </div>
+                                                <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions right">
+                                    <button type="button" class="btn btn-info btn-raised" (click)="onVolver()"
+                                        [routerLink]="['/general/ticketrecaudacion/configuracion/cardinalidad']">Volver</button>
+                                    <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

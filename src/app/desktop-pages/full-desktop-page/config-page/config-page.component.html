@@ -1,0 +1,119 @@
+<!-- Basic form layout section start -->
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="horz-layout-colored-controls">Configuraciones</h4>
+        </div>
+        <div class="card-body">
+          <div class="px-3">
+            <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+              <div class="form-body">
+                <h4 class="form-section">
+                  <i class="ft-info"></i>Perfil</h4>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="profile">Perfil: </label>
+                      <div class="col-md-9">
+                        <select class="form-control border-primary" name="profile" #profile="ngModel" [(ngModel)]="opcProfiles" [ngModelOptions]="{standalone: true}"
+                          (change)="onPages()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let prf of listProfiles" value={{prf.value}}>{{prf.value}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="page">Página</label>
+                      <div class="col-md-9">
+                        <select class="form-control border-primary" name="page" #page="ngModel" [(ngModel)]="opcPage" [ngModelOptions]="{standalone: true}"
+                          (change)="onFeatures()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let prf of listPage" value={{prf.id}}>{{prf.value}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="features">Características: </label>
+                      <div class="col-md-9">
+                        <select class="form-control border-primary" name="features" #features="ngModel" [(ngModel)]="opcFeatures" [ngModelOptions]="{standalone: true}"
+                          (change)="onFeatures()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let prf of listFeatures" value={{prf.id}}>{{prf.value}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <div class="col-md-9">
+                        <div style="margin-left: 36%;">
+                          <button type="submit" class="btn btn-raised btn-success">
+                            <i class="fa fa-check-square-o"></i> Agregar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h4 class="form-section"></h4>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table table-striped " [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="10">
+                      <thead>
+                        <tr>
+                          <th style="width: 10%; display: none">
+                            <mfDefaultSorter by="name">Id</mfDefaultSorter>
+                          </th>
+                          <th style="width: 20%">
+                            <mfDefaultSorter by="name">Perfil</mfDefaultSorter>
+                          </th>
+                          <th style="width: 20%">
+                            <mfDefaultSorter by="name">Página</mfDefaultSorter>
+                          </th>
+                          <th style="width: 20%">
+                            <mfDefaultSorter by="name">Características</mfDefaultSorter>
+                          </th>
+                          <th style="width: 20%">
+                            <mfDefaultSorter by="name">Habilitado</mfDefaultSorter>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of mf.data">
+                          <td style="display: none">{{item.id}}</td>
+                          <td>{{item.nameProfile}}</td>
+                          <td>{{item.description}}</td>
+                          <td>{{item.nameFeatures}}</td>
+                          <td>
+                            <ui-switch *ngIf="item.enabled == 'true'" (click)="onChange(this.item)" [checked]="true"></ui-switch>
+                            <ui-switch *ngIf="item.enabled == 'false'" (click)="onChange(this.item)" [checked]="false"></ui-switch>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,25]"></mfBootstrapPaginator>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- // Basic form layout section end -->

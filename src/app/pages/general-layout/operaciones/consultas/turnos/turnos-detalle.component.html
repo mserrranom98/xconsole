@@ -1,0 +1,133 @@
+<div *ngIf="divEnabledDetOper">
+  <app-operaciones-detalle [datOprII] = "oprLevelII" [pagina] = "pagina" [fechaDesde]="fechaDesde"
+    [fechaHasta]="fechaHasta" [rex]="rex" [sucursal]="sucursal" [rexDesc]="rexDesc" [sucDesc]="sucDesc"></app-operaciones-detalle>
+</div>
+<div *ngIf="!divEnabledDetOper">
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal">
+                <div class="form-body">
+                  <form class="form form-horizontal" name="frmTurDet" #f="ngForm">  
+                    <h4 class="form-section">Detalle de operaciones del turno</h4>                
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-5 label-control" for="usuario">Usuario:</label>
+                          <div class="col-md-6">
+                            <div class="input-text">
+                              {{datos[0].usuario}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-5 label-control" for="usuario">Turno:</label>
+                          <div class="col-md-6">
+                            <div class="input-text">
+                              {{datos[0].turno | date:'dd-MM-yyyy hh:mm:ss'}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>                                     
+                    </div>
+                  </form>
+                  <small *ngIf="msj" class="label label danger">{{msj}}</small>                  
+                  <div class="form-actions">
+                    <div *ngIf="rows.length > 5">
+                      <button type="button" class="btn btn-info btn-raised" style="margin-left: 95%;" (click)="onVolver()">Volver</button>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <section id="filter">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-block" *ngIf="divList">
+                                        <ngx-datatable #tabDet class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                          [limit]="50" [scrollbarH]="true">
+                                          <ngx-datatable-column name="Empresa">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                              let-row="row">
+                                              <a>{{rexDesc}}</a>
+                                            </ng-template>
+                                          </ngx-datatable-column>
+                                          <ngx-datatable-column name="Sucursal">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                              let-row="row">
+                                              <a>{{sucDesc}}</a>
+                                            </ng-template>
+                                          </ngx-datatable-column>
+                                          <ngx-datatable-column prop="operacion" name="Operación"></ngx-datatable-column>
+                                          <ngx-datatable-column prop="fechaRegistro" name="Fecha Registro">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                              let-row="row">
+                                              <a>{{value | date:'dd-MM-yyyy hh:mm:ss'}}</a>
+                                            </ng-template>
+                                          </ngx-datatable-column>
+                                          <ngx-datatable-column prop="fechaRecaudacion" name="Fecha Recaudación">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                              let-row="row">
+                                              <a>{{value | date:'dd-MM-yyyy hh:mm:ss'}}</a>
+                                            </ng-template>
+                                          </ngx-datatable-column>
+                                          <ngx-datatable-column prop="tipoGlosa" name="Tipo"></ngx-datatable-column>
+                                          <ngx-datatable-column prop="estadoGlosa" name="Estado"></ngx-datatable-column>
+                                          <ngx-datatable-column prop="monto" name="Monto">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                              let-row="row">
+                                              <div style="text-align: right">
+                                                <a>{{row['monto'] | number}}</a>
+                                              </div>
+                                            </ng-template>
+                                          </ngx-datatable-column>  
+                                          <ngx-datatable-column name="Acción">
+                                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                              <a href="javascript:void(0)" class="ft-list" title="Ver detalle" (click)="openDetail(rowIndex)" [id]="value"></a>
+                                            </ng-template>
+                                          </ngx-datatable-column>                                                     
+                                        </ngx-datatable>
+                                      </div>
+                                      <div class="form-actions right">
+                                        <button type="button" class="btn btn-info btn-raised" (click)="onVolver()">Volver</button>
+                                      </div>
+                                      <ng-template #content let-c="close" let-d="dismiss">
+                                          <div class="modal-header">                            
+                                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <app-operaciones-detalle [pagina] = "pagina" [datOprII] = "oprLevelII"></app-operaciones-detalle>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+                                          </div>
+                                        </ng-template>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+  

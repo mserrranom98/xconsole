@@ -1,0 +1,166 @@
+<div *ngIf="!divEnabled">
+  <app-institutionmanagement (datos)="recibirDatos($event)"></app-institutionmanagement>
+</div>
+<div *ngIf="divEnabled">
+  <section id="horizontal-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="horz-layout-colored-controls">Instituciones</h4>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                <div class="form-body">
+                  <h4 class="form-section">
+                    <i class="ft-info"></i>Nueva Institucion</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="name">Nombre:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="name" #name="ngModel" [(ngModel)]="inst.name" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="100">
+                          <small *ngIf="name.touched && !name.valid" class="label label danger">Nombre Inválido</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="branch">Rama :</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="branch" #branch="ngModel" [(ngModel)]="inst.branch" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="25">
+                          <small *ngIf="branch.touched && !branch.valid" class="label label danger">Rama Inválida!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="industry"> Industria:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="industry" #industry="ngModel" [(ngModel)]="inst.industry" maxlength="50"
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="code">Código</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="code" #code="ngModel" [(ngModel)]="inst.code" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="25">
+                          <small *ngIf="code.touched && !code.valid" class="label label danger">Código Inválido'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="form-section"></h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="country">País: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="country" #country="ngModel" [(ngModel)]="inst.country" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="3">
+                          <small *ngIf="country.touched && !country.valid" class="label label danger">País Inválido
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="city">Ciudad: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="city" #city="ngModel" [(ngModel)]="inst.city" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="50">
+                          <small *ngIf="city.touched && !city.valid" class="label label danger">Ciudad Inválidad'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="district">District:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="district" #district="ngModel" [(ngModel)]="inst.district" maxlength="50"
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="address">Dirección:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="address" #address="ngModel" [(ngModel)]="inst.address" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="100">
+                          <small *ngIf="address.touched && !address.valid" class="label label danger">Dirección Inválida!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="form-section"></h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="phone">Teléfono:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="phone" #phone="ngModel" [(ngModel)]="inst.phone" required pattern="[0-9]{9}">
+                          <small *ngIf="phone.touched && !phone.valid" class="label label danger">Teléfono Invalido!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="fax">Fax:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="fax" #fax="ngModel" [(ngModel)]="inst.fax" pattern="[0-9]{9}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="mail">Email: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="mail" #mail="ngModel" [(ngModel)]="inst.mail" required email
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="50">
+                          <small *ngIf="mail.touched && !mail.valid" class="label label danger">Email Inválido'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="contact">Contacto: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="contact" #contact="ngModel" [(ngModel)]="inst.contact" email
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="50">
+                          <small *ngIf="contact.touched && !contact.valid" class="label label danger">Contacto Inválido!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions right">
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/institutions']">Cancelar</button>
+                  <button type="submit" class="btn btn-raised btn-primary" >
+                    <i class="fa fa-check-square-o"></i> Guardar
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

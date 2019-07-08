@@ -1,0 +1,58 @@
+<div *ngIf="!divEnabled">
+  <app-featuremanagement (datos)="recibirDatos($event)"></app-featuremanagement>
+</div>
+<!-- Basic form layout section start -->
+<div *ngIf="divEnabled">
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="horz-layout-colored-controls">{{'Features'  | translate}}</h4>
+        </div>
+        <div class="card-body">
+          <div class="px-3">
+            <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+              <div class="form-body">
+                <h4 class="form-section">
+                  <i class="ft-info"></i>{{'New Feature'  | translate}}</h4>
+                  <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="name">{{'Name'  | translate}}:</label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control border-primary" name="name" #name="ngModel" [(ngModel)]="nameStatus.name"
+                            required >
+                          <small *ngIf="name.touched && !name.valid" class="label label danger">{{'Please enter a valid name'  | translate}}!</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="col-md-3 label-control" for="enabled">{{'Enabled'  | translate}}:</label>
+                              <div class="col-md-9">
+                                <select id="enabled" class="form-control border-primary" name="enabled" #enabled="ngModel" [(ngModel)]="opcEnabled" [(ngModel)]="nameStatus.enabled" [ngModelOptions]="{standalone: true}">
+                                    <option value="true" >{{'True'  | translate}}:</option>
+                                    <option value="false">{{'False'  | translate}}:</option>
+                                  </select>
+                              </div>
+                            </div>
+                      </div>
+                    </div>
+              </div>
+              <div class="form-actions right">
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/features']">Cancel</button>
+                  <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                      <i class="fa fa-check-square-o"></i> {{'save'  | translate}}
+                    </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<!-- // Basic form layout section end -->

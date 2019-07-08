@@ -1,0 +1,117 @@
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="px-3">
+  
+              <div class="form-body">
+                <form class="form form-horizontal" name="frmRegPag" #frmRegPag="ngForm">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="ft-list"></i>Reglas de Medios de Pago</h4>
+                      </div>
+                  <div *ngIf="!divAddRegla" style="margin-left: 93%;">
+                    <button id="reg" type="button" class="btn btn-raised btn-success" (click)="nuevaRegla()">
+                      <i class="fa ft-plus"></i> Nueva</button>
+                  </div>
+                  <div *ngIf="divAddRegla">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="cant">Cantidad empresas: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="cantEmp" #cantEmp="ngModel" [(ngModel)]="cant" 
+                              [ngModelOptions]="{standalone: true}">
+                              <option value="1">Una</option>
+                              <option value="N">Una o más</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="medPag">Medio de Pago: </label>
+                          <div class="input-text">
+                            <angular2-multiselect class="c-btn c-token pure-checkbox:before" [data]="itemList" [(ngModel)]="listaMedPago" [settings]="settings"
+                              [ngModelOptions]="{standalone: true}">
+                            </angular2-multiselect>
+                          </div>
+                        </div>
+                      </div>
+                      <small *ngIf="msjAddRegla" class="label label danger">{{msjAddRegla}}</small>
+                    </div>                    
+                    <div class="form-actions right">
+                      <button type="button" class="btn btn-danger btn-raised" (click)="cancelAddRegla()">Cancelar</button>
+                      <button id="addReg" type="button" class="btn btn-raised btn-primary" (click)="addRegla()">
+                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <section id="filter">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-block" *ngIf="divList">
+                                          <ngx-datatable #table class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                            [limit]="50">
+                                            <ngx-datatable-column [width]="30" prop="regla" name="Regla"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="numeroEmpresasDesc" name="Empresas"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="mediosPago" name="Medios de Pago"></ngx-datatable-column>
+                                            <ngx-datatable-column [width]="30" name="Acción">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                <a href="javascript:void(0)" class="ft-x danger font-medium-1 mr-2" title="Borrar regla" (click)="open(content, rowIndex)" [id]="value"></a>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                          </ngx-datatable>
+                                       <!-- <ngx-datatable #table class="material" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                          [limit]="50" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" (select)='onSelect($event)'>
+                                          <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+                                            <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                                              <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>
+                                            </ng-template>
+                                            <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                                              <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                          <ngx-datatable-column prop="regla" name="Regla"></ngx-datatable-column>
+                                          <ngx-datatable-column prop="numeroEmpresasDesc" name="Empresas"></ngx-datatable-column>
+                                          <ngx-datatable-column prop="mediosPago" name="Medios de Pago"></ngx-datatable-column>
+                                        </ngx-datatable> -->
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <ng-template #content let-c="close" let-d="dismiss">
+                                <div class="modal-header">                         
+                                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <label class="col-md-6 label-control" for="msjModal">{{msjModal}}</label>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary btn-raised" (click)="deleteRegla(); c('Close click')">Aceptar</button>
+                                </div>
+                              </ng-template>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

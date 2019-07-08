@@ -1,0 +1,279 @@
+<div *ngIf="!divEnabled">
+  <app-pagemanagement (datos)="recibirDatos($event)"></app-pagemanagement>
+</div>
+<!-- Basic form layout section start -->
+<div *ngIf="divEnabled">
+  <section id="horizontal-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="horz-layout-colored-controls">Páginas</h4>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                <div class="form-body">
+                  <h4 class="form-section">
+                    <i class="ft-info"></i>Nueva Página</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="description">Descripción:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="description" #description="ngModel"
+                            [(ngModel)]="pages.description" required maxlength="50">
+                          <small *ngIf="description.touched && !description.valid" class="label label danger">Descripción Inválida</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="name">Path:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="name" #name="ngModel"
+                            [(ngModel)]="pages.name" maxlength="250">
+                          <small *ngIf="msjName" class="label label danger">{{msjName}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="icon">Icon: </label>
+                        <div class="col-md-9">
+                          <div class="input-group">
+                            <input type="text" class="form-control border-primary" aria-describedby="button-addon4"
+                              name="icon" #icon="ngModel" [(ngModel)]="pages.icon">
+                            <div class="input-group-append">
+                              <span class="input-group-btn" id="button-addon4">
+                                <button class="btn btn-raised btn-primary" type="button" (click)="open(content)">
+                                  <i class={{pages.icon}}></i>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="class">Class'  | translate}}: </label>
+                          <div class="col-md-9">
+                            <input type="text" class="form-control border-primary" name="class" #class="ngModel" [(ngModel)]="pages.clas">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="external">External Link'  | translate}}: </label>
+                          <div class="col-md-9">
+                            <select id="external" class="form-control border-primary" name="external" #external="ngModel" [(ngModel)]="opcExternal" [ngModelOptions]="{standalone: true}">
+                              <option value="true">True'  | translate}}</option>
+                              <option value="false">False'  | translate}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>-->
+                  <div class="row" style="display: none">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="badge">Badge:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="badge" #badge="ngModel"
+                            [(ngModel)]="pages.badge">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="badgeClass">Badge Class: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="badgeClass" #badgeClass="ngModel"
+                            [(ngModel)]="pages.badgeClass">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="deploy">Order: </label>
+                        <div class="col-md-9">
+                          <input type="number" class="form-control border-primary" name="deploy" #deploy="ngModel"
+                            [(ngModel)]="pages.deploy" min="0" max="99" required>
+                          <small *ngIf="msjDeploy" class="label label danger">{{msjDeploy}}</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="enabled">Habilitado: </label>
+                        <div class="col-md-9">
+                          <select required id="enabled" class="form-control border-primary" name="enabled" #enabled="ngModel"
+                            [(ngModel)]="opcEnabled" [ngModelOptions]="{standalone: true}" [(ngModel)]="pages.enabled">
+                            <option class="form-check-input" value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                          <small *ngIf="enabled.touched && !enabled.valid" class="label label danger">Inválido</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="submenu">Sub Menú: </label>
+                        <div class="col-md-9">
+                          <select class="form-control border-primary" name="section" #section="ngModel" [(ngModel)]="pages.submenu"
+                            [ngModelOptions]="{standalone: true}" [disabled]="disNivel">
+                            <option value="" selected>Seleccione...</option>
+                            <option *ngFor="let sections of list" value={{sections.id}}>{{sections.value}} <span *ngIf="sections.desc">(</span> {{sections.desc}}<span *ngIf="sections.desc">)</span></option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="features">Features: </label>
+                        <div class="col-md-9">
+                          <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                            [ngModelOptions]="{standalone: true}"></angular2-multiselect>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions right">
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/page']">Cancelar</button>
+                  <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                    <i class="fa fa-check-square-o"></i>Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Select Icon</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="feather-icons ">
+          <div class="row">
+            <div class="col-md-2 col-sm-12 fonticon-container" >
+              <i class="ft-alert-circle" (click)="selIcon('ft-alert-circle'); d('Cross click')"  ></i>
+              <p class="font-small-2">alert-circle</p>
+            </div>
+            <div class="col-md-2 col-sm-12 fonticon-container">
+              <i class="ft-alert-triangle" (click)="selIcon('ft-alert-triangle'); d('Cross click')"  ></i>
+              <p class="font-small-2">alert-triangle</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-bell-off" (click)="selIcon('ft-bell-off'); d('Cross click')"  ></i>
+              <p class="font-small-2">bell-off</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-bell" (click)="selIcon('ft-bell'); d('Cross click')"  ></i>
+              <p class="font-small-2">bell</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-book" (click)="selIcon('ft-book'); d('Cross click')"  ></i>
+              <p class="font-small-2">book</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-calendar" (click)="selIcon('ft-calendar'); d('Cross click')"  ></i>
+              <p class="font-small-2">calendar</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-camera" (click)="selIcon('ft-camera'); d('Cross click')"  ></i>
+              <p class="font-small-2">camera</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-check-square" (click)="selIcon('ft-check-square'); d('Cross click')"  ></i>
+              <p class="font-small-2">check-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-cloud" (click)="selIcon('ft-cloud'); d('Cross click')"  ></i>
+              <p class="font-small-2">cloud</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-credit-card" (click)="selIcon('ft-credit-card'); d('Cross click')"  ></i>
+              <p class="font-small-2">credit-card</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-delete" (click)="selIcon('ft-delete'); d('Cross click')"  ></i>
+              <p class="font-small-2">delete</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-download" (click)="selIcon('ft-download'); d('Cross click')"  ></i>
+              <p class="font-small-2">download</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-edit" (click)="selIcon('ft-edit'); d('Cross click')"  ></i>
+              <p class="font-small-2">edit</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-filter" (click)="selIcon('ft-filter'); d('Cross click')"  ></i>
+              <p class="font-small-2">filter</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-folder" (click)="selIcon('ft-folder'); d('Cross click')"  ></i>
+              <p class="font-small-2">folder</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-link" (click)="selIcon('ft-link'); d('Cross click')"  ></i>
+              <p class="font-small-2">link</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-lock" (click)="selIcon('ft-lock'); d('Cross click')"  ></i>
+              <p class="font-small-2">lock</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-log-in" (click)="selIcon('ft-log-in'); d('Cross click')"  ></i>
+              <p class="font-small-2">log-in</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-log-out" (click)="selIcon('ft-log-out'); d('Cross click')"  ></i>
+              <p class="font-small-2">log-out</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-message-square" (click)="selIcon('ft-message-square'); d('Cross click')"  ></i>
+              <p class="font-small-2">message-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-paperclip" (click)="selIcon('ft-paperclip'); d('Cross click')"  ></i>
+              <p class="font-small-2">paperclip</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-plus-square" (click)="selIcon('ft-plus-square'); d('Cross click')"  ></i>
+              <p class="font-small-2">plus-square</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-save" (click)="selIcon('ft-save'); d('Cross click')"  ></i>
+              <p class="font-small-2">save</p>
+            </div>
+            <div class="col-md-2 col-sm-12 col-12 fonticon-container">
+              <i class="ft-settings" (click)="selIcon('ft-settings'); d('Cross click')"  ></i>
+              <p class="font-small-2">settings</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+      </div>
+    </ng-template>
+  </section>
+</div>
+<!-- // Basic form layout section end -->

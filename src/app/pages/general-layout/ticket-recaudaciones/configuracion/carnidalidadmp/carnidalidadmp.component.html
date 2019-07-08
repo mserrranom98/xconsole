@@ -1,0 +1,75 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body">
+              <form class="form form-horizontal" #f="ngForm">
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-list"></i>Cardinalidad de Medios de Pago</h4>
+                    </div>
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <button type="button" class="btn btn-raised btn-success" [routerLink]="['/general/ticketrecaudacion/configuracion/cardinalidad/new']"
+                          style="float:right; margin-top: 4px">
+                          <i class="fa ft-plus"></i> Nuevo</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                                  <div class="card-block" *ngIf="divList">
+                                    <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows"
+                                      [headerHeight]="'auto'" [rowHeight]="'auto'">
+                                      <ngx-datatable-column prop="regla" name="Regla"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="empresa" name="Empresa"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="medioPago1" name="Medio Pago 1"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="cardinalidadMedioPago1" name="Cardinalidad 1"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="medioPago2" name="Medio Pago 2"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="cardinalidadMedioPago2" name="Cardinalidad 2"></ngx-datatable-column>
+                                      <ngx-datatable-column prop='' name="Acción">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <i class="ft-x danger font-medium-1 mr-2" (click)="onEliminar(rowIndex, $event)"
+                                            [id]="value" title="Eliminar"></i>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

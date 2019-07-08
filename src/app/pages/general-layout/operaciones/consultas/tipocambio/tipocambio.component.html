@@ -1,0 +1,256 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body">
+              <form class="form form-horizontal" name="frmTipoCambio" #frmTipoCambio="ngForm">
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-list"></i>Tipos De Cambio</h4>
+                    </div>
+                <div #panel class="row" >
+
+                  
+                 <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Desde:</label>
+                   
+                          <div class="input-text">
+                            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="ss" [(ngModel)]="fechaIni"  [(ngModel)]="guardarTipoCAmbio.fecha_desde" [(ngModel)]="editarTipoCambio.fecha_desde"
+                              ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="validaFecha(fechaIni,'in')" maxlength="10" readonly>
+                          </div>
+                          <div class="input-group-append">
+                            <div class="input-group-text border-primary" (click)="d1.toggle()">
+                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                            </div>
+                          </div>
+                
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Hasta:</label>
+                        
+                          <div class="input-text">
+                            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="d2" [(ngModel)]="fechaFin" [(ngModel)]="guardarTipoCAmbio.fecha_hasta" [(ngModel)]="editarTipoCambio.fecha_hasta"
+                            ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="validaFecha(fechaFin,'out')" maxlength="10" readonly>
+                          </div>
+                          <div class="input-group-append">
+                            <div class="input-group-text border-primary" (click)="d2.toggle()">
+                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                            </div>
+                          </div>
+                    
+                    </div>
+                  </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" >Moneda: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" [(ngModel)]="leerTipoCAmbio.moneda" [(ngModel)]="guardarTipoCAmbio.moneda" [(ngModel)]="editarTipoCambio.moneda" [ngModelOptions]="{standalone: true}" name="monedaSec" #monedaSec="ngModel"  >
+                              <option value="" selected>Seleccione...</option>
+                              <option *ngFor="let emp of glosar" value={{emp.item}}>{{emp.glosa}}</option>
+                            </select> 
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6" *ngIf="divIU">
+                      <div class="form-group row">
+                      <label class="col-md-3 label-control">Valor:</label>
+                      <div class="input-text">
+                      <input type="text" class="form-control border-primary" placeholder="Valor..." [(ngModel)]="guardarTipoCAmbio.valor" [(ngModel)]="editarTipoCambio.valor" [ngModelOptions]="{standalone: true}" name="monedaValor" #monedaValor="ngModel" >
+                      <button class="btn btn-raised gradient-mint white shadow-z-4" (click)="openCarga(content2)"  *ngIf="visible">Carga Masiva</button>
+                      </div>
+                      </div>
+                      </div>
+
+
+
+                      <!--BOTON NUEVO, BUSCAR Y MODAL-->
+                      
+                      <div>
+                          <div class="form-group row">
+                            <div>
+                                <button type="button" class="btn btn-raised btn-primary shadow-z-4" (click)="buscar()" *ngIf="divTipo">
+                                    <i class="fa ft-search"></i> Buscar
+                                  </button>&nbsp;&nbsp;
+
+                              <button type="button" class="btn btn-raised btn-success shadow-z-4" (click)="nuevo()" style="float:right" *ngIf="divTipo">
+                                <i class="fa ft-plus"></i>Nuevo</button> &nbsp;&nbsp;
+
+                              <button class="btn btn-raised gradient-mint white shadow-z-4" (click)="open(content)"  *ngIf="visible">Valores HOY</button> &nbsp;&nbsp;
+                                                            
+                            </div>
+                          </div>
+                        </div>
+
+
+                      <!--BOTONES PARA CREAR-->
+                      <div class="col-md-12" *ngIf="divIU">
+                        <div class="form-actions right">  <!--LINEA SEPARADORA-->
+
+                          <button id="cancel"   class="btn btn-raised gradient-pomegranate white big-shadow" (click)="onCancel()" >
+                              <i>Cancelar</i>
+                          </button> &nbsp;&nbsp; 
+
+                           <button class="btn btn-raised gradient-pomegranate white big-shadow"  (click)="guardar()">
+                              <i class="fa fa-check-square-o"></i> Guardar
+                          </button>
+                        </div>
+                      </div>
+                </div>
+              </form>
+              
+              <!--TABLA-->
+
+             <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="card-block">
+                                   
+                                    <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                      [limit]="20">
+                                      <ngx-datatable-column name="Fecha Desde">
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop='fechaHasta' name='Fecha Hasta'></ngx-datatable-column>
+                                      <ngx-datatable-column prop="monedaTC" name="Moneda"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="valorTC" name="Valor" [sortable]="true"></ngx-datatable-column>
+
+                                      <ngx-datatable-column name='Acción'>
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                          <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editar(rowIndex)" [id]="value"></i>
+                                          <i class="ft-x danger font-medium-1 mr-2" (click)="eliminar(rowIndex, $event)" [id]="value"></i>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+
+              <!--FIN TABLA-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--COMIENZO DEL MODAL-->
+
+
+    <ng-template #content let-c="close" let-d="dismiss" >  
+      <div class="modal-header"> 
+          <h4 class="modal-title">Valores De Hoy</h4>  
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+       
+        <div class="modal-body">
+
+
+            <table id="reporte"  class="table table-striped table-dark">
+                <thead>
+                  <tr>
+                    <th  scope="col">UF</th>
+                    <th scope="col">DolarOBS</th>
+                    <th scope="col">DolarACU</th>
+                    <th scope="col">Euro</th>
+                    <th scope="col">UTM</th>
+                    <th scope="col">IPV</th>
+                  </tr>
+                </thead>            
+                <tbody id="tabla1" >           
+                </tbody>
+              </table>        
+              <small *ngIf="msj" class="label label danger">{{msj}}</small>
+
+     <!--
+           <ngx-datatable #tblList id="tabla" [columnMode]="'force'" [rows]="rows"
+                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
+                
+                  <ngx-datatable-column prop="0" name="UF"></ngx-datatable-column> 
+                  <ngx-datatable-column prop="1" name="Dolar Observado"></ngx-datatable-column>
+                  <ngx-datatable-column prop="2" name="Dolar Acuerdo"></ngx-datatable-column>
+                  <ngx-datatable-column prop="3" name="Euro"></ngx-datatable-column>
+                  <ngx-datatable-column prop="4" name="UTM"></ngx-datatable-column>
+                  <ngx-datatable-column prop="5" name="IVP"></ngx-datatable-column>
+                </ngx-datatable>         
+              -->
+                
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+        </div>  
+     </ng-template>
+
+<!--FIN MODAL-->
+
+
+
+      <!--COMIENZO DEL SEGUNDA MODAL-->
+
+
+    <ng-template #content2 let-c="close" let-d="dismiss" >  
+        <form class="form form-horizontal" name="frmCarga" #frmCarga="ngForm" >  
+      
+      <div class="modal-header"> 
+            <h4 class="modal-title">Carga Tipo Cambio</h4>  
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <div class="modal-body">
+
+            
+              <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-md-3 label-control" >Moneda: </label>
+                    <div class="input-text">
+                      <select class="form-control border-primary" [(ngModel)]="leerTipoCAmbio.moneda" [(ngModel)]="guardarTipoCAmbio.moneda" [(ngModel)]="editarTipoCambio.moneda" [ngModelOptions]="{standalone: true}" name="monedaSec" #monedaSec="ngModel"  >
+                        <option value="" selected>Seleccione...</option>
+                        <option *ngFor="let emp of glosar" value={{emp.item}}>{{emp.glosa}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <input type="file" name="archivo" (change)="changeListener($event)" />
+          </div>
+          <div class="modal-footer">
+            
+              <button class="btn btn-raised gradient-pomegranate white big-shadow" (click)="enviarArchivo()">
+                  <i class="fa fa-check-square-o"></i> Procesar
+              </button>
+              <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+          </div>  
+          </form> 
+       </ng-template>
+
+  <!--FIN SEGUNDA MODAL-->
+
+
+  </div>
+</section>

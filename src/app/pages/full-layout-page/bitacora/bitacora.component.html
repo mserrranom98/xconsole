@@ -1,0 +1,208 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+
+            <div class="form-body">
+              <form class="form form-horizontal" name="frmAut" #f="ngForm">
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-list"></i>Consulta de Bitacora</h4>
+                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Desde:</label>
+                      <div class="input-text">
+                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi" [(ngModel)]="fechaIni"
+                          ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="changeFilter()" maxlength="10">
+                      </div>
+                      <div class="input-group-append">
+                        <div class="input-group-text border-primary" (click)="d1.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Hasta:</label>
+                      <div class="input-text">
+                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpf" [(ngModel)]="fechaFin"
+                          ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="filter()" >
+                      </div>
+                      <div class="input-group-append">
+                        <div class="input-group-text border-primary" (click)="d2.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="usr">Usuario: </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary select" [disabled]="disabled" name="usr" #usr="ngModel"
+                          [(ngModel)]="bitLevel1.userName" (change)="filter()">
+                          <option *ngFor="let u of userNames" value={{u}}>{{u}}</option>
+
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="modulo">Modulo: </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary select" [disabled]="disabled" name="modulo" #modulo="ngModel"
+                          [(ngModel)]="bitLevel1.module" (change)="filter()">
+                          <option *ngFor="let m of modules" value={{m}}>{{m}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="objeto">Objeto: </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary select" [disabled]="disabled" name="objeto" #objeto="ngModel"
+                          [(ngModel)]="bitLevel1.objet" (change)="filter()">
+                          <option *ngFor="let o of objects" value={{o}}>{{o}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <small *ngIf="msjFecha" class="label label danger">{{msjFecha}}</small>
+                <div class="form-actions right">
+                  <button type="button" class="btn btn-raised btn-primary" (click)="levelI()">
+                    <i class="fa ft-search"></i> Buscar
+                  </button>
+                </div>
+              </form>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                                  <div class="card-block" *ngIf="divLevelI">
+                                    <ngx-datatable #table class='table bootstrap' [columns]="columns" [rows]='rows' [columnMode]="'force'"
+                                      [headerHeight]="50" [footerHeight]="50" [scrollbarV]="false" [rowHeight]="50">
+                                      <!-- Column Templates -->
+                                      <ngx-datatable-column name="Detalle" [width]="90" [resizeable]="false" [sortable]="false"
+                                        [draggable]="false" [canAutoResize]="false">
+                                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template
+                                          let-rowIndex="rowIndex">
+                                          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                                            [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" (click)="levelII(row)"
+                                            (click)="open(content)">
+                                          </a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="userName" name="Usuario"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="birth" name="Fecha">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="caller" name="Plataforma"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="module" name="Modulo"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="object" name="Objeto"></ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-template #content let-c="close" let-d="dismiss">
+                           <div class="modal-header">
+                              <h4 class="modal-title">Detalle de Bitacora</h4>
+                              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 label-control">Caller:</label>
+                                    <div class="input-text">
+                                      {{rowIIDetalle.caller}}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 label-control">Module:</label>
+                                    <div class="input-text">
+                                      {{rowIIDetalle.module}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 label-control">Objeto:</label>
+                                    <div class="input-text">
+                                      {{rowIIDetalle.object}}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 label-control">Usuario:</label>
+                                    <div class="input-text">
+                                      {{rowIIDetalle.userName}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="feather-icons ">
+                                <div class="row">
+                                  <ngx-datatable #tableII class='table bootstrap' [rows]="rowsII" [columnMode]="'force'"
+                                    [limit]="20" [rowHeight]="50" style="height: 350px !important;" [scrollbarV]="true">
+                                    <ngx-datatable-column prop="action" name="Acción"></ngx-datatable-column>
+                                    <ngx-datatable-column prop="eventDate" name="Fecha">
+                                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
+                                      </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column prop="state" name="Estado"></ngx-datatable-column>
+
+
+                                  </ngx-datatable>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-raised gradient-mint white" (click)="exportar()">Exportar</button>
+                              <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+                            </div>
+                          </ng-template>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

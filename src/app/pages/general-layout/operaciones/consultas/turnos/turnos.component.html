@@ -1,0 +1,175 @@
+<div *ngIf="!divEnabled">
+  <app-turnos-detalle [datos] = "datos" [fechaDesde] = "fechaIni" [fechaHasta] = "fechaFin" [rex] = "sucSelect.rex"
+  [sucursal] ="sucur" [rexDesc] = "rexDesc" [sucDesc] = "sucDesc"></app-turnos-detalle>
+</div>
+<div *ngIf="divEnabled">
+<section id="horizontal-form-layouts"> 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+
+            <div class="form-body">
+              <form class="form form-horizontal" name="frmTurno" #frmTurno="ngForm">
+                  <div class="card-header">
+                 <h4 class="card-title" id="lss" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                  <i class="ft-list"></i>Consulta de Turno
+                  <i class="ft-chevrons-down" *ngIf="!isCollapsed"></i>
+                  <i class="ft-chevrons-up" *ngIf="isCollapsed" ></i>
+                </h4>
+              </div>
+                <!--Comienzo Formulario Collapse-->
+                <div id="collapseExample" [ngbCollapse]="isCollapsed">
+
+
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Desde:</label>
+                     <!-- <div class="col-md-6">
+                        <div class="input-group"> -->
+                          <div class="input-text">
+                            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi" [(ngModel)]="fechaIni"
+                              ngbDatepicker [dayTemplate]="customDay" [markDisabled]="isDisabled" #d1="ngbDatepicker" (ngModelChange)="validaFecha(fechaIni,'in')" maxlength="10">
+                          </div>
+                          <div class="input-group-append">
+                            <div class="input-group-text border-primary" (click)="d1.toggle()">
+                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                            </div>
+                          </div>
+                      <!--  </div> 
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control">Fecha Hasta:</label>
+                    <!--  <div class="col-md-6">
+                        <div class="input-group"> -->
+                          <div class="input-text">
+                            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi" [(ngModel)]="fechaFin"
+                              ngbDatepicker [dayTemplate]="customDay" [markDisabled]="isDisabled" #d2="ngbDatepicker" (ngModelChange)="validaFecha(fechaFin,'out')" maxlength="10">
+                          </div>
+                          <div class="input-group-append">
+                            <div class="input-group-text border-primary" (click)="d2.toggle()">
+                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                            </div>
+                          </div>
+                      <!--  </div>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="rex">Empresa (Rex): </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex" [(ngModel)]="turnosSelect.rex"
+                          [ngModelOptions]="{standalone: true}" (change)="sucursal($event)">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="suc">Sucursal: </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary" name="suc" #suc="ngModel" [(ngModel)]="sucur" [(ngModel)]="turnosSelect.sucursal" (change)="getDescSucursal($event)">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let emp of listSuc" value={{emp.sucursal}}>{{emp.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+                <!--FIN FORMULARIO COLLAPSED-->
+
+                <small *ngIf="msjFiltro" class="label label danger">{{msjFiltro}}</small>
+                <div class="form-actions right">
+                    <button *ngIf="divList" type="button" class="btn btn-raised gradient-mint white" (click)="exportar()">Exportar</button>
+                  <button type="button" class="btn btn-raised btn-primary" (click)="buscar()">
+                    <i class="fa ft-search"></i> Buscar
+                  </button>
+                </div>
+              </form>
+              <small *ngIf="msj" class="label label danger">{{msj}}</small>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="card-block" *ngIf="divList">
+                                      <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Escriba para filtrar...' (keyup)='updateFilter($event)'
+                                      />
+                                    <ngx-datatable #table class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                      [limit]="50" [selected]="selected" [selectionType]="'single'" (dblclick)='openDetail($event)'>
+                                      <ngx-datatable-column prop="usuario" name="Usuario"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="turno" name="Turno">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a>{{value | date:'dd-MM-yyyy hh:mm:ss'}}</a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="terminalDescripcion" name="Terminal"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="abierto" name="Abierto"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="intentosCierre" name="Cierres"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="fechaCierre" name="Fecha cierre">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a>{{value | date:'dd-MM-yyyy hh:mm:ss'}}</a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="numero" name="Número"></ngx-datatable-column>
+                                      <ngx-datatable-column name="Acción">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                          <a href="javascript:void(0)" class="ft-list" title="Ver montos" (click)="open(content, rowIndex, 'montos')" [id]="value"></a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-template #content let-c="close" let-d="dismiss">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Montos del turno</h4>                           
+                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <app-turnos-montos [pagina] = "pagina" [datosT] = "datos" [rex] = "turnosSelect.rex" [sucursal] = "sucur"
+                                  [rexDesc] = "rexDesc" [sucDesc] = "sucDesc" [terDesc] = "terDesc"></app-turnos-montos>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+                              </div>
+                            </ng-template>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>

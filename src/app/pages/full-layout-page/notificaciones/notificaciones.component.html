@@ -1,0 +1,142 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+
+            <div class="form-body">
+              <form class="form form-horizontal" name="frmAut" #f="ngForm">
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-bell"></i>Notificaciones</h4>
+                    </div>
+              </form>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="card-block">
+                                    <ngx-datatable #table class='table bootstrap' [columns]="columns" [rows]='rows' [columnMode]="'force'"
+                                      [headerHeight]="50" [footerHeight]="50" [scrollbarV]="false" [rowHeight]="50">
+                                      <ngx-datatable-column prop="sender" name="Usuario"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="settled" name="Fecha" [width]="200">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="request" name="Requerimiento" [width]="300"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="state" name="Estado"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="type" name="Tipo"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="state" name="Acción">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a href="javascript:void(0)" (click)="open(content, rowIndex)"> <i *ngIf="value != 'PICKED' && value != 'DONE'"
+                                              class="icon-envelope-open info font-medium-1 mr-2" [id]="value" title="Editar"
+                                              title="Abrir"></i>
+                                          </a>
+
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                        <div class="card-block">
+                          <ng-template #content let-c="close" let-d="dismiss">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Detalle de Notificación</h4>
+                              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="name">Usuario</label>
+                                    <input disabled type="text" id="name" class="form-control border-primary" name="usu"
+                                      #usu="ngModel" [(ngModel)]="usuarioNoti">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="fec">Fecha</label>
+                                    <input disabled type="text" id="fec" class="form-control border-primary" name="fec"
+                                      #fec="ngModel" [(ngModel)]="fechaNoti">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="name">Nombre</label>
+                                    <input disabled type="text" id="name" class="form-control border-primary" name="name"
+                                      #name="ngModel" [(ngModel)]="requestName">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="tex">Requerimiento</label>
+                                    <input disabled type="text" id="tex" class="form-control border-primary" name="tex"
+                                      #tex="ngModel" [(ngModel)]="requestText">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="fec">Observación</label>
+                                    <input type="text" id="fec" class="form-control border-primary" name="obs" #obs="ngModel"
+                                      [(ngModel)]="notiDone.reply">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="name">Autorización</label><br />
+                                    <ui-switch [(ngModel)]="aut" (click)="onChange($event)"></ui-switch>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <div class="input-text">
+                                      <!--<span class="result" *ngIf="data.image">
+                                        <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+                                      </span>-->
+                                      <!--<pdf-viewer [src]="pdf" [original-size]="false" style="display: block;"  [zoom]="pdfZoom"></pdf-viewer>
+                                      <button ion-button (click)="zoomIn()"> + </button>
+                                        <button ion-button (click)="zoomOut()"> - </button>-->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+                              <button type="button" class="btn btn-success btn-raised" (click)="guardar()">Aceptar</button>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

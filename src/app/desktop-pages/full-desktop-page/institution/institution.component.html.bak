@@ -1,0 +1,173 @@
+<div *ngIf="!divEnabled">
+  <app-institutionmanagement (datos)="recibirDatos($event)"></app-institutionmanagement>
+</div>
+<div *ngIf="divEnabled">
+  <section id="horizontal-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="horz-layout-colored-controls">{{'Institutions' | translate}}</h4>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                <div class="form-body">
+                  <h4 class="form-section">
+                    <i class="ft-info"></i>{{'New Institution' | translate}}</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="name">{{'Name' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="name" #name="ngModel" [(ngModel)]="inst.name" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="100">
+                          <small *ngIf="name.touched && !name.valid" class="label label danger">Please enter a valid name{{'Please
+                            enter a valid name!' | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="branch">{{'Branch' | translate}} :</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="branch" #branch="ngModel" [(ngModel)]="inst.branch" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="25">
+                          <small *ngIf="branch.touched && !branch.valid" class="label label danger">{{'Please enter a valid
+                            branch' | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="industry"> {{'Industry' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="industry" #industry="ngModel" [(ngModel)]="inst.industry" maxlength="50"
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="code">{{'Code' | translate}}</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="code" #code="ngModel" [(ngModel)]="inst.code" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="25">
+                          <small *ngIf="code.touched && !code.valid" class="label label danger">{{'Please enter a valid code'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="form-section"></h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="country">{{'Country' | translate}}: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="country" #country="ngModel" [(ngModel)]="inst.country" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="3">
+                          <small *ngIf="country.touched && !country.valid" class="label label danger">Please enter a valid
+                            country!
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="city">{{'City' | translate}}: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="city" #city="ngModel" [(ngModel)]="inst.city" required pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+"
+                            maxlength="50">
+                          <small *ngIf="city.touched && !city.valid" class="label label danger">{{'Please enter a valid city'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="district">{{'District' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="district" #district="ngModel" [(ngModel)]="inst.district" maxlength="50"
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ0-9 ]+">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="address">{{'Address' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="address" #address="ngModel" [(ngModel)]="inst.address" required
+                            pattern="[A-Za-zñÑáéíóúÁÉÍÓÚñÑáéíóúÁÉÍÓÚ0-9 ]+" maxlength="100">
+                          <small *ngIf="address.touched && !address.valid" class="label label danger">{{'Please enter a valid
+                            address' | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="form-section"></h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="phone">{{'Phone' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="phone" #phone="ngModel" [(ngModel)]="inst.phone" required pattern="[0-9]{9}">
+                          <small *ngIf="phone.touched && !phone.valid" class="label label danger">{{'Please enter a valid
+                            phone' | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="fax">{{'Fax' | translate}}:</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="fax" #fax="ngModel" [(ngModel)]="inst.fax" pattern="[0-9]{9}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="mail">{{'Email' | translate}}: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="mail" #mail="ngModel" [(ngModel)]="inst.mail" required email
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="50">
+                          <small *ngIf="mail.touched && !mail.valid" class="label label danger">{{'Please enter a valid mail'
+                            | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="contact">{{'Contact' | translate}}: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" name="contact" #contact="ngModel" [(ngModel)]="inst.contact" email
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="50">
+                          <small *ngIf="contact.touched && !contact.valid" class="label label danger">{{'Please enter a valid
+                            contact' | translate}}!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions right">
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()" [routerLink]="['/institutions']">{{'cancel'
+                    | translate}}</button>
+                  <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                    <i class="fa fa-check-square-o"></i> {{'Save' | translate}}
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

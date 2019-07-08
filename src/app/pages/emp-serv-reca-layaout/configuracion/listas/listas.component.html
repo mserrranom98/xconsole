@@ -1,0 +1,119 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body">
+              <form class="form form-horizontal" #f="ngForm" (ngSubmit)="guardar()">
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-list"></i>Administración de Listas</h4>
+                    </div>
+                <div #panel class="row" *ngIf="divTipo">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="tipoList">Tipo:</label>
+                      <div class="col-md-9">
+                        <select required class="form-control border-primary" name="tipo" #tipo="ngModel" [(ngModel)]="listaIU.tipo" [(ngModel)]="tipoB" (change)="buscar()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let lis of list" value={{lis.item}}>{{lis.glosa}}</option>
+                        </select>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <div class="col-md-9">
+                        <button type="button" class="btn btn-raised btn-success" (click)="nuevo()" style="float:right">
+                          <i class="fa ft-plus"></i>Nuevo</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="divIU">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="lista">Lista</label>
+                      <div class="col-md-9">
+                        <input required type="text" id="lista" [disabled]="disabled" class="form-control border-primary" name="lista" #lista="ngModel"
+                          [(ngModel)]="listaIU.lista" pattern="[A-Za-z0-9 ]+" maxlength="6">
+                        <small *ngIf="lista.touched && !lista.valid" class="label label danger">Lista Invalida</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="titulo">Título</label>
+                      <div class="col-md-9">
+                        <input required type="text" id="titulo" class="form-control border-primary" name="titulo" #titulo="ngModel" [(ngModel)]="listaIU.titulo"
+                          pattern="[A-Za-z0-9 ]+" maxlength="30">
+                        <small *ngIf="titulo.touched && !titulo.valid" class="label label danger">Título Invalido</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-actions right">
+                      <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()">Cancelar</button>
+                      <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="card-block">
+                                    <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Escriba para filtrar...' (keyup)='updateFilter($event)'
+                                    />
+                                    <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                      [limit]="20">
+                                      <ngx-datatable-column name="Detalle" [width]="90" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+
+                                        <ng-template ngx-datatable-cell-template let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                                          <input [id]="value" type="checkbox" [checked]="isSelected" (click)="onSelect(rowIndex) " />
+                                        </ng-template>
+
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop='lista' name='Lista'>
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                          {{value}}
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="titulo" name="Título"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="tipo" name="Tipo" [sortable]="true"></ngx-datatable-column>
+
+                                      <ngx-datatable-column name='Acción'>
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                          <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editar(rowIndex)" [id]="value"></i>
+                                          <i class="ft-x danger font-medium-1 mr-2" (click)="eliminar(rowIndex, $event)" [id]="value"></i>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

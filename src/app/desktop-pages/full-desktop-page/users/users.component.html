@@ -1,0 +1,157 @@
+<div *ngIf="!divEnabled">
+  <app-usersmanagement (datos)="recibirDatos($event)"></app-usersmanagement>
+</div>
+<!-- Basic form layout section start -->
+<div *ngIf="divEnabled">
+  <section id="horizontal-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="horz-layout-colored-controls">Usuarios</h4>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+              <form class="form form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm">
+                <div class="form-body">
+                  <h4 class="form-section">
+                    <i class="ft-user"></i> Acerca de Usuarios</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="firstName">Primer Nombre: </label>
+                        <div class="col-md-9">
+                          <input type="text" id="firstName" class="form-control border-primary" name="firstName" #firstName="ngModel" [(ngModel)]="users.first_name"
+                            required>
+                          <small *ngIf="firstName.touched && !firstName.valid" class="label label danger">Please enter a valid first name!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="lastName">Apellidos: </label>
+                        <div class="col-md-9">
+                          <input type="text" id="lastName" class="form-control border-primary" name="lastName" #lastName="ngModel" [(ngModel)]="users.last_name"
+                            required>
+                          <small *ngIf="lastName.touched && !lastName.valid" class="label label danger">Please enter a valid last name!</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="displayName">Nombre de Usuario: </label>
+                        <div class="col-md-9">
+                          <input type="text" id="displayName" class="form-control border-primary" name="displayName" #displayName="ngModel" [(ngModel)]="users.display_name"
+                            required maxlength="10" style='text-transform:lowercase' pattern="[a-z0-9\.]+">
+                          <small *ngIf="displayName.touched && !displayName.valid" class="label label danger">Please enter a valid display name!</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="avatar">Avatar: </label>
+                        <div class="col-md-9">
+                          <div class="file-upload mb-3">
+                            <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+                          </div>
+                          <span class="result" *ngIf="data.image">
+                            <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight" class="rounded-circle">
+                          </span>
+                          <img-cropper #cropper [image]="data" [settings]="cropperSettings" class="float-left mr-4"></img-cropper>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="form-section">
+                    <i class="ft-mail"></i> Contact Info</h4>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="email">Email: </label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control border-primary" [(ngModel)]="users.email" name="email" #email="ngModel" email style='text-transform:lowercase'
+                          />
+                          <small class="form-text text-muted danger" *ngIf="email.touched && email.errors?.email">Please enter a valid</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="jobTitle">Título Profesional: </label>
+                        <div class="col-md-9">
+                          <input class="form-control border-primary" type="text" id="jobTitle" name="jobTitle" #jobTitle="ngModel" [(ngModel)]="users.job_title">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="directories">Directorio: </label>
+                        <div class="col-md-9">
+                          <select required class="form-control border-primary" name="directories" #directories="ngModel" [(ngModel)]="opcDirectories" [(ngModel)]="users.directories_id"
+                            [ngModelOptions]="{standalone: true}" (change)="onDirectories($event)" (load)="onDirectories($event)">
+                            <option value="">Seleccione...</option>
+                            <option *ngFor="let dirs of list" value={{dirs.id}}>{{dirs.value}}</option>
+                          </select>
+                          <span *ngIf="!directories.valid && msjDir" class="label label danger"> {{msjDir}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="institutions">Institución: </label>
+                        <div class="col-md-9">
+                          <angular2-multiselect [data]="dropdownInst" [(ngModel)]="instItems" [settings]="instSettings" [ngModelOptions]="{standalone: true}">
+                          </angular2-multiselect>
+                          <small *ngIf="msjInst" class="label label danger">{{msjInst}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="profiles">Perfiles: </label>
+                      <div class="col-md-9">
+                        <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" [ngModelOptions]="{standalone: true}">
+                        </angular2-multiselect>
+                        <small *ngIf="msjPrf" class="label label danger">{{msjPrf}}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions right">
+                  <button *ngIf="viewG" type="button" class="btn btn-success btn-raised" (click)="onGenerate()">Generar Contrase�a</button>
+                  <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()">Cancelar</button>
+                  <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                    <i class="fa fa-check-square-o"></i> Guardar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
+      </div>
+    </ng-template>
+  </section>
+</div>
+
+<!-- // Basic form layout section end -->

@@ -1,0 +1,174 @@
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="px-3">
+  
+              <div class="form-body">
+                <form class="form form-horizontal" name="frmRestric" #frmRestric="ngForm">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="ft-list"></i>Restricciones entre Conceptos</h4>
+                      </div>
+                  <div *ngIf="!divAddRestriccion" style="margin-left: 93%;">
+                    <button id="restric" type="button" class="btn btn-raised btn-success" (click)="nuevaRestriccion()">
+                      <i class="fa ft-plus"></i> Nueva</button>
+                  </div>
+                  <div *ngIf="divAddRestriccion">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="cp1">Concepto 1: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="cp1" #cp1="ngModel" [(ngModel)]="concep1" [(ngModel)]="restricInsert.concepto1"
+                              [ngModelOptions]="{standalone: true}" (change)="selectCodigo1($event)">
+                              <option value="" selected>Seleccione...</option>
+                              <option value="EPS">Empresas EPS</option>
+                              <option value="REX">Empresas REX</option>
+                              <option value="INSTRU">Instrumentos</option>
+                              <option value="SUCUR">Sucursales</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="cp2">Concepto 2: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="cp2" #cp2="ngModel" [(ngModel)]="concep2" [(ngModel)]="restricInsert.concepto2"
+                              [ngModelOptions]="{standalone: true}" (change)="selectCodigo3($event)">
+                              <option value="" selected>Seleccione...</option>
+                              <option value="EPS">Empresas EPS</option>
+                              <option value="REX">Empresas REX</option>
+                              <option value="INSTRU">Instrumentos</option>
+                              <option value="SUCUR">Sucursales</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="list1"> </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="list1" #list1="ngModel" [(ngModel)]="listCod1" 
+                              [ngModelOptions]="{standalone: true}" [disabled]="disabled1" (change)="selectCodigo2($event)">
+                              <option *ngFor="let lis1 of listCodigo1" value={{lis1.codigo}}>{{lis1.glosa}}</option>
+                            </select>
+                           <!-- <small *ngIf="list1.touched && !list1.valid" class="label label danger">Código
+                                Invalido
+                            </small> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="list3"> </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="list3" #list3="ngModel" [(ngModel)]="listCod3" 
+                              [ngModelOptions]="{standalone: true}" [disabled]="disabled3" (change)="selectCodigo4($event)">
+                              <option *ngFor="let lis3 of listCodigo3" value={{lis3.codigo}}>{{lis3.glosa}}</option>
+                            </select>
+                           <!-- <small *ngIf="list3.touched && !list3.valid" class="label label danger">Código
+                                Invalido
+                            </small> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="list2"> </label>
+                          <div class="input-text" *ngIf="divEnabled2">
+                            <select class="form-control border-primary" name="list2" #list2="ngModel" [(ngModel)]="listCod2" 
+                              [ngModelOptions]="{standalone: true}" [disabled]="disabled2">
+                              <option *ngFor="let lis2 of listCodigo2" value={{lis2.codigo}}>{{lis2.glosa}}</option>
+                            </select>
+                           <!-- <small *ngIf="list2.touched && !list2.valid" class="label label danger">Código
+                                Invalido
+                            </small> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="list4"> </label>
+                          <div class="input-text"  *ngIf="divEnabled4">
+                            <select class="form-control border-primary" name="list4" #list4="ngModel" [(ngModel)]="listCod4" 
+                              [ngModelOptions]="{standalone: true}" [disabled]="disabled4">
+                              <option *ngFor="let lis4 of listCodigo4" value={{lis4.codigo}}>{{lis4.glosa}}</option>
+                            </select>
+                           <!-- <small *ngIf="list4.touched && !list4.valid" class="label label danger">Código
+                                Invalido
+                            </small> -->
+                          </div>
+                        </div>
+                      </div>
+                      <small *ngIf="msjAddRestric" class="label label danger">{{msjAddRestric}}</small>
+                    </div>                    
+                    <div class="form-actions right">
+                      <button type="button" class="btn btn-danger btn-raised" (click)="cancelAddRestriccion()">Cancelar</button>
+                      <button id="addReg" type="button" class="btn btn-raised btn-primary" (click)="addRestriccion()">
+                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <section id="filter">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-block" *ngIf="divList">
+                                          <ngx-datatable #table class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                            [limit]="50">
+                                            <ngx-datatable-column [width]="30" prop="regla" name="Regla"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="concepto1" name="Concepto 1"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="codigo1Glosa" name="Código Concepto 1"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="concepto2" name="Concepto 2"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="codigo2Glosa" name="Código Concepto 2"></ngx-datatable-column>
+                                            <ngx-datatable-column [width]="30" name="Acción">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                <a href="javascript:void(0)" class="ft-x danger font-medium-1 mr-2" title="Borrar restricción" (click)="open(content, rowIndex)" [id]="value"></a>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                          </ngx-datatable>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <ng-template #content let-c="close" let-d="dismiss">
+                                <div class="modal-header">                         
+                                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <label class="col-md-6 label-control" for="msjModal">{{msjModal}}</label>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary btn-raised" (click)="deleteRestriccion(); c('Close click')">Aceptar</button>
+                                </div>
+                              </ng-template>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+

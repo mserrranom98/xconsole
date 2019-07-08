@@ -1,0 +1,133 @@
+<div *ngIf="!divEnabled">
+  <app-meta-listas-items [metaLista]="metaLista"></app-meta-listas-items>
+</div>
+<div *ngIf="divEnabled">
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="px-3">
+  
+              <div class="form-body">
+                <form class="form form-horizontal" name="frmMetList" #frmMetList="ngForm">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="ft-list"></i>Meta Listas</h4>
+                      </div>
+                  <div *ngIf="!divAddMetaLista" style="margin-left: 93%;">
+                    <button id="reg" type="button" class="btn btn-raised btn-success" (click)="nuevaMetaLista()">
+                      <i class="fa ft-plus"></i> Nueva</button>
+                  </div>
+                  <div *ngIf="divAddMetaLista">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="metList">Meta Lista: </label>
+                          <div class="input-text">
+                            <input type="text" id="metList" class="form-control border-primary" name="metList" #metList="ngModel" maxlength="6" 
+                              [(ngModel)]="metaListaInsert.metaLista" style="text-transform:uppercase;" onkeypress="javascript:this.value=this.value.toUpperCase();">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="titulo">Título: </label>
+                          <div class="input-text">
+                            <input type="text" id="titulo" class="form-control border-primary" name="titulo" #titulo="ngModel" maxlength="99" [(ngModel)]="metaListaInsert.titulo">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="lisDat">Lista Datos: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="lisDat" #lisDat="ngModel" [(ngModel)]="metaListaInsert.listaDatos" 
+                              [ngModelOptions]="{standalone: true}">
+                              <option value="" selected>Seleccione...</option>
+                              <option *ngFor="let lis of listaCombos" value={{lis.lista}}>{{lis.titulo}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="lisAcc">Lista Acceso: </label>
+                          <div class="input-text">
+                            <select class="form-control border-primary" name="lisAcc" #lisAcc="ngModel" [(ngModel)]="metaListaInsert.listaAcceso" 
+                              [ngModelOptions]="{standalone: true}">
+                              <option value="" selected>Seleccione...</option>
+                              <option *ngFor="let list of listaCombos" value={{list.lista}}>{{list.titulo}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <small *ngIf="msjAddMetaLista" class="label label danger">{{msjAddMetaLista}}</small>
+                    </div>                   
+                    <div class="form-actions right">
+                      <button type="button" class="btn btn-danger btn-raised" (click)="cancelAddMetaLista()">Cancelar</button>
+                      <button id="addReg" type="button" class="btn btn-raised btn-primary" (click)="addMetaLista()">
+                        <i class="fa fa-check-square-o"></i> Guardar</button>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <section id="filter">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-block" *ngIf="divList">
+                                          <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Escriba para filtrar...' (keyup)='updateFilter($event)'
+                                          />
+                                          <ngx-datatable #table class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                                            [limit]="50"> <!-- [selected]="selected" [selectionType]="'single'" (dblclick)='openItems($event)' -->
+                                            <ngx-datatable-column [width]="30" prop="metaLista" name="Meta Lista"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="titulo" name="Título"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="listaDatosTitulo" name="Lista Datos"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="listaAcesoTitulo" name="Lista Acceso"></ngx-datatable-column>
+                                            <ngx-datatable-column [width]="30" name="Acción">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                                <a href="javascript:void(0)" class="ft-edit-2 font-medium-1 mr-2" title="Borrar regla" (click)="openItems(rowIndex)" [id]="value"></a>
+                                                <a href="javascript:void(0)" class="ft-x danger font-medium-1 mr-2" title="Borrar regla" (click)="open(content, rowIndex)" [id]="value"></a>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                          </ngx-datatable>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <ng-template #content let-c="close" let-d="dismiss">
+                                <div class="modal-header">                         
+                                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <label class="col-md-6 label-control" for="msjModal">{{msjModal}}</label>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary btn-raised" (click)="deleteMetalista(); c('Close click')">Aceptar</button>
+                                </div>
+                              </ng-template>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

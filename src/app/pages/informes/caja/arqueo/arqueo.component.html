@@ -1,0 +1,150 @@
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body"> 
+            <div class="px-3">  
+              <div class="form-body">
+                <form class="form form-horizontal" name="frmArqueo" #frmArqueo="ngForm">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="ft-list"></i>Consulta de Arqueo</h4>
+                      </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">Fecha</label>                       
+                        <div class="input-text">
+                          <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="d1" [(ngModel)]="fechaIni" (ngModelChange)="validaFecha()"
+                            ngbDatepicker #d1="ngbDatepicker" maxlength="10" readonly >
+                        </div>
+                        <div class="input-group-append">
+                          <div class="input-group-text border-primary" (click)="d1.toggle()">
+                            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                          </div>
+                        </div>                                           
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row"> 
+                        <label class="col-md-3 label-control" for="rex">Empresa (Rex): </label>
+                        <div class="input-text">
+                          <select class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex" 
+                          [ngModelOptions]="{standalone: true}" (change)="sucursal()">
+                            <option value="" selected>Seleccione...</option>
+                            <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" for="suc">Sucursal: </label>
+                        <div class="input-text">
+                          <select class="form-control border-primary" name="suc" #suc="ngModel" [ngModelOptions]="{standalone: true}" [(ngModel)]="arqueo.sucursal"   >
+                            <option value="" selected>Seleccione...</option>
+                            <option *ngFor="let emp of listSuc" value={{emp.sucursal}}>{{emp.descripcion}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+                  <div class="form-actions right">                     
+                    <button type="button" class="btn btn-raised btn-primary" (click)="buscar()">
+                      <i class="fa ft-search"></i> Buscar
+                    </button>&nbsp;&nbsp;
+                    
+                     <button id="excel" (click)="exportAsXLSX()"  class="btn btn-raised gradient-pomegranate white big-shadow" *ngIf="visible" >
+                       <i>Exportar</i>
+                    </button> &nbsp;&nbsp; 
+                    <!--modal--> 
+                    <button class="btn btn-raised gradient-pomegranate white big-shadow" (click)="open(content)"  *ngIf="visible">Imprimir</button>  
+                   
+                  </div>                  
+                  <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
+                      <mat-tree-node *matTreeNodeDef="let node">
+                          <li class="mat-tree-node">
+                              <button mat-icon-button disabled></button>
+                              {{node.glosa}}: {{node.valor}}
+                          </li>
+                      </mat-tree-node>
+
+                      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
+                          <li>
+                              <div class="mat-tree-node">
+                                  <button mat-icon-button matTreeNodeToggle>
+                                      <mat-icon class="mat-icon-rtl-mirror">
+                                          {{nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                      </mat-icon>
+                                  </button>
+                                  {{node.glosa}}
+                              </div>
+                              <ul [class.example-tree-invisible]="nestedTreeControl.isExpanded(node)">
+                                  <ng-container matTreeNodeOutlet></ng-container>
+                              </ul>
+                          </li>
+                      </mat-nested-tree-node>
+                  </mat-tree>
+
+
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+  
+  <ng-template #content let-c="close" let-d="dismiss" >      
+        <div class="modal-header">  
+           <div class="col-md-12 text-center">
+              <button  type="button" class="btn btn-raised btn-primary" (click)="printData()" *ngIf="vistaPrevia">Vista Previa</button>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+           </div>    
+             
+        </div>
+         
+          <div class="modal-body">
+            <table id="reporte" class="table" >
+              <thead class="thead-dark">
+                  <tr>
+                      <th colspan="5" ><span>
+                        Informe Arqueo
+                      </span></th>                      
+                  </tr>
+                <tr>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Turno</th>
+                  <th scope="col">Empresa</th>
+                  <th scope="col">Operacion</th>
+                  <th scope="col">Monto</th>
+                </tr>
+              </thead>            
+              <tbody id="tabla1">           
+              </tbody>
+            </table>              
+          <!--    <ngx-datatable #tblList id="tabla" [columnMode]="'force'" [rows]="rows"
+                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
+                  <ngx-datatable-column prop="usuario" name="Usuario"></ngx-datatable-column> 
+                    <ngx-datatable-column prop="turno" name="Turno">
+                   <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <a>{{value | date:'dd/MM/yyyy'}}</a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                    <ngx-datatable-column prop="empresa" name="Empresa"></ngx-datatable-column>
+                    <ngx-datatable-column prop="operacion" name="Operacion"></ngx-datatable-column>
+                    <ngx-datatable-column prop="monto" name="Monto"></ngx-datatable-column>
+                  </ngx-datatable>     -->           
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+          </div>      
+  </ng-template>
+
+</div> 
+</section>
+
+    

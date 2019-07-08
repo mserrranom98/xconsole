@@ -1,0 +1,119 @@
+<!--Login Page Starts-->
+<section id="login" style=" background-image: url('assets/img/fondo.jpg')">
+    <div class="container-fluid">
+      <div class="row full-height-vh">
+        <div class="footer">
+            <img alt="element 06" class="mb-1" src="assets/img/xcash_1_color.png" width="120">
+        </div>
+        <div class="col-12 d-flex align-items-center justify-content-center">
+          <div class="card white text-center width-500">
+            <div class="card-img">
+              <img alt="element 06" class="mb-1" src="assets/img/X_console_.png" width="190">
+            </div>
+            <div class="card-body">
+              <div class="card-block">
+                <div *ngIf="!ocultar" class="animated fast"> 
+                  <p class="title">Elige una cuenta</p>
+                  <table class="table">
+                    <div class="contenedor">
+                      <li *ngFor="let item of usrLocal" style="list-style:none" class="btn_row">
+                        <div class="img_user">
+                          <p class="name">{{item | slice:0:2 | uppercase}} </p>
+                        </div>
+                        <p *ngIf="!remove" class="btnUser" (click)="onUser(this.item)">{{item}}</p>
+                        <div *ngIf="remove" class="btn_remove">{{item}}</div>
+                        <div *ngIf="remove" class="btn_trash" (click)="onRemove(this.item)">
+                          <i ngClass="ft-trash-2"></i>
+                        </div>
+                      </li>
+                      <div *ngIf="!done">
+                          <li style="list-style:none" class="btn_row">
+                            <div class="img_user">
+                              <i class="name" ngClass="ft-user" style="margin: 8px;"></i>
+                            </div>
+                            <p *ngIf="!done" class="btnUser" (click)="onUser('')">Usar otra cuenta</p>
+                          </li>
+                        </div>
+                    </div>
+                  </table>
+                  <div class="form-section">
+                    <p *ngIf="!remove" class="black btn h2" (click)="onRemove('')">Eliminar una cuenta</p>
+                    <p *ngIf="done" class="black btn h2" (click)="onDone()">Finalizar</p>
+                  </div>
+                </div>
+                <!-- User/Pass -->
+                <div *ngIf="ocultar" class="animated fast">
+                  <form novalidate="" (ngSubmit)="onLogin()" #f="ngForm">
+                    <div *ngIf="!next" class="animated fast">
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <input type="text" class="form-control" name="userName" #userName="ngModel" [(ngModel)]="usuario.userName"
+                            required placeholder="Usuario" (change)="onChange()">
+                          <span *ngIf="userName.touched && !userName.valid" class="label label danger">Usuario Inválido</span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-md-12">
+                          <input type="password" class="form-control" name="userPassword" #userPassword="ngModel"
+                            [(ngModel)]="usuario.userPassword" required placeholder="Password">
+                          <span *ngIf="userPassword.touched && !userPassword.valid" class="label label danger">Contraseña
+                            Inválida</span>
+                        </div>
+                      </div>
+                      <div class="form-group" *ngIf="directory">
+                        <div class="col-md-12">
+                          <select class="form-control" required name="domain" #domain="ngModel" [(ngModel)]="usuario.directoryName"
+                            [ngModelOptions]="{standalone: true}">
+                            <option value=""  disabled selected hidden>Seleccione...</option>
+                            <option *ngFor="let dir of listDir" value={{dir.name}} >{{dir.name}}</option>
+                          </select>
+                          <span *ngIf="domain.touched && !domain.valid" class="label label danger">Dominio Invalido</span>
+                        </div>
+                      </div>
+                      <div class="form">
+                        <button type="button" class="btn btn-secondary btn-raised" (click)="onCancel('user')">Anterior</button>
+                        <button type="submit" class="btn btn-indigo btn-raised" [disabled]="!f.form.valid">Siguiente</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <form #fp="ngForm">
+                  <div *ngIf="next" class="animated fast">
+                      <p class="title">Perfil de Usuario</p>
+                    <div class="form-group">
+                      <div class="col-md-12">
+                        <div class="input-group mb-3">
+                          <select class="form-control" required name="profile" #profile="ngModel" [(ngModel)]="opcionSeleccionado"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let perfiles of perfil" value={{perfiles.userProfileName}} selected>{{perfiles.userProfileName}}</option>
+                            <option value="0" disabled selected hidden>Seleccione...</option>
+                            
+                          </select>
+                          <span *ngIf="!profile.valid && profile.touched" class="label label danger">Perfil Inválido</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form">
+                      <button type="button" class="btn btn-secondary btn-raised" (click)="onCancel('perfil')">Anterior</button>
+                      <button type="submit" class="btn btn-indigo btn-raised" [disabled]="!fp.form.valid" (click)="onSubmit()">Siguiente</button>
+                    </div>
+                  </div>
+                </form>
+                <span *ngIf="msj" class="label label danger">{{msj}}</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="float-left">
+               <!-- <a (click)="onForgotPassword()" class="pink">Recuperar Contraseña</a>-->
+              </div>
+              <!--<div class="float-right">
+                  <a (click)="onRegister()" class="white">New User?</a>
+                </div>-->
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Login Page Ends-->

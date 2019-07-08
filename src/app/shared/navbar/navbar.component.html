@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-faded">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle d-lg-none float-left" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-container" style="display: block" id="navbar">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item mr-2">
+                        <a href="javascript:;" class="nav-link" id="navbar-fullscreen" appToggleFullscreen (click)="ToggleClass()">
+                            <i class="{{toggleClass}} font-medium-3 blue-grey darken-4"></i>
+                            <p class="d-none">fullscreen</p>
+                        </a>
+                    </li>
+                    <!--<li class="nav-item" ngbDropdown placement="bottom-right">
+                            <a class="nav-link position-relative" id="dropdownLang" ngbDropdownToggle>
+                                <i class="ft-flag font-medium-3 blue-grey darken-4"></i>
+                                <p class="d-none">Language</p>
+                            </a>
+                            <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">                           
+                                <a class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage('en')">
+                                    <img src="./assets/img/flags/us.png" alt="English" class="langimg">
+                                    <span>English</span>
+                                </a>
+                                <a class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage('es')">
+                                    <img src="./assets/img/flags/es.png" alt="Spanish" class="langimg">
+                                    <span>Español</span>
+                                </a>                            
+                            </div>
+                        </li>-->
+                   <!-- <li class="nav-item" ngbDropdown placement="bottom-right">
+                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle (click)="getNotificacion()" >
+                            <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
+                            <span *ngIf="count > 0" class="notification badge badge-pill badge-danger">{{count}}</span>
+                            <p class="d-none">Notificaciones</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="notification-dropdown">
+                            <div class="noti-list">
+                                <a *ngFor="let noti of listNoti" class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4">
+                                    <i class="ft-bell info float-left d-block font-large-1 mt-1 mr-2"></i>
+                                    <span class="noti-title line-height-1 d-block text-bold-400 info">{{noti.request}}</span>
+                                    <span class="noti-text">{{noti.settled | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </li> -->
+                    <li class="nav-item" ngbDropdown placement="bottom-right">
+                        <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+                            <i class="ft-user font-medium-3 blue-grey darken-4"></i>
+                            <p class="d-none">User Settings</p>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                            <!--<a class="dropdown-item py-1" routerLink="/pages/profile">
+                                <i class="ft-edit mr-2"></i>
+                                <span>My Profile</span>
+                            </a>
+
+                            <a class="dropdown-item py-1" href="javascript:;">
+                                <i class="ft-settings mr-2"></i>
+                                <span>Settings</span>
+                            </a>-->
+                            <div class="dropdown-divider"></div>
+                            <a (click)="onLogout()" class="dropdown-item" href="javascript:;">
+                                <i class="ft-power mr-2"></i>
+                                <span>Cerrar sesión</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Navbar (Header) Ends -->

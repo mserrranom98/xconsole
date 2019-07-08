@@ -1,0 +1,24 @@
+.input-text {
+    width: 43% !important;
+}
+
+.form-control {
+    font-size: 13px !important;
+}
+
+.card {
+    font-size: 13px !important;
+}
+
+:host /deep/ .c-btn {
+    font-size: 13px !important;
+}
+
+:host /deep/ .c-token {
+    background: #76727b80 !important;
+}
+
+:host /deep/ .pure-checkbox input[type="checkbox"] + label:before{
+    background-color: #76727b80 !important;
+    border-color: #76727b80 !important;
+}

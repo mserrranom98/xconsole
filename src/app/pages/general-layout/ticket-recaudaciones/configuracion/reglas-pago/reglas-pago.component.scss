@@ -1,0 +1,37 @@
+.input-text {
+    width: 43% !important;
+}
+
+.form-control {
+    font-size: 13px !important;
+}
+
+.card {
+    font-size: 13px !important;
+}
+
+:host /deep/ .c-btn {
+    font-size: 13px !important;
+}
+
+:host /deep/ .c-token {
+    background: #76727b80 !important;
+}
+
+:host /deep/ .pure-checkbox input[type="checkbox"] + label:before{
+    background-color: #76727b80 !important;
+    border-color: #76727b80 !important;
+}
+
+/* :host /deep/ .c-angle-up {
+  //  background: #76727b80 !important;
+    background-image: url("http://localhost:4200/assets/img/sidebar-bg/01.jpg") !important;
+}
+
+ :host /deep/ .c-angle-down {
+
+}
+
+/*:host /deep/ .pure-checkbox input[type="checkbox"] + label:after{
+    border-color: #76727b80 !important;
+}*/

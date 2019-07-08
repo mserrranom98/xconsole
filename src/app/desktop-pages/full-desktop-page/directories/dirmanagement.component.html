@@ -1,0 +1,53 @@
+<!-- Basic form layout section start -->
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title" id="horz-layout-colored-controls">Gestión de Directorios</h4>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" style="padding-left: 5%">
+              <input type='text' class="search" placeholder="Escriba para filtrar" (keyup)='updateFilter($event)'
+              />
+          </div>
+          <div class="col-sm-6 text-right" style="padding-right: 5%">
+            <button type="submit" class="btn btn-raised btn-primary" [routerLink]="['/directories','new']">
+              <i class="fa fa-check-square-o"></i> Nuevo Directorio
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="px-3">
+            <form class="form form-horizontal">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <ngx-datatable #tbl class="table table-striped" [rows]='rows' [columnMode]='"force"' [headerHeight]="40" 
+                    [footerHeight]="40" [rowHeight]="'auto'">
+                      <ngx-datatable-column prop="DIRECTORY_NAME" name="Nombre del Directorio">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                              <a class="nav-link" [routerLink]="['/directories']" (click)="onSubmit(rowIndex)">{{value}}</a>
+                          </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column prop="DESCRIPTION" name="Descripción"></ngx-datatable-column>
+                      <ngx-datatable-column prop="DIRECTORY_TYPE" name="Tipo de Directorio"></ngx-datatable-column>
+                      <ngx-datatable-column prop="URL" name="Url"></ngx-datatable-column>
+                      <ngx-datatable-column prop="ENABLED" name="Habilitado">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                              <ui-switch *ngIf="value == 'true'" (click)="onChange(this.row)" [checked]="true"></ui-switch>
+                              <ui-switch *ngIf="value == 'false'" (click)="onChange(this.row)" [checked]="false"></ui-switch>
+                          </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- // Basic form layout section end -->

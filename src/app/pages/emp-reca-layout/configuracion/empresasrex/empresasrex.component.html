@@ -1,0 +1,111 @@
+<section id="horizontal-form-layouts">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="px-3">
+                        <div class="form-body">
+                            <form class="form form-horizontal" #f="ngForm" (ngSubmit)="guardar()">
+                                    <div class="card-header">
+                                            <h4 class="card-title"><i class="ft-list"></i>administración de Empresas (REX)</h4>
+                                          </div>
+
+
+                              <!--  <h4 #panelE class="form-section">
+                                    <i class="ft-list"></i>A</h4> -->
+                                <div class="row" *ngIf="divIU">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control" for="rex">Empresa(REX)</label>
+                                            <div class="col-md-9">
+                                                <input required type="text" id="rex" [disabled]="disabled" class="form-control border-primary"
+                                                    name="rex" #rex="ngModel" [(ngModel)]="rexIU.rex" pattern="[A-Za-z0-9 ]+" maxlength="99">
+                                                <small *ngIf="rex.touched && !rex.valid" class="label label danger">Código
+                                                    Invalido
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control" for="descripcion">Nombre</label>
+                                            <div class="col-md-9">
+                                                <input required type="text" id="descripcion" class="form-control border-primary"
+                                                    name="descripcion" #descripcion="ngModel" [(ngModel)]="rexIU.descripcion"
+                                                    pattern="[A-Za-z0-9 ]+" maxlength="99">
+                                                <small *ngIf="descripcion.touched && !descripcion.valid" class="label label danger">Descripción
+                                                    Invalida
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-actions right">
+                                            <button type="button" class="btn btn-danger btn-raised" (click)="onCancel()">Cancelar</button>
+                                            <button type="submit" class="btn btn-raised btn-primary" [disabled]="!f.form.valid">
+                                                <i class="fa fa-check-square-o"></i> Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <section id="filter">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                                                                    <div class="card-block" *ngIf="divList">
+                                                                        <div *ngIf="disabledAcc">
+                                                                            <input type='text' style='padding:8px;margin:15px auto;width:30%;'
+                                                                                placeholder='Escriba para filtrar...'
+                                                                                (keyup)='updateFilter($event)' />
+                                                                            <button id="nDet" type="button" class="btn btn-raised btn-success"
+                                                                                (click)="nuevo()" style="float:right">
+                                                                                <i class="fa ft-plus"></i> Nuevo</button>
+                                                                        </div>
+                                                                        <ngx-datatable #tblList class="bootstrap"
+                                                                            [columnMode]="'force'" [rows]="rows"
+                                                                            [headerHeight]="50" [footerHeight]="50"
+                                                                            [rowHeight]="'auto'" [limit]="20">
+
+                                                                            <ngx-datatable-column prop="rex" name="Código"></ngx-datatable-column>
+                                                                            <ngx-datatable-column prop="descripcion"
+                                                                                name="Descripción"></ngx-datatable-column>
+                                                                                <div *ngIf="disabledAcc">
+                                                                                    <ngx-datatable-column name="Acción">
+                                                                                        <ng-template
+                                                                                            ngx-datatable-cell-template
+                                                                                            let-rowIndex="rowIndex" let-value="value"
+                                                                                            let-row="row">                                                                                    
+                                                                                            <i class="ft-edit-2 info font-medium-1 mr-2"
+                                                                                                (click)="editar(rowIndex)" [id]="value"></i>
+                                                                                            <i class="ft-x danger font-medium-1 mr-2"
+                                                                                                (click)="onEliminar(rowIndex)"
+                                                                                                [id]="value"></i>                                                                                    
+                                                                                        </ng-template>
+                                                                                    </ngx-datatable-column>
+                                                                                </div>
+                                                                        </ngx-datatable>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

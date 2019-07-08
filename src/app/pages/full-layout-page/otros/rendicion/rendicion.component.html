@@ -1,0 +1,85 @@
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="px-3">
+  
+              <div class="form-body">
+                <form class="form form-horizontal" name="frmRend" #frmRend="ngForm">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="ft-list"></i>Rendición</h4>
+                      </div>
+                      <button *ngIf="divList" type="button" class="btn btn-raised gradient-mint white" (click)="totalExportar()">Exportar</button>
+
+                      &nbsp;&nbsp;  &nbsp;&nbsp; 
+                      <button *ngIf="divList" type="button" class="btn btn-raised gradient-mint white" (click)="pichuladeperrorush()">Actualizar</button>
+                 
+                  <div class="form-actions">
+                    <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <section id="filter">
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-block" *ngIf="divList">
+                                          <ngx-datatable #table class="bootstrap" [columnMode]="'force'" [rows]="rows" [headerHeight]="50" 
+                                            [footerHeight]="60" [rowHeight]="'auto'" [limit]="50" [summaryRow]="enableSummary">
+
+                                            <ngx-datatable-column prop="sucursal" name="Sucursal"></ngx-datatable-column>
+                                            <ngx-datatable-column [width]="300" prop="fecha" name="Fecha recaudación">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                                let-row="row">
+                                                <a>{{value | date:'dd-MM-yyyy hh:mm:ss'}}</a>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="convenio" name="Convenio"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="cnsempGlosa" name="Empresa"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="cnssegGlosa" name="Seguro"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="identi" name="Poliza"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="rut" name="RUT"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="monto" name="Monto">
+                                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                                let-row="row">
+                                                 <div style="text-align: right">
+                                                  <a>{{row['monto'] | number}}</a>
+                                                 </div>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="pagoGlosa" name="Glosa Pago"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="banco" name="Banco"></ngx-datatable-column>
+                                            <!--<ngx-datatable-column prop="pago" name="Pago"></ngx-datatable-column>-->                               
+                                            <!-- <ngx-datatable-column prop="operacion" name="Operación"></ngx-datatable-column>
+                                            <ngx-datatable-column prop="detalle" name="Detalle"></ngx-datatable-column> -->
+                                            <!--<ngx-datatable-column prop="cnsemp" name="CNSEMP"></ngx-datatable-column>-->
+                                            <!-- <ngx-datatable-column prop="cuenta" name="Cuenta"></ngx-datatable-column> -->
+                                             <!--<ngx-datatable-column prop="fechaUltEnvio" name="Ultimo Envío"></ngx-datatable-column>-->
+                                            <!-- <ngx-datatable-column prop="plaza" name="Plaza"></ngx-datatable-column>-->
+                                            <!--  <ngx-datatable-column  prop="codSucursal" name="Codigo Sucursal"></ngx-datatable-column>-->
+                                            <!--<ngx-datatable-column prop="serie" name="Serie"></ngx-datatable-column>-->
+                                            <!--<ngx-datatable-column prop="turno" name="Turno"></ngx-datatable-column>-->
+                                          </ngx-datatable>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+

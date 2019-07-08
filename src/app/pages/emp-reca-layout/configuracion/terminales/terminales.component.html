@@ -1,0 +1,161 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+
+            <div class="form-body">
+              <form class="form form-horizontal" #f="ngForm" >
+                  <div class="card-header">
+                      <h4 class="card-title"><i class="ft-list"></i>Administración de Terminales</h4>
+                    </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="rex">Empresa (Rex):</label>
+                      <div class="col-md-9">
+                        <select class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex"
+                          [(ngModel)]="terSelect.rex" [ngModelOptions]="{standalone: true}" (change)="sucursal()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-3 label-control" for="rex">Sucursal:</label>
+                      <div class="col-md-9">
+                        <select class="form-control border-primary" name="suc" #suc="ngModel" [(ngModel)]="terSelect.sucursal"
+                          [ngModelOptions]="{standalone: true}" (change)="buscar()">
+                          <option value="" selected>Seleccione...</option>
+                          <option *ngFor="let emp of listSuc" value={{emp.sucursal}}>{{emp.descripcion}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+              <div class="form-actions">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <section id="filter">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div class="card">
+                                <div class="card-body">
+                                  <small *ngIf="msj" class="label label danger">{{msj}}</small>
+                                  <div class="card-block">
+                                    <div class="row">
+                                      <div class="col-md-8">
+                                        <div class="form-group row">
+                                          <div class="col-md-12">
+                                            <input *ngIf="divList" type='text' style='padding:8px;margin:15px auto;width:30%;'
+                                              placeholder='Escriba para filtrar...' (keyup)='updateFilter($event)' />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <div class="form-group row">
+                                          <div class="col-md-12" >
+                                            <button type="button" class="btn btn-raised btn-success" (click)="nuevo()"
+                                              style="float:right; margin-top: 4%;" [disabled]="disabled">
+                                              <i class="fa ft-plus"></i> Nuevo</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <ngx-datatable *ngIf="divList" #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows"
+                                      [headerHeight]="'auto'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="20">
+
+                                      <!-- Row Detail Template -->
+                                      <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow>
+                                        <ng-template let-row="row" let-expanded="expanded"
+                                          ngx-datatable-row-detail-template >
+
+                                          <ngx-datatable #tblDet class="striped" [rows]="detalle" [columns]="columns" 
+                                            [columnMode]="'force'" [rowHeight]="'auto'" [reorderable]="reorderable" style="width:100% !important;padding-left: 8%">
+                                            <ngx-datatable-column prop="properties.montosLimites" name="Montos">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                                let-value="value" let-row="row">
+                                                <ul *ngFor="let prf of value" style="list-style:none; margin:0; padding:0">
+                                                  <li>{{prf.medioPago}}</li>
+                                                </ul>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="properties.montosLimites" name="Límites">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                                let-value="value" let-row="row">
+                                                <ul *ngFor="let prf of value" style="list-style:none; margin:0; padding:0; text-align: right;">
+                                                  <li>{{prf.monto | number}}</li>
+                                                </ul>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="properties.autorizacionLimites" name="Autorización ">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                                let-value="value" let-row="row">
+                                                <ul *ngFor="let prf of value" style="list-style:none; margin:0; padding:0">
+                                                  <li>{{prf.medioPago}}</li>
+                                                </ul>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="properties.autorizacionLimites" name="Límites">
+                                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
+                                                let-value="value" let-row="row">
+                                                <ul *ngFor="let prf of value" style="list-style:none; margin:0; padding:0; text-align: right;">
+                                                  <li>{{prf.monto | number}}</li>
+                                                </ul>
+                                              </ng-template>
+                                            </ngx-datatable-column>
+                                            <ngx-datatable-column prop="properties.referencias" name="Referencias"></ngx-datatable-column>
+                                          </ngx-datatable>
+
+                                        </ng-template>
+                                      </ngx-datatable-row-detail>
+                                      <!-- Column Templates -->
+                                      <ngx-datatable-column name="Detalle" [width]="90" [resizeable]="false" [sortable]="false"
+                                        [draggable]="false" [canAutoResize]="false">
+                                        <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded"
+                                          ngx-datatable-cell-template>
+                                          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                                            [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row, rowIndex)">
+                                          </a>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                      <ngx-datatable-column prop="terminal" name="Terminal"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="descripcion" name="Sucursal"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="properties.cajero" name="Cajero"></ngx-datatable-column>
+                                      <ngx-datatable-column prop="ubicacion" name="Ubicación"></ngx-datatable-column>
+
+                                      <ngx-datatable-column prop='' name="Acción">
+                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                          let-row="row">
+                                          <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editar(rowIndex)" [id]="value"
+                                            title="Editar"></i>
+                                          <i class="ft-x danger font-medium-1 mr-2" (click)="onEliminar(rowIndex, $event)"
+                                            [id]="value" title="Eliminar"></i>
+                                        </ng-template>
+                                      </ngx-datatable-column>
+                                    </ngx-datatable>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
