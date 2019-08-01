@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
-//import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { GLOBAL } from './global';
 import {
   GetActionTables, GetActionInsert, GetActionUpdate, GetActionFeatures, GetTablesUnion,
   DropTablesUnion, GenPass, GetFeatures, Pass, GetActionSection, GetMenuPages, GetUpdateSection, IUPrfpages
 } from '../models/desktop';
-import { HttpClient } from '@angular/common/http';
-
-//import * as cors from "cors";
-
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {throwError} from 'rxjs';
+import {catchError, timeout} from 'rxjs/operators';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class GetActionService {
@@ -77,7 +76,10 @@ export class GetActionService {
 
   // Lista de Directorios Login
   getDirectories() {
-     return this._http.post(this.urlDir, {});
+     return this._http.post(this.urlDir, {}).pipe(
+         timeout(5000),
+         catchError(this.handleError)
+     );
   }
 
   // Consulta Section
@@ -99,4 +101,10 @@ export class GetActionService {
   actPrfPag(prfPag: IUPrfpages) {
     return this._http.post(this.url, prfPag);
   }
+
+  private handleError(error: HttpErrorResponse) {
+    swal('Error de acceso', 'Nose pudo conectar con el XPortal, por favor contactarse con el Administrador, error :\n' + error.message, 'error');
+    $('#loading').css('display', 'none');
+    return throwError(error.message);
+  };
 }

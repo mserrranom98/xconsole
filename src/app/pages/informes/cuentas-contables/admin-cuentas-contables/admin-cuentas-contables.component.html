@@ -1,0 +1,93 @@
+<div class="modal-header"><!-- Inicio cabecera del popup -->
+  <h4 class="modal-title">Cuentas Contables </h4>
+  <button type="button" class="close" aria-label="Close" (click)="cerrar()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div><!-- Fin cabecera del popup -->
+
+<div class="modal-body"><!-- Inicio cuerpo del popup -->
+
+  <div class="col-md-6"><!-- Inicio filtro de cuentas por estado y acceso al  popup crear cuenta -->
+    <div class="form-group row"><!-- Inicio filtro de cuentas por estado -->
+      <label class="col-md-3 label-control">Activo: </label>
+      <div class="input-text">
+        <select class="form-control border-primary" id="activoSelect" [ngModel]="estadoCuenta" (change)="getCuentas($event)">
+          <option value="" disabled selected>Seleccione...</option>
+          <option value="S">Activo (S)</option>
+          <option value="N">Inactivo (N)</option>
+        </select>
+      </div>
+    </div><!-- Fin filtro de cuentas por estado -->
+  </div><!-- Fin filtro de cuentas por estado y acceso al  popup crear cuenta -->
+
+  <div class="form-actions"><!-- Inicio fondo de la tabla -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <section id="filter">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-block">
+
+                        <dx-data-grid
+                          id="gridContainer"
+                          [dataSource]="cuentas"
+                          keyExpr="cuenta"
+                          [showRowLines]="true"
+                          [rowAlternationEnabled]="true"
+                          [allowColumnReordering]="true"
+                          [showBorders]="true"
+                          [showColumnLines]="false"
+                          [wordWrapEnabled]="true"
+                          (onRowUpdated)="editarCuenta($event)"
+                          (onRowInserted)="addCuenta($event)"
+                          (onRowValidating)="validarCuenta($event)"
+                          (onEditorPreparing)="onEditorPreparing($event)"><!-- Inicio de la tabla de cuentas contables -->
+
+                          <dxo-paging [enabled]="false"></dxo-paging>
+                          <dxo-editing
+                            mode="form"
+                            [allowUpdating]="true"
+                            [allowAdding]="true"
+                            [useIcons]="true">
+                          </dxo-editing>
+
+                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="glosaCuenta" caption="Glosa Cuenta" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="producto" caption="Producto" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="centroCosto" caption="Centro Costo" alignment="center" [width]="160">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="activo" caption="Activo" alignment="center" [width]="96">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxo-lookup [dataSource]="estados" displayExpr="estado" valueExpr="id"></dxo-lookup>
+                          </dxi-column>
+                        </dx-data-grid><!-- Fin de la tabla de cuentas contables -->
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- Fin fondo de la tabla -->
+
+
+</div><!-- Fin cuerpo del popup -->
+
+<div class="modal-footer"><!-- Inicio pie del popup con el boton cerrar -->
+  <button type="button" class="btn btn-secondary btn-raised" (click)="cerrar()">Close</button>
+</div><!-- Fin pie del pop con el boton cerrar -->

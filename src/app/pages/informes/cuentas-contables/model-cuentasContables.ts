@@ -1,31 +1,28 @@
-export class CuentasSelect{
+export class CuentasSelect {
     constructor(
       public peticion: string,
       public userName: string,
       public activo: string
-    )
-    {}
+    ) {}
  }
 
- export class VoucherSelect{
+ export class VoucherSelect {
     constructor(
       public peticion: string,
       public userName: string,
       public fechacons: string
-    )
-    {}
+    ) {}
  }
 
- export class VoucherExport{
+ export class VoucherExport {
   constructor(
     public peticion: string,
     public userName: string,
     public fechacons: string
-    )
-  {}
+    ) {}
 }
 
- export class EditarCuentas{
+ export class EditarCuentas {
   constructor(
     public peticion: string,
     public userName: string,
@@ -34,11 +31,10 @@ export class CuentasSelect{
     public glosaCuenta: string,
     public producto: string,
     public activo: string
-  )
-  {}
+  ) {}
 }
 
-export class CrearCuentas{
+export class CrearCuentas {
   constructor(
     public peticion: string,
     public userName: string,
@@ -46,54 +42,49 @@ export class CrearCuentas{
     public centroCosto: string,
     public glosaCuenta: string,
     public producto: string
-  )
-  {}
+  ) {}
 }
 
 
-/* 
+/*
   Models para los Select de instrumento
 */
 
-export class CuentaContableActiva{
+export class CuentaContableActiva {
   constructor(
     public peticion: string,
     public userName: string
-    )
-  {}
+    ) {}
 }
 
-export class InstrumentoNoPago{
+export class InstrumentoNoPago {
   constructor(
     public peticion: string,
     public userName: string
-    )
-  {}
+    ) {}
 }
 
-export class MediosPago{
+export class MediosPago {
   constructor(
     public peticion: string,
     public userName: string
-    )
-  {}
+    ) {}
 }
 /* Fin Models Select */
 
 
 /* CUENTAS CONTABLES INSTRUMENTOS CURD */
 
-export class CCIDelete{
+export class CCIDelete {
   constructor(
     public peticion: string,
     public userName: string,
     public cuenta: string,
     public tipoCuenta: string
-    )
-  {}
+    ) {}
 }
 
-export class CCIInsert{
+export class CCIInsert {
   constructor(
     public peticion: string,
     public userName: string,
@@ -101,15 +92,13 @@ export class CCIInsert{
     public instrumento: string,
     public tipoCuenta: string,
     public estado: string
-    )
-  {}
+    ) {}
 }
 
-export class CCISelect{
+export class CCISelect {
   constructor(
     public peticion: string,
     public userName: string
-    )
-  {}
+    ) {}
 }
 /* Fin Crud CCI */

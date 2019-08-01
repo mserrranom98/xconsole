@@ -1,0 +1,142 @@
+<div class="modal-header">
+  <h4 class="modal-title">Asignación cuenta contable - Trasnsacción</h4>
+  <button type="button" class="close" aria-label="Close" (click)="cerrar()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+  <form [formGroup]="formAsignacion" (ngSubmit)="guardarCCI()" fxLayout="row wrap" fxFlexAlign="center start">
+    <div fxFlex="45" fxLayout="row wrap">
+
+      <div fxFlex="100" fxLayout="row" class="mb-2">
+        <label fxFlex="35" class="label-control">Cuentas Contables</label>
+        <div fxFlex="65" class="input-text">
+          <select formControlName="cuenta" class="form-control border-primary" name="cuentac" (change)="muestraCuenta()">
+            <option value="" disabled selected>Seleccione...</option>
+            <option *ngFor="let cuenta of dataSelectCueA" [value]="cuenta.cuenta">{{ cuenta.cuenta }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxLayout="row" class="mb-2">
+        <label fxFlex="35" class="label-control">Estado Transacción </label>
+        <div fxFlex="65" class="input-text">
+          <select formControlName="estado" class="form-control border-primary" name="estado">
+            <option value="ANULAD">Anulado</option>
+            <option value="VIGENT">Vigente</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxLayout="row" class="mb-2">
+        <label fxFlex="35" class="label-control">Tipo Cuenta Contable</label>
+        <div fxFlex="65" class="input-text">
+          <select formControlName="tipoCuenta" class="form-control border-primary">
+            <option value="D">Debe</option>
+            <option value="H">Haber</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <div fxFlex="55" fxLayout="column">
+      <div fxLayout="row" class="ml-4">
+        <button type="button" class=" btn btn-raised gradient-mint white shadow-z-1-hover mr-1" (click)="openAdmin()">
+          Crear - Administrar Cuentas
+        </button>
+        <button class="btn btn-raised btn-info shadow-z-1-hover" (click)="getCuentasActivas()">
+          Refrescar
+        </button>
+      </div>
+    </div>
+
+    <div fxFlex="45" fxLayout="row wrap">
+      <div fxFlex="100" fxLayout="row" class="mb-2">
+        <label fxFlex="35" class="label-control">Tipo Transacción</label>
+        <div fxFlex="65" class="input-text">
+          <select formControlName="tipo" class="form-control border-primary" (change)="tipoMedioPago($event)">
+            <option value="ins">Instrumento</option>
+            <option value="mpago">Medio De Pago</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxLayout="row">
+        <button type="submit" class="btn btn-raised btn-primary shadow-z-1-hover">
+          Guardar Asignación
+        </button>
+      </div>
+    </div>
+
+    <div fxFlex="55" fxLayout="row wrap">
+      <div fxFlex="100" fxLayout="row" class="ml-4" *ngIf="instrumento">
+        <!-- <label class="col-md-3 label-control" >Instrumento </label> -->
+        <div class="input-text">
+          <select formControlName="instrumento" class=" form-control border-primary" name="instNP">
+            <option value="" disabled selected>Seleccione...</option>
+            <option *ngFor="let itm of dataSelectIns" value={{itm.instrumento}}>{{itm.titulo}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxLayout="row" class="ml-4" *ngIf="medioPago">
+        <!-- <label class="col-md-3 label-control" >Medio De Pago </label> -->
+        <div class="input-text">
+          <select formControlName="instrumento" class=" form-control border-primary" name="medP">
+            <option value="" disabled selected>Seleccione...</option>
+            <option *ngFor="let med of dataSelectMed" value={{med.instrumento}}>{{med.titulo}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!--TABLA-->
+
+  <div class="form-actions">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <section id="filter">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="card-block">
+
+                        <ngx-datatable id="tablaCCI" [columnMode]="'force'" [rows]="rowsCCI" [headerHeight]="50"
+                                       [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
+                          <ngx-datatable-column prop="cuenta" name="Cuenta" [width]="160"></ngx-datatable-column>
+                          <ngx-datatable-column prop="instrumento" name="Instrumento / M De Pago" [width]="177"></ngx-datatable-column>
+                          <ngx-datatable-column prop="estado" name="Estado" [width]="100"></ngx-datatable-column>
+                          <ngx-datatable-column prop="glosatipocuenta" name="Tipo Cuenta" [width]="118"></ngx-datatable-column>
+                          <ngx-datatable-column name='Acción' [width]="80">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                              <i class="ft-x danger font-medium-1 mr-2" (click)="eliminarCCI(row)"
+                                 [id]="value"></i>
+                            </ng-template>
+                          </ngx-datatable-column>
+                        </ngx-datatable>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIN TABLA-->
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary btn-raised" (click)="cerrar()">Close</button>
+</div>

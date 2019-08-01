@@ -23,6 +23,7 @@
             "styles": [
               "src/assets/css/prism.min.css",
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/wizard.css",
               "src/assets/css/quill.snow.css",
               "src/assets/css/quill.bubble.css",
@@ -34,12 +35,16 @@
               "node_modules/videogular2/fonts/videogular.css",
               "node_modules/@swimlane/ngx-datatable/release/index.css",
               "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "src/styles.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/vendor/pace/pace.min.js",
               "src/assets/js/perfect-scrollbar.jquery.min.js"
             ]

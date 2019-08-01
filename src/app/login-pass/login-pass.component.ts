@@ -1,18 +1,17 @@
-import { Component, ViewChild, OnInit, Injectable } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-//import { Http } from '@angular/http';
+import {Component, ViewChild, OnInit, Injectable} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import { Login, Perfiles, PageMenu } from '../models/usuario';
-import { TranslateService } from '@ngx-translate/core';
-import { LoginPassService, VARGLOBAL } from '../services/login-pass.service';
+import {Login, Perfiles, PageMenu} from '../models/usuario';
+import {TranslateService} from '@ngx-translate/core';
+import {LoginPassService, VARGLOBAL} from '../services/login-pass.service';
 
 // rb2208
 import * as CryptoJS from 'crypto-js';
-import { GetActionService } from '../services/getAction.service';
-import { MenuService } from '../services/menu.service';
+import {GetActionService} from '../services/getAction.service';
+import {MenuService} from '../services/menu.service';
 import swal from 'sweetalert2';
-import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
+import {HttpClient, HttpResponse, HttpHeaders, HttpRequest} from '@angular/common/http';
 
 @Component({
   selector: 'app-login-pass',
@@ -20,47 +19,41 @@ import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/com
   providers: [LoginPassService],
   styleUrls: ['./login-pass.components.css']
 })
-
-//@Injectable{
-//
-//}
 export class LoginPassComponent implements OnInit {
-  // Variables
+
   public usuario: Login;
   public perfil: Perfiles[];
   public opcionSeleccionado = '0';
   public verSeleccion = '';
   public msj: string;
   public next: boolean;
-  public recordar: boolean;
-  public listUser: any;
   public ocultar: boolean;
   public usrLocal: any[];
   public remove: boolean;
   public done: boolean;
   directory = true;
   listDir = [];
+
   @ViewChild('f') loginForm: NgForm;
   @ViewChild('fp') perfilForm: NgForm;
   public pages: PageMenu;
 
   constructor(private router: Router,
-    private route: ActivatedRoute,
-    private loginPassService: LoginPassService,
-    private getActionService: GetActionService,
-    private menu: MenuService,
-    public _http: HttpClient,
-    public translate: TranslateService
+              private route: ActivatedRoute,
+              private loginPassService: LoginPassService,
+              private getActionService: GetActionService,
+              private menu: MenuService,
+              public _http: HttpClient,
+              public translate: TranslateService
   ) {
     this.usuario = new Login('', '', '');
-    this.pages = new PageMenu('', '', '', '', [{ 'argument': '', 'value': '' }]);
+    this.pages = new PageMenu('', '', '', '', [{'argument': '', 'value': ''}]);
     this.next = false;
     this.msj = '';
     this.ocultar = false;
     this.usrLocal = [];
     this.remove = false;
     this.done = false;
-
   }
 
   onUser(valor) {
@@ -87,7 +80,6 @@ export class LoginPassComponent implements OnInit {
       localStorage.removeItem('local');
       localStorage.setItem('local', JSON.stringify(this.usrLocal));
     }
-
     this.ngOnInit();
   }
 
@@ -100,23 +92,27 @@ export class LoginPassComponent implements OnInit {
       this.ocultar = false;
     }
 
-     // Directorios
-     this.getActionService.getDirectories().subscribe(
-      (response:any) => {
-        const dir = response.directories.length;
-        if ( dir > 0) {
-          for (let i = 0; i < dir; i++) {
-            const opc = {
-              id: response.directories[i].ID,
-              name: response.directories[i].DIRECTORY_NAME,
-            };
-            this.listDir[i] = opc;
+    // Directorios
+    this.getActionService.getDirectories().subscribe((response: any) => {
+        if (response) {
+          const dir = response.directories.length;
+          if (dir > 0) {
+            for (let i = 0; i < dir; i++) {
+              const opc = {
+                id: response.directories[i].ID,
+                name: response.directories[i].DIRECTORY_NAME,
+              };
+              this.listDir[i] = opc;
+            }
+            // Para requerimiento de QA se habilito solo ECUBAS
+            // this.usuario.directoryName = this.listDir[0].name;
           }
-          // Para requerimiento de QA se habilito solo ECUBAS
-          // this.usuario.directoryName = this.listDir[0].name;
+        } else {
+          swal('Error de acceso', 'Problemas para acceder al XPortal, por favor contactarse con el Administrador :\n', 'error');
+          $('#loading').css('display', 'none');
         }
       }
-     );
+    );
   }
 
   onDone() {
@@ -133,8 +129,8 @@ export class LoginPassComponent implements OnInit {
   onLogin() {
     // Login de Usuario
     // rb2208
-   this.ecnrypt(this.usuario.userPassword);
-   this.loginPassService.cosultar(this.usuario).subscribe( (response:any ) => {
+    this.ecnrypt(this.usuario.userPassword);
+    this.loginPassService.cosultar(this.usuario).subscribe((response: any) => {
         if (response.isAuth === true) {
           this.next = true;
           this.msj = '';
@@ -183,9 +179,9 @@ export class LoginPassComponent implements OnInit {
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
-      });    
+      });
 
-      this.usuario.userPassword = encrypted.toString(); 
+    this.usuario.userPassword = encrypted.toString();
   }
 
   onSubmit() {
@@ -198,35 +194,35 @@ export class LoginPassComponent implements OnInit {
       VARGLOBAL.perfil = this.verSeleccion;
 
       this.pages.serviceName = 'AUTH_PAGES_MENU';
-        this.pages.userToken = VARGLOBAL.userToken;
-        this.pages.sessionUUID = VARGLOBAL.sessionUUID;
-        this.pages.jsessionID = VARGLOBAL.jsessionID;
-        this.pages.serviceArguments[0].argument = 'profile';
-        this.pages.serviceArguments[0].value = VARGLOBAL.perfil;
-        this.menu.cosultar(this.pages).subscribe(
-           ( result:any )=> {
-              const l = result.routeInfo.length;
-              if (l === 0) {
-                swal('Advertencia', 'El Perfil ' + VARGLOBAL.perfil + ', no tiene Menú asociado.', 'error');
-              } else {
-                this.router.navigate(['home'], { relativeTo: this.route.parent });
-              }
-            },
-            error => {
-                console.log(<any>error);
-            }
-        );
+      this.pages.userToken = VARGLOBAL.userToken;
+      this.pages.sessionUUID = VARGLOBAL.sessionUUID;
+      this.pages.jsessionID = VARGLOBAL.jsessionID;
+      this.pages.serviceArguments[0].argument = 'profile';
+      this.pages.serviceArguments[0].value = VARGLOBAL.perfil;
+      this.menu.cosultar(this.pages).subscribe(
+        (result: any) => {
+          const l = result.routeInfo.length;
+          if (l === 0) {
+            swal('Advertencia', 'El Perfil ' + VARGLOBAL.perfil + ', no tiene Menú asociado.', 'error');
+          } else {
+            this.router.navigate(['home'], {relativeTo: this.route.parent});
+          }
+        },
+        error => {
+          console.log(<any>error);
+        }
+      );
     }
   }
 
   // On Forgot password link click
   onForgotPassword() {
-    this.router.navigate(['/pages/forgotpassword'], { relativeTo: this.route.parent });
+    this.router.navigate(['/pages/forgotpassword'], {relativeTo: this.route.parent});
   }
 
   // On registration link click
   onRegister() {
-    this.router.navigate(['/pages/register'], { relativeTo: this.route.parent });
+    this.router.navigate(['/pages/register'], {relativeTo: this.route.parent});
   }
 
   onRecordar() {

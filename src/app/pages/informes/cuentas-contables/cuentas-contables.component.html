@@ -1,553 +1,84 @@
 <section id="horizontal-form-layouts">
   <div class="row">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card"><!-- Inicio del card para la busqueda de cuentas contables por fecha -->
         <div class="card-body">
           <div class="px-3">
             <div class="form-body">
-              <form class="form form-horizontal" name="frmTipoCambio" #frmTipoCambio="ngForm">
-                <div class="card-header">
-                <h4 class="card-title"><i class="ft-list"></i>Voucher Contable</h4>
-              </div>
-                <div #panel class="row" >
+              <form class="form form-horizontal" name="frmTipoCambio"> <!-- Inicio busqueda de transacciones por fecha -->
 
-                  
-                 <div class="col-md-6">
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Voucher Contable</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+                <div class="row"><!-- Inicio busqueda por fecha -->
+
+                  <div class="col-md-6"><!-- Inicio seleccionar fecha -->
                     <div class="form-group row">
                       <label class="col-md-3 label-control">Fecha:</label>
-                   
-                          <div class="input-text">
-                            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="ss" [(ngModel)]="fechaIni"  
-                              ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="validaFecha(fechaIni)" maxlength="10" readonly>
-                          </div>
-                          <div class="input-group-append">
-                            <div class="input-group-text border-primary" (click)="d1.toggle()">
-                              <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                            </div>
-                          </div>
-                
+                      <div class="input-text">
+                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="ss" maxlength="10" readonly
+                               [(ngModel)]="fechaIni" ngbDatepicker #d1="ngbDatepicker">
+                      </div>
+                      <div class="input-group-append">
+                        <div class="input-group-text border-primary" (click)="d1.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                      <!--BOTON BUSCAR-->
-                      
+                  </div><!-- Fin seleccionar fecha -->
+
+                  <div><!-- Inicio boton buscar -->
+                    <div class="form-group row">
                       <div>
-                          <div class="form-group row">
-                            <div>
-                              <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover" (click)="buscar()" >
-                                    <i class="fa ft-search"></i> Buscar
-                                  </button>   &nbsp;&nbsp; 
+                        <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover mr-1"
+                                (click)="buscar()">
+                          <i class="fa ft-search"></i> Buscar
+                        </button>
+                        <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="openAsignacion()">
+                          Asignación Instrumentos Ctas Contables
+                        </button>
+                      </div>
+                    </div>
+                  </div><!-- Fin boton buscar -->
 
-                                  <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="open2(content2)" 
-                                  >Asignación Instrumentos Ctas Contables</button>
+                </div><!-- Fin busqueda por fecha -->
 
-                                  
-                                   
+              </form><!-- Fin busqueda de transacciones por fecha -->
 
-                            </div>
-                          </div>
-                        </div>                 
-                </div>
-              </form>
-              
-              <!--TABLA-->
-
-              <!-- <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="exportar()"  *ngIf="dspsdebuscar"
-              >Exportar</button>&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;  -->
-              <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="exportarXLSX()"  *ngIf="dspsdebuscar"
-              >Exportar a Excel</button>
-             
-             <div class="form-actions">
+              <div class="form-actions"><!-- Inicio tabla de cuentas contables -->
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <section id="filter">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <div class="card">
-                                <div class="card-body">
-                                  <div class="card-block">
-                                   
-          <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='Escriba para filtrar...' 
-          (keyup)='updateFilter($event)'
-           />
-           <ngx-datatable #tblList id="tabla" [columnMode]="'force'" [rows]="dataVoucher"
-                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
-                
-                  <ngx-datatable-column prop="fechaRecaudacion" name="Hora Trx"></ngx-datatable-column>
-                  <ngx-datatable-column prop="productoCuenta" name="Glosa cta"></ngx-datatable-column>
-                  <ngx-datatable-column prop="cuentaContable" name="Cuenta Contable"></ngx-datatable-column>
-                  <!--<ngx-datatable-column prop="centroCostoCuenta" name="Centro Costo"></ngx-datatable-column>-->
-                  <!--<ngx-datatable-column prop="sucursalCuenta" name="Sucu Cuenta"></ngx-datatable-column>-->
-                  <ngx-datatable-column prop="tipoCuenta" name="Anotación"></ngx-datatable-column>
-                  <!--<ngx-datatable-column prop="sucursal" name="Sucu emision"></ngx-datatable-column>--> 
-                  <!--<ngx-datatable-column prop="terminal" name="Terminal"></ngx-datatable-column>-->
-                  <ngx-datatable-column  [width]="300"  prop="titulo" name="Instrumento / M de pago"></ngx-datatable-column>
-                  <!-- <ngx-datatable-column  [width]="300"  prop="titulo" name="Instrumento/Medio de pago"></ngx-datatable-column> -->
-                  <ngx-datatable-column prop="currency" name="Moneda"></ngx-datatable-column>
-                  <ngx-datatable-column prop="currencyConvertion" name="Conversión"></ngx-datatable-column>
-                  <ngx-datatable-column prop="detmonto" name="Monto">
-                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                      let-row="row">
-                      <div style="text-align: right">
-                        <a>{{row['detmonto'] | number }}</a>
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column prop="ticketfolio" name="Ticket xCash"></ngx-datatable-column>
-                  <!-- <ngx-datatable-column prop="periodo" name="Periodo"></ngx-datatable-column>-->
-                  <!--<ngx-datatable-column prop="operacion" name="Operacion"></ngx-datatable-column>  -->                
-                  <!--<ngx-datatable-column prop="operacionDetalle" name="Detalle Operacion"></ngx-datatable-column>-->
-                   <!--<ngx-datatable-column prop="turno" name="Turno"></ngx-datatable-column> -->
-                </ngx-datatable>  
 
+                    <input type="number" style="padding:8px;margin:15px auto;width:30%;" placeholder="Filtrar por numero de cuenta" [formControl]="controlFilter"/>
+                    <ngx-datatable id="tabla-trans" [columnMode]="'force'" [rows]="dataFilterVoucher"
+                                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
 
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                      <ngx-datatable-column prop="fechaRecaudacion" name="Hora Trx"></ngx-datatable-column>
+                      <ngx-datatable-column prop="productoCuenta" name="Glosa cta"></ngx-datatable-column>
+                      <ngx-datatable-column [width]="250" prop="cuentaContable" name="Cuenta Contable"></ngx-datatable-column>
+                      <ngx-datatable-column prop="tipoCuenta" name="Anotación"></ngx-datatable-column>
+                      <ngx-datatable-column [width]="250" prop="titulo" name="Instrumento / M de pago"></ngx-datatable-column>
+                      <ngx-datatable-column prop="currency" name="Moneda"></ngx-datatable-column>
+                      <ngx-datatable-column prop="currencyConvertion" name="Conversión"></ngx-datatable-column>
+                      <ngx-datatable-column prop="detmonto" name="Monto">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                          <div style="text-align: right">
+                            <a>{{row['detmonto'] | number }}</a>
                           </div>
-                        </section>
-                      </div>
-                    </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column prop="ticketfolio" name="Ticket xCash"></ngx-datatable-column>
+
+                    </ngx-datatable>
                   </div>
                 </div>
-              </div> 
-            
-              <!--FIN TABLA-->
-
+              </div><!-- Fin tabla de cuentas contables -->
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- Fin del card para la busqueda de cuentas contables por fecha -->
 
-
-         <!--COMIENZO DEL PRIMER MODAL-->
-    <ng-template #content let-c="close" let-d="dismiss"  >  
-      <div class="modal-header"> 
-          <h4 class="modal-title">Cuentas Contables </h4>  
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-         <div class="modal-body">
-        
-            <div class="col-md-6" *ngIf="soloEditar">
-                <div class="form-group row">
-                  <label class="col-md-3 label-control" >Activo: </label>
-                  <div class="input-text">
-                    <select class="form-control border-primary"  [(ngModel)]="datosCuentas.activo" (change)="buscarCuenta()">
-                      <option value="" disabled selected>Seleccione...</option>
-                      <option value="S">Activo (S)</option>
-                      <option value="N">Inactivo (N)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div> 
-                    <button class="btn btn-raised btn-primary shadow-z-1-hover" (click)="abrirNuevo()" >Nuevo</button>
-                    &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                   
-                    
-              </div>
-              </div>             
-              <!--TABLA-->
-             
-             <div class="form-actions" *ngIf="soloEditar">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <section id="filter">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <div class="card">
-                                <div class="card-body">
-                                  <div class="card-block">
-                                   
-                                    
-
-     
-           <ngx-datatable #tblList id="tabla" [columnMode]="'force'" [rows]="dataCuenta"
-                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
-                
-                  <ngx-datatable-column prop="cuenta" name="Cuenta"></ngx-datatable-column> 
-                  <ngx-datatable-column prop="glosaCuenta" name="Glosa Cuenta"></ngx-datatable-column>
-                  <ngx-datatable-column prop="producto" name="Producto"></ngx-datatable-column>
-                  <ngx-datatable-column prop="centroCosto" name="Centro"></ngx-datatable-column>
-                  <ngx-datatable-column prop="activo" name="Activo"></ngx-datatable-column>
-                  <ngx-datatable-column name='Acción'>
-                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                        <i class="ft-edit-2 info font-medium-1 mr-2" (click)="editar(rowIndex)" [id]="value"></i>
-                      </ng-template>
-                    </ngx-datatable-column>
-                </ngx-datatable>  
-
-
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>            
-              <!--FIN TABLA-->
-
-
-              <!--COMIENZO FORMULARIO EDITAR-->
-              <form class="form form-horizontal" name="frmEditar" #frmTipoCambio="ngForm" *ngIf="guardar">
-                  <h4 class="form-section"><i class="ft-list"></i>Editar Cuenta</h4>
-                  <div #panel class="row" >
-                   <div class="col-md-5">
-                      <div class="form-group row">
-                        <label class="col-md-6 label-control">N° Cuenta</label>
-                        <input type="text" class="form-control border-primary col-md-6"  
-                        [(ngModel)]="editarCuentas.cuenta" [ngModelOptions]="{standalone: true}" name="cuenta" #cuenta="ngModel" readonly>
-                      </div>
-                    </div>
-
-                    
-
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Centro Costo</label>
-                          <input  type="number" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="editarCuentas.centroCosto" [ngModelOptions]="{standalone: true}" name="centro" #centro="ngModel" >
-                        </div>
-                      </div>
-
-
-                  </div>
-                 
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Producto</label>
-                          <input type="text" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="editarCuentas.producto" [ngModelOptions]="{standalone: true}" name="producto" #producto="ngModel" >
-                        </div>
-                      </div>
-                      <div class="col-md-5">
-                          <div class="form-group row">
-                            <label class="col-md-6 label-control">Glosa</label>
-                            <input type="text" class="form-control border-primary col-md-6"  
-                            [(ngModel)]="editarCuentas.glosaCuenta" [ngModelOptions]="{standalone: true}" name="glosaCuenta" #glosaCuenta="ngModel" >
-                          </div>
-                        </div>
-                  </div>
-
-                  <div class="row">
-                     
-                        <div class="col-md-5">
-                        <div class="form-group row">
-                            <label class="col-md-6 label-control" >Activo: </label>
-                            <div class="input-text">
-                              <select class="form-control border-primary"  [(ngModel)]="editarCuentas.activo" [ngModelOptions]="{standalone: true}">
-                                <option value="" disabled selected>Seleccione...</option>
-                                <option value="S">Activo (S)</option>
-                                <option value="N">Inactivo (N)</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="form-group row">
-                          <div>
-                              <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover" (click)="onEditar()" >
-                                   Editar
-                                </button>   &nbsp;&nbsp;  
-                                <button class="btn btn-raised gradient-ibiza-sunset white shadow-z-1-hover" (click)="cancelar()" >Volver</button>
-                          </div>
-                        </div>
-                      </div>    
-                </form>
-                <!--FIN FORMULARIO EDITAR-->
-
-                <!--COMIENZO FORMULARIO INSERTAR   frmInsertar-->
-              <form class="form form-horizontal"  id="registro" *ngIf="nuevo">
-                  <h4 class="form-section"><i class="ft-list"></i>Crear Cuenta Contable</h4>
-
-                  <div #panel class="row" >
-
-                   <div class=" col-md-5">
-                      <div class="form-group row">
-                        <label class="col-md-6 label-control">N° Cuenta</label>
-                        <input type="text"  class="form-control border-primary col-md-6" 
-                        [(ngModel)]="insertarCuentas.cuenta" [ngModelOptions]="{standalone: true}" name="cuentaI" id="cuentaI"  #cuentaI="ngModel" required>
-                        
-                      </div>
-                    </div>
-
-
-
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Centro Costo</label>
-                          <input  type="number" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="insertarCuentas.centroCosto" [ngModelOptions]="{standalone: true}" name="centroI" #centroI="ngModel" >
-                        </div>
-                      </div>
-
-
-                  </div>
-
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Producto</label>
-                          <input type="text" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="insertarCuentas.producto" [ngModelOptions]="{standalone: true}" name="productoI" #productoI="ngModel" >
-                        </div>
-                      </div>
-
-                      <div class="col-md-5">
-                          <div class="form-group row">
-                            <label class="col-md-6 label-control">Glosa</label>
-                            <input type="text" class="form-control border-primary col-md-6"  
-                            [(ngModel)]="insertarCuentas.glosaCuenta" [ngModelOptions]="{standalone: true}" name="glosaCuenta" #glosaCuenta="ngModel" >
-                          </div>
-                        </div>
-                  </div>
-                  <div class="row">
-                    
-                        <div class="col-xs-6 col-md-5">
-    
-                        </div>
-                    </div>
-                   
-                    <div>
-                        <div class="form-group row">
-                          <div>
-                              <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover" (click)="editName()"  >
-                                 Guardar
-                                </button>   &nbsp;&nbsp;  
-                                <button class="btn btn-raised gradient-ibiza-sunset white shadow-z-1-hover" (click)="cancelar()" >Volver</button>
-                          </div>
-                        </div>
-                      </div>    
-
-                </form>
-
-                <!--FIN FORMULARIO INSERTAR-->
-                
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
-        </div>  
-     </ng-template>
-<!--FIN PRIMER MODAL-->
-
-
-
-
-<!--COMIENZO DEL SEGUNDO MODAL INSTRUMENTO MEDIO DE PAGO-->
-<ng-template #content2 let-c="close" let-d="dismiss" >  
-    <div class="modal-header"> 
-        <h4 class="modal-title">Asignación cuenta contable - Trasnsacción</h4>  
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-     
-      <div class="modal-body">
-
-
-        <div class="row">
-            <div class="col-md-8">
-                <div class="form-group row">
-                   <label class="col-md-3 label-control" >Cuenta Contable </label>
-                   <div class="input-text">
-                     <select class=" form-control border-primary" [(ngModel)]="cciInsert.cuenta" [ngModelOptions]="{standalone: true}" name="cuentac" #cuentac="ngModel" (change)="muestraCuenta()"  >
-                      <option value="" disabled selected>Seleccione...</option>
-                       <option *ngFor="let cue of dataSelectCueA" value={{cue.cuenta}}>{{cue.cuenta}}</option>
-                     </select> 
-                   </div>
-                   &nbsp;&nbsp;&nbsp;
-                   <button class=" btn btn-raised gradient-mint white shadow-z-1-hover" (click)="open(content)">
-                      Crear - Administrar Cuentas</button>
-                 </div>
-             </div>
-
-             <div class="col-md-4">
-                <div class="form-group row">
-                  <div> 
-                       &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <button  class="btn btn-raised btn-info shadow-z-1-hover" (click)="RequisitoCeliaCTM()">
-                          Refrescar</button>
-
-                          
-                          
-                        <!-- <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="open(content)">
-                          Cuentas Contables</button> -->
-                  </div>
-                </div>
-              </div> 
-             
- 
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="form-group row">
-                   <label class="col-md-4 label-control" >Estado Transacción </label>
-                   <div class="input-text">
-                     <select class="form-control border-primary" 
-                            [(ngModel)]="cciInsert.estado" [ngModelOptions]="{standalone: true}" 
-                            name="wea" #wea="ngModel"  (change)="tipomediodepago()" >
-                      <option value="ANULAD">Anulado</option>
-                      <option value="VIGENT">Vigente</option>
-                     </select> 
-                   </div>
-                 </div>
-             </div>
-
-      
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-md-4 label-control" >Tipo Cuenta</label>
-                    <div class="input-text">
-                      <select class="  form-control border-primary"  [(ngModel)]="cciInsert.tipoCuenta" 
-                      [ngModelOptions]="{standalone: true}">
-                        <option value="D">Debe</option>
-                        <option value="H">Haber</option>
-                      </select>
-                    </div>
-                  </div>
-
-            </div>
-
-</div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="form-group row">
-                   <label class="col-md-4 label-control" >Tipo Transacción</label>
-                   <div class="input-text">
-                     <select class="form-control border-primary" 
-                            [(ngModel)]="tipo" [ngModelOptions]="{standalone: true}" 
-                            name="wea" #wea="ngModel"  (change)="tipomediodepago()" >
-                      <option value="ins">Instrumento</option>
-                      <option value="acm1pt">Medio De Pago</option>
-                     </select> 
-                   </div>
-                 </div>
-             </div>
-
-
-            <div class="col-md-6" *ngIf="instrumentoon">
-                <div class="form-group row">
-                   <!-- <label class="col-md-3 label-control" >Instrumento </label> -->
-                   <div class="input-text">
-                     <select class=" form-control border-primary" [(ngModel)]="cciInsert.instrumento" [ngModelOptions]="{standalone: true}" name="instNP" #instNP="ngModel"  >
-                      <option value="" disabled selected>Seleccione...</option>
-                       <option *ngFor="let itm of dataSelectIns" value={{itm.instrumento}}>{{itm.titulo}}</option>
-                     </select> 
-                   </div>
-                 </div>
-             </div>
-
-             <div class="col-md-6" *ngIf="mdepagoon">
-                <div class="form-group row">
-                   <!-- <label class="col-md-3 label-control" >Medio De Pago </label> -->
-                   <div class="input-text">
-                     <select class=" form-control border-primary" [(ngModel)]="cciInsert.instrumento" [ngModelOptions]="{standalone: true}" name="medP" #medP="ngModel"  >
-                      <option value="" disabled selected>Seleccione...</option>
-                       <option *ngFor="let med of dataSelectMed" value={{med.instrumento}}>{{med.titulo}}</option>
-                     </select> 
-                   </div>
-                 </div>
-             </div>
-
-
-        </div>
-
-
-        <div class="row">
-            &nbsp;&nbsp;   &nbsp;&nbsp;  
-             <div class="col-md-6 float-right">
-                <div class="form-group row">
-                  <div>
-                      <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover" (click)="ValidarCampos()" *ngIf="botonguardar" >
-                         Guardar Asignación
-                        </button>  
-                  </div>
-                </div>
-              </div> 
-
-        </div>
-        
-            
-        <!--TABLA-->
-             
-        <div class="form-actions" >
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <section id="filter">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="card">
-                          <div class="card-body">
-                            <div class="card-block">
-                             
-                              
-
-
-     <ngx-datatable #tblList id="tablaCCI" [columnMode]="'force'" [rows]="rows2"
-            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
-          
-            <ngx-datatable-column prop="cuenta" name="Cuenta"></ngx-datatable-column> 
-            <ngx-datatable-column prop="instrumento" name="Instrumento / M De Pago"></ngx-datatable-column>
-          <ngx-datatable-column prop="estado" name="Estado"></ngx-datatable-column>
-          <ngx-datatable-column prop="glosatipocuenta" name="Tipo Cuenta"></ngx-datatable-column>
-           <ngx-datatable-column name='Acción'>
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <i class="ft-x danger font-medium-1 mr-2" (click)="eliminarCCI(rowIndex, $event)" [id]="value"></i>
-            </ng-template>
-          </ngx-datatable-column>
-          </ngx-datatable>  
-
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>            
-        <!--FIN TABLA-->
-        
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
-      </div>  
-   </ng-template>
-
-<!--FIN SEGUND MODAL-->
-
-
-
-
-
-      
     </div>
   </div>
 </section>
