@@ -100,8 +100,4 @@ export class AdminCuentasContablesComponent implements OnInit {
   cerrar() {
     this.dialogRef.close();
   }
-
-  enviar() {
-    this.dialogRef.close();
-  }
 }

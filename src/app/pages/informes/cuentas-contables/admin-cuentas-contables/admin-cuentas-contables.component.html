@@ -32,9 +32,7 @@
                     <div class="card-body">
                       <div class="card-block">
 
-                        <button (click)="enviar('FALCON')"></button>
-
-                        <dx-data-grid
+                        <dx-data-grid class="max-width-none"
                           id="gridContainer"
                           [dataSource]="cuentas"
                           keyExpr="cuenta"

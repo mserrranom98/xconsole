@@ -3,7 +3,6 @@
   font-size: 1rem;
   font-weight: normal;
   color: #646464;
-  max-width: none;
 
   .dx-row > td {
     padding: 18px;
@@ -18,4 +17,8 @@
 .dx-datagrid-headers .dx-datagrid-table .dx-row > td {
   background-color: rgba(0, 140, 201, 0.6);
   color: white
+}
+
+.max-width-none {
+  max-width: none !important;
 }

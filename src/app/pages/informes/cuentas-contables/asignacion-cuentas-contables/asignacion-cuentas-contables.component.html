@@ -13,7 +13,7 @@
       <div fxFlex="100" fxLayout="row" class="mb-2">
         <label fxFlex="35" class="label-control">Cuentas Contables</label>
         <div fxFlex="65" class="input-text">
-          <select formControlName="cuenta" class="form-control border-primary" name="cuentac" (change)="muestraCuenta()">
+          <select formControlName="cuenta" class="form-control border-primary" name="cuentac">
             <option value="" disabled selected>Seleccione...</option>
             <option *ngFor="let cuenta of dataSelectCueA" [value]="cuenta.cuenta">{{ cuenta.cuenta }}</option>
           </select>
@@ -46,9 +46,6 @@
       <div fxLayout="row" class="ml-4">
         <button type="button" class=" btn btn-raised gradient-mint white shadow-z-1-hover mr-1" (click)="openAdmin()">
           Crear - Administrar Cuentas
-        </button>
-        <button class="btn btn-raised btn-info shadow-z-1-hover" (click)="getCuentasActivas()">
-          Refrescar
         </button>
       </div>
     </div>
@@ -109,7 +106,7 @@
                     <div class="card-body">
                       <div class="card-block">
 
-                        <dx-data-grid
+                        <dx-data-grid class="max-width-none"
                           id="gridContainer"
                           [dataSource]="rowsCCI"
                           [showRowLines]="true"
@@ -117,32 +114,22 @@
                           [allowColumnReordering]="true"
                           [showBorders]="true"
                           [showColumnLines]="false"
-                          [wordWrapEnabled]="true"><!-- Inicio de la tabla de cuentas contables instrumento -->
+                          [wordWrapEnabled]="true"
+                          (onRowRemoved)="eliminarCCI($event)"><!-- Inicio de la tabla de cuentas contables instrumento -->
 
                           <dxo-paging [enabled]="false"></dxo-paging>
                           <dxo-editing
                             mode="form"
-                            [allowUpdating]="true"
-                            [allowAdding]="true"
+                            [allowDeleting]="true"
                             [useIcons]="true">
                           </dxo-editing>
                           <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
                           </dxi-column>
-                          <dxi-column dataField="instrumento" caption="Instrumento / M De Pago" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="instrumento" caption="Instrumento / M De Pago" alignment="center" [width]="330">
                           </dxi-column>
-                          <dxi-column dataField="estado" caption="Estado" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="estado" caption="Estado" alignment="center" [width]="96">
                           </dxi-column>
-                          <dxi-column dataField="glosatipocuenta" caption="Tipo Cuenta" alignment="center" [visible]="false">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
-                            <dxo-lookup [dataSource]="tipo" displayExpr="text" valueExpr="value"></dxo-lookup>
-                          </dxi-column>
-                          <dxi-column dataField="glosatipocuenta" caption="Tipo Cuenta" alignment="center" [width]="160">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
-                            <dxo-lookup *ngIf="tipoSelect === 'inst'" [dataSource]="dataSelectIns" displayExpr="titulo" valueExpr="instrumento"></dxo-lookup>
-                            <dxo-lookup *ngIf="tipoSelect === 'mdpago'" [dataSource]="dataSelectMed" displayExpr="titulo" valueExpr="instrumento"></dxo-lookup>
+                          <dxi-column dataField="glosatipocuenta" caption="Tipo de Cuenta" alignment="center" [width]="96">
                           </dxi-column>
                         </dx-data-grid><!-- Fin de la tabla de cuentas contables instrumento -->
 
