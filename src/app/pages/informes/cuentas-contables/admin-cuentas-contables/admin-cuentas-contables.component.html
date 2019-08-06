@@ -9,7 +9,7 @@
 
   <div class="col-md-6"><!-- Inicio filtro de cuentas por estado y acceso al  popup crear cuenta -->
     <div class="form-group row"><!-- Inicio filtro de cuentas por estado -->
-      <label class="col-md-3 label-control">Activo: </label>
+      <label class="col-md-5 label-control">Estado de Cuenta Contable: </label>
       <div class="input-text">
         <select class="form-control border-primary" id="activoSelect" [ngModel]="estadoCuenta" (change)="getCuentas($event)">
           <option value="" disabled selected>Seleccione...</option>
@@ -31,6 +31,8 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="card-block">
+
+                        <button (click)="enviar('FALCON')"></button>
 
                         <dx-data-grid
                           id="gridContainer"

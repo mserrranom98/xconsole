@@ -109,19 +109,42 @@
                     <div class="card-body">
                       <div class="card-block">
 
-                        <ngx-datatable id="tablaCCI" [columnMode]="'force'" [rows]="rowsCCI" [headerHeight]="50"
-                                       [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
-                          <ngx-datatable-column prop="cuenta" name="Cuenta" [width]="160"></ngx-datatable-column>
-                          <ngx-datatable-column prop="instrumento" name="Instrumento / M De Pago" [width]="177"></ngx-datatable-column>
-                          <ngx-datatable-column prop="estado" name="Estado" [width]="100"></ngx-datatable-column>
-                          <ngx-datatable-column prop="glosatipocuenta" name="Tipo Cuenta" [width]="118"></ngx-datatable-column>
-                          <ngx-datatable-column name='Acción' [width]="80">
-                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                              <i class="ft-x danger font-medium-1 mr-2" (click)="eliminarCCI(row)"
-                                 [id]="value"></i>
-                            </ng-template>
-                          </ngx-datatable-column>
-                        </ngx-datatable>
+                        <dx-data-grid
+                          id="gridContainer"
+                          [dataSource]="rowsCCI"
+                          [showRowLines]="true"
+                          [rowAlternationEnabled]="true"
+                          [allowColumnReordering]="true"
+                          [showBorders]="true"
+                          [showColumnLines]="false"
+                          [wordWrapEnabled]="true"><!-- Inicio de la tabla de cuentas contables instrumento -->
+
+                          <dxo-paging [enabled]="false"></dxo-paging>
+                          <dxo-editing
+                            mode="form"
+                            [allowUpdating]="true"
+                            [allowAdding]="true"
+                            [useIcons]="true">
+                          </dxo-editing>
+                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="instrumento" caption="Instrumento / M De Pago" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="estado" caption="Estado" alignment="center" [width]="170">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          </dxi-column>
+                          <dxi-column dataField="glosatipocuenta" caption="Tipo Cuenta" alignment="center" [visible]="false">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxo-lookup [dataSource]="tipo" displayExpr="text" valueExpr="value"></dxo-lookup>
+                          </dxi-column>
+                          <dxi-column dataField="glosatipocuenta" caption="Tipo Cuenta" alignment="center" [width]="160">
+                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                            <dxo-lookup *ngIf="tipoSelect === 'inst'" [dataSource]="dataSelectIns" displayExpr="titulo" valueExpr="instrumento"></dxo-lookup>
+                            <dxo-lookup *ngIf="tipoSelect === 'mdpago'" [dataSource]="dataSelectMed" displayExpr="titulo" valueExpr="instrumento"></dxo-lookup>
+                          </dxi-column>
+                        </dx-data-grid><!-- Fin de la tabla de cuentas contables instrumento -->
 
                       </div>
                     </div>

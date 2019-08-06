@@ -58,7 +58,7 @@ export class AdminCuentasContablesComponent implements OnInit {
       console.log(event);
       if (response.code === '0') {
         swal('Cuenta Contable', 'Registro Editado con Exito', 'success');
-        this.getCuentas('S');
+        this.getCuentas(event.data.activo);
       } else {
         swal('Cuenta Contable', response.description + '. Verifique Información', 'error');
       }
@@ -98,6 +98,10 @@ export class AdminCuentasContablesComponent implements OnInit {
   }
 
   cerrar() {
+    this.dialogRef.close();
+  }
+
+  enviar() {
     this.dialogRef.close();
   }
 }

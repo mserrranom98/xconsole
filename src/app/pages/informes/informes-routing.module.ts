@@ -7,12 +7,18 @@ const routes: Routes = [
   {
     path: 'caja',
     children: [
-      
-      { path: 'arqueo', component: ArqueoComponent, data: { title: 'Arqueo' } }
+      {
+        path: 'arqueo',
+        component: ArqueoComponent,
+        data: { title: 'Arqueo' }
+      }
     ]
   },
-  { path: 'cuentas-contables', component: CuentasContablesComponent, data: { title: 'Cuentas Contables' } }
-  
+  {
+    path: 'cuentas-contables',
+    component: CuentasContablesComponent,
+    data: { title: 'Cuentas Contables' }
+  }
 ];
 
 @NgModule({
@@ -20,4 +26,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class InformesRoutingModule { }
- 

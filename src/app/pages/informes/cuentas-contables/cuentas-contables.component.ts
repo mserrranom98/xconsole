@@ -132,6 +132,6 @@ export class CuentasContablesComponent implements OnInit {
   }
 
   openAsignacion() {
-    this.dialog.open(AsignacionCuentasContablesComponent, {width: '780px', height: '750px'});
+    this.dialog.open(AsignacionCuentasContablesComponent, {width: '1000px', height: '750px'});
   }
 }

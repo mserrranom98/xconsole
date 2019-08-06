@@ -19,6 +19,18 @@ export class AsignacionCuentasContablesComponent implements OnInit {
 
   public formAsignacion: FormGroup;
 
+  tipo = [
+    {
+      value: 'inst',
+      text: 'Instrumento'
+    },
+    {
+      value: 'mdpago',
+      text: 'Medio de PAgo'
+    }
+  ];
+  tipoSelect = '';
+
   instrumento = false;
   medioPago = false;
   dspsdebuscar = false;
@@ -74,11 +86,6 @@ export class AsignacionCuentasContablesComponent implements OnInit {
   }
 
   eliminarCCI(row) {
-    const cciDelete = {
-      cuenta: row.cuenta,
-      tipoCuenta: row.tipoCuenta
-    };
-
     swal(
       {
         title: 'Advertencia, se eliminará la asignación cuenta con instrumento!',
@@ -92,7 +99,7 @@ export class AsignacionCuentasContablesComponent implements OnInit {
       }
     ).then((result) => {
       if (result.value) {
-        this.cuentasContablesServices.getCCIDelete(cciDelete).subscribe(
+        this.cuentasContablesServices.getCCIDelete(row).subscribe(
           (response: any) => {
             if (response.code === '0') {
               swal('Cuentas', 'Registro Eliminado', 'success');

@@ -7,8 +7,8 @@ import {EditarCuentas, CrearCuentas, CCIInsert, VoucherExport} from './model-cue
 
 @Injectable()
 export class CuentaContableService {
-  urlPath = GLOBAL_PATH.getPath;
-  
+
+  private urlPath = GLOBAL_PATH.getPath;
   constructor(
     public _http: HttpClient
   ) {}
@@ -76,7 +76,7 @@ export class CuentaContableService {
   }
   /* Fin servicios Select */
 
-/* COMIENZO SERVICIOS CCI */
+  /* COMIENZO SERVICIOS CCI */
 
   getCCISelect() {
     const body = {
@@ -87,13 +87,10 @@ export class CuentaContableService {
   }
 
   getCCIDelete(cciDelete) {
-    const body = {
-      cuenta: cciDelete.cuenta,
-      tipoCuenta: cciDelete.tipoCuenta,
-      userName: VARGLOBAL.user,
-      peticion: 'CCI_DELETE'
-    };
-    return this._http.post(this.urlPath, body);
+    cciDelete.userName = VARGLOBAL.user;
+    cciDelete.peticion = 'CCI_DELETE';
+    console.log(cciDelete);
+    return this._http.post(this.urlPath, cciDelete);
   }
 
   getCCIInsert(insc: CCIInsert) {
