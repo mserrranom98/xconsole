@@ -8,7 +8,7 @@ import { EmpRexsService } from '../../../pages-services/serv-emp-rec/emp-rexs.se
 import { SucursalesService } from '../../../pages-services/serv-emp-rec/sucursales.service';
 import { UtilsService } from '../../../pages-services/serv-utils/utils.service';
 import { GetUtils } from '../../../pages-models/model-utils';
-import { SucursalesComponent, VAR_SUC } from './sucursales.component';
+import { VAR_SUC } from './sucursales.component';
 
 @Component({
   selector: 'app-sucursales-properties',
@@ -70,15 +70,15 @@ export class SucursalesPropertiesComponent implements OnInit {
 
   buscar() {
     // Empresas Rex
-    this.empRexsService.getRex(this.rexSelect).subscribe(
-      (response:any) => {
+    this.empRexsService.getRex().subscribe(
+      (response: any) => {
         this.listEmpRex = response.rexs;
       }
     )
 
     // Medios de Pago
-    this.utilsService.getMedioPago(this.medioPago).subscribe(
-      (response:any) => {
+    this.utilsService.getMedioPago().subscribe(
+      (response: any) => {
         this.listMP = response.rows;
       },
       error => {
@@ -135,7 +135,7 @@ export class SucursalesPropertiesComponent implements OnInit {
     }
 
     if (this.msjLim === '') {
-      let add = 'OK'
+      let add = 'OK';
       for (let i = 0; i < this.limites.length; i++) {
         if (medio === this.limites[i].medioPago) {
           swal('Límite', 'Medio de pago ya existe', 'error');
@@ -170,7 +170,7 @@ export class SucursalesPropertiesComponent implements OnInit {
     if (this.gestion === 'new') {
       console.log(JSON.stringify(this.sucIU));
       this.sucursalesService.insertSuc(this.sucIU).subscribe(
-        (response:any) => {
+        (response: any) => {
           console.log(JSON.stringify(response));
           if (response.code === '0') {
             swal('Sucursales', 'Registro guardado con Exito', 'success');
@@ -186,7 +186,7 @@ export class SucursalesPropertiesComponent implements OnInit {
     } else {
       console.log(JSON.stringify(this.sucIU));
       this.sucursalesService.updateSuc(this.sucIU).subscribe(
-        (response:any) => {
+        (response: any) => {
           console.log(JSON.stringify(response));
           if (response.code === '0') {
             swal('Sucursales', 'Registro Actualizado con Exito', 'success');

@@ -62,9 +62,8 @@ export class RestriccionesComponent implements OnInit {
   }
 
   buscar() {
-    $('#loading').css('display', 'block');
     this.restriccionesService.getRestricciones(this.restricSelect).subscribe(
-      (response:any) => {
+      (response: any) => {
         if (response.rowCount > 0) {
           this.divList = true;
           for (let i = 0; i < response.rowCount; i++) {
@@ -94,23 +93,24 @@ export class RestriccionesComponent implements OnInit {
             if (response.rows[i].concepto2.trim() === 'INSTRU') {
               con2 = 'Instrumento';
             }
-            let r: Object = {
+            const r: Object = {
               regla: response.rows[i].regla,
               concepto1: con1,
               codigo1Glosa: response.rows[i].codigo1Glosa,
               concepto2: con2,
               codigo2Glosa: response.rows[i].codigo2Glosa
-            }
+            };
             this.rows[i] = r;
           }
-          $('#loading').css('display', 'none');
+          $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
         } else {
           this.msj = 'No hay resultados.';
-          $('#loading').css('display', 'none');
+          $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
         }
       },
       error => {
         console.log('Error: ' + JSON.stringify(error));
+        $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
       }
     )
   }
@@ -129,7 +129,7 @@ export class RestriccionesComponent implements OnInit {
     this.disabled2 = true;
     if (this.concep1 === 'EPS') {
       this.restriccionesService.getRestricEmpresas(this.restricEmpresas).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response.rowCount > 0) {
             let count = 0;
             for (let i = 0; i < response.rowCount; i++) {
@@ -137,7 +137,7 @@ export class RestriccionesComponent implements OnInit {
                 const emp: Object = {
                   codigo: response.rows[i].codigo,
                   glosa: response.rows[i].glosa
-                }
+                };
                 this.listCodigo1[count] = emp;
                 count++;
               }
@@ -153,7 +153,7 @@ export class RestriccionesComponent implements OnInit {
     }
     if (this.concep1 === 'REX') {
       this.restriccionesService.getRestricEmpresas(this.restricEmpresas).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response.rowCount > 0) {
             let count = 0;
             for (let i = 0; i < response.rowCount; i++) {
@@ -177,7 +177,7 @@ export class RestriccionesComponent implements OnInit {
     }
     if (this.concep1 === 'INSTRU') {
       this.restriccionesService.getRestricEmpresas(this.restricEmpresas).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response.rowCount > 0) {
             let count = 0;
             for (let i = 0; i < response.rowCount; i++) {
@@ -193,7 +193,7 @@ export class RestriccionesComponent implements OnInit {
             this.listCod1 = this.listCodigo1[0].codigo;
             this.restricInstrumentos.eps = this.listCod1;
             this.restriccionesService.getRestricInstrumentos(this.restricInstrumentos).subscribe(
-              (result:any) => {
+              (result: any) => {
                 if (result.rowCount > 0) {
                   for (let i = 0; i < result.rowCount; i++) {
                     const ins: Object = {
@@ -221,15 +221,15 @@ export class RestriccionesComponent implements OnInit {
     }
     if (this.concep1 === 'SUCUR') {
       this.restriccionesService.getRestricEmpresas(this.restricEmpresas).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response.rowCount > 0) {
             let count = 0;
             for (let i = 0; i < response.rowCount; i++) {
               if (response.rows[i].concepto.trim() === 'REX') {
-                let emp: Object = {
+                const emp: Object = {
                   codigo: response.rows[i].codigo,
                   glosa: response.rows[i].glosa
-                }
+                };
                 this.listCodigo1[count] = emp;
                 count++;
               }
@@ -237,13 +237,13 @@ export class RestriccionesComponent implements OnInit {
             this.listCod1 = this.listCodigo1[0].codigo;
             this.restricSucursales.rex = this.listCod1;
             this.restriccionesService.getRestricSucursales(this.restricSucursales).subscribe(
-              (result:any) => {
+              (result: any) => {
                 if (result.rowCount > 0) {
                   for (let i = 0; i < result.rowCount; i++) {
-                    let suc: Object = {
+                    const suc: Object = {
                       codigo: result.rows[i].codigo,
                       glosa: result.rows[i].glosa
-                    }
+                    };
                     this.listCodigo2[i] = suc;
                   }
                   this.listCod2 = this.listCodigo2[0].codigo;
@@ -275,10 +275,10 @@ export class RestriccionesComponent implements OnInit {
     if (this.concep1 === 'INSTRU') {
       this.restricInstrumentos.eps = this.listCod1;
       this.restriccionesService.getRestricInstrumentos(this.restricInstrumentos).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response.rowCount > 0) {
             for (let i = 0; i < response.rowCount; i++) {
-              let ins: Object = {
+              const ins: Object = {
                 codigo: response.rows[i].codigo,
                 glosa: response.rows[i].glosa
               }

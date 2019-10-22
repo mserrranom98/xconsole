@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import swal from 'sweetalert2';
-import { NgForm } from '@angular/forms';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { RexIU, RexDelete, RexSelect } from '../../../pages-models/model-emp-rec';
-import { EmpRexsService } from '../../../pages-services/serv-emp-rec/emp-rexs.service';
+import {NgForm} from '@angular/forms';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {RexDelete, RexIU, RexSelect} from '../../../pages-models/model-emp-rec';
+import {EmpRexsService} from '../../../pages-services/serv-emp-rec/emp-rexs.service';
 
 @Component({
   selector: 'app-empresasrex',
@@ -13,8 +13,8 @@ import { EmpRexsService } from '../../../pages-services/serv-emp-rec/emp-rexs.se
 export class EmpresasrexComponent implements OnInit {
   @ViewChild('f') f: NgForm;
   @ViewChild(DatatableComponent) tblList: DatatableComponent;
-  @ViewChild('panelE', { read: ElementRef }) public panelE: ElementRef;
-  opc = new Object();
+  @ViewChild('panelE', {read: ElementRef}) public panelE: ElementRef;
+  opc = {};
   data = [];
   rows = [];
   temp = [];
@@ -31,7 +31,7 @@ export class EmpresasrexComponent implements OnInit {
 
   constructor(private empRexsService: EmpRexsService) {
     this.rexIU = new RexIU('', '', '', '');
-    this.rexDelete = new RexDelete ('', '', '');
+    this.rexDelete = new RexDelete('', '', '');
     this.rexSelect = new RexSelect('', '');
   }
 
@@ -43,8 +43,8 @@ export class EmpresasrexComponent implements OnInit {
     // Consultar Empresas REXS
     this.data = [];
     this.msj = '';
-    this.empRexsService.getRex(this.rexSelect).subscribe(
-      (response:any) => {
+    this.empRexsService.getRex().subscribe(
+      (response: any) => {
         const dir = response.rexs.length;
         if (dir > 0) {
           this.divList = true;
@@ -52,17 +52,20 @@ export class EmpresasrexComponent implements OnInit {
             this.opc = {
               rex: response.rexs[i].rex,
               descripcion: response.rexs[i].descripcion
-            }
+            };
             this.data[i] = this.opc;
           }
           this.rows = this.data;
           this.temp = this.data;
+          $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
         } else {
-          this.msj = 'No hay resultados.'
+          this.msj = 'No hay resultados.';
+          $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
         }
       },
       error => {
         console.log('Error: ' + JSON.stringify(error));
+        $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
       }
     )
   }
@@ -77,7 +80,7 @@ export class EmpresasrexComponent implements OnInit {
 
   onNuevo() {
     this.empRexsService.insertRex(this.rexIU).subscribe(
-      (response:any) => {
+      (response: any) => {
         if (response.code === '0') {
           swal('Empresas(REX)', 'Registro guardado con Exito', 'success');
           this.buscar();
@@ -101,17 +104,17 @@ export class EmpresasrexComponent implements OnInit {
     this.rexIU.rex = obj['rex'];
     this.rexIU.descripcion = obj['descripcion'];
     this.gestion = 'actualizar';
-    this.panelE.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+    this.panelE.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
   }
 
   onEditar() {
     this.empRexsService.updateRex(this.rexIU).subscribe(
-      (response:any) => {
+      (response: any) => {
         if (response.code === '0') {
           swal('Empresas(REX)', 'Registro Actualizado con Exito', 'success');
           this.buscar();
         } else {
-          swal('Empresas(REX)',  response.description + '. Verifique Información', 'error');
+          swal('Empresas(REX)', response.description + '. Verifique Información', 'error');
         }
       },
       error => {
@@ -146,7 +149,7 @@ export class EmpresasrexComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.empRexsService.deleteRex(this.rexDelete).subscribe(
-          (response:any) => {
+          (response: any) => {
             if (response.code === '0') {
               swal('Empresas(REX)', 'Registro Eliminado', 'success');
               this.buscar();
@@ -165,7 +168,7 @@ export class EmpresasrexComponent implements OnInit {
 
   limpiar() {
     this.rexIU = new RexIU('', '', '', '');
-    this.rexDelete = new RexDelete ('', '', '');
+    this.rexDelete = new RexDelete('', '', '');
     this.gestion = '';
     this.divIU = false;
   }
@@ -178,11 +181,9 @@ export class EmpresasrexComponent implements OnInit {
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
 
-    const temp = this.temp.filter(function (d) {
+    this.rows = this.temp.filter(function (d) {
       return d.descripcion.toLowerCase().indexOf(val) !== -1;
     });
-
-    this.rows = temp;
     this.tblList.offset = 0;
   }
 

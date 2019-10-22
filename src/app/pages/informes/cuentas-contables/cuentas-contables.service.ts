@@ -26,7 +26,7 @@ export class CuentaContableService {
     exportt.userName = VARGLOBAL.user;
     exportt.peticion = 'EXPORT_VOUECHER';
     return this._http.post(this.urlPath, exportt);
-  }
+}
 
   getCuentas(acctivo: String) {
     const body = {
@@ -47,24 +47,6 @@ export class CuentaContableService {
     crear.userName = VARGLOBAL.user;
     crear.peticion = 'CUENTAS_CONTABLES_INSERT';
     return this._http.post(this.urlPath, crear);
-  }
-
-  /* Servicios para Selects */
-
-  getInstrumentoNoPago() {
-    const body = {
-      userName: VARGLOBAL.user,
-      peticion: 'INSTRUMENTO_NO_PAGO_SELECT'
-    };
-    return this._http.post(this.urlPath, body);
-  }
-
-  getMediosPago() {
-    const body = {
-      userName: VARGLOBAL.user,
-      peticion: 'MEDIOS_PAGO_SELECT'
-    };
-    return this._http.post(this.urlPath, body);
   }
 
   getCuentaActiva() {
@@ -99,4 +81,13 @@ export class CuentaContableService {
     return this._http.post(this.urlPath, insc);
   }
   /* Fin servicios CCI */
+
+  pruebaService() {
+    const body = {
+      userName: VARGLOBAL.user,
+      peticion: 'GRUPOMAILINTEGRANTES_SELECT',
+      estado: 'N'
+    };
+    return this._http.post(this.urlPath, body);
+  }
 }

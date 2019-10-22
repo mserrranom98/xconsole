@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Asignación cuenta contable - Trasnsacción</h4>
+  <h4 class="modal-title">Asignación Transacción - Cuenta contable</h4>
   <button type="button" class="close" aria-label="Close" (click)="cerrar()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,86 +7,75 @@
 
 <div class="modal-body">
 
-  <form [formGroup]="formAsignacion" (ngSubmit)="guardarCCI()" fxLayout="row wrap" fxFlexAlign="center start">
-    <div fxFlex="45" fxLayout="row wrap">
+  <form [formGroup]="formAsignacion" (ngSubmit)="addCCI()" fxLayout="row wrap" fxFlexAlign="center start">
 
-      <div fxFlex="100" fxLayout="row" class="mb-2">
-        <label fxFlex="35" class="label-control">Cuentas Contables</label>
-        <div fxFlex="65" class="input-text">
-          <select formControlName="cuenta" class="form-control border-primary" name="cuentac">
-            <option value="" disabled selected>Seleccione...</option>
-            <option *ngFor="let cuenta of dataSelectCueA" [value]="cuenta.cuenta">{{ cuenta.cuenta }}</option>
-          </select>
-        </div>
-      </div>
+    <div fxFlex="100" fxLayout="column" fxLayoutGap="2%">
 
-      <div fxFlex="100" fxLayout="row" class="mb-2">
-        <label fxFlex="35" class="label-control">Estado Transacción </label>
-        <div fxFlex="65" class="input-text">
-          <select formControlName="estado" class="form-control border-primary" name="estado">
-            <option value="ANULAD">Anulado</option>
-            <option value="VIGENT">Vigente</option>
-          </select>
+        <div fxFlex="100" fxLayout="row" class="mb-2">
+          <label fxFlex="35" class="label-control">Tipo Transacción</label>
+          <div fxFlex="65" class="input-text">
+            <select formControlName="tipo" class="form-control border-primary" (change)="tipoMedioPago($event)">
+              <option value="" disabled selected>Seleccione...</option>
+              <option value="ins">Instrumento</option>
+              <option value="mpago">Medio De Pago</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div fxFlex="100" fxLayout="row" class="mb-2">
-        <label fxFlex="35" class="label-control">Tipo Cuenta Contable</label>
-        <div fxFlex="65" class="input-text">
-          <select formControlName="tipoCuenta" class="form-control border-primary">
-            <option value="D">Debe</option>
-            <option value="H">Haber</option>
-          </select>
+        <div fxFlex="100" fxLayout="row" class="mb-2">
+          <label fxFlex="35" class="label-control"></label>
+          <div fxFlex="65" class="input-text">
+            <select formControlName="instrumento" [attr.disabled]="instrumentoView" class=" form-control border-primary" name="instNP">
+              <option value="" disabled selected>Seleccione...</option>
+              <option *ngFor="let instrumento of instrumentoList" value={{instrumento.instrumento}}>{{instrumento.titulo}}</option>
+            </select>
+          </div>
         </div>
-      </div>
+
+        <div fxFlex="100" fxLayout="row" class="mb-2">
+          <label fxFlex="35" class="label-control">Estado</label>
+          <div fxFlex="65" class="input-text">
+            <select formControlName="estado" class="form-control border-primary" name="estado">
+              <option value="" disabled selected>Seleccione...</option>
+              <option value="ANULAD">Anulado</option>
+              <option value="VIGENT">Vigente</option>
+            </select>
+          </div>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" class="mb-2">
+          <label fxFlex="35" class="label-control">Cuentas Contables</label>
+          <div fxFlex="65" class="input-text">
+            <select formControlName="cuenta" class="form-control border-primary" name="cuentac">
+              <option value="" disabled selected>Seleccione...</option>
+              <option *ngFor="let cuenta of dataSelectCueA" [value]="cuenta.cuenta">{{ cuenta.cuenta }} - {{ cuenta.glosa }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" class="mb-2">
+          <label fxFlex="35" class="label-control">Tipo Cuenta Contable</label>
+          <div fxFlex="65" class="input-text">
+            <select formControlName="tipoCuenta" class="form-control border-primary">
+              <option value="" disabled selected>Seleccione...</option>
+              <option value="D">Debe</option>
+              <option value="H">Haber</option>
+            </select>
+          </div>
+        </div>
 
     </div>
 
-    <div fxFlex="55" fxLayout="column">
-      <div fxLayout="row" class="ml-4">
+    <div fxFlex="100" fxLayout="row">
+      <div fxFlex="50" fxLayoutAlign="left">
         <button type="button" class=" btn btn-raised gradient-mint white shadow-z-1-hover mr-1" (click)="openAdmin()">
-          Crear - Administrar Cuentas
+          Registrar Cuentas
         </button>
       </div>
-    </div>
-
-    <div fxFlex="45" fxLayout="row wrap">
-      <div fxFlex="100" fxLayout="row" class="mb-2">
-        <label fxFlex="35" class="label-control">Tipo Transacción</label>
-        <div fxFlex="65" class="input-text">
-          <select formControlName="tipo" class="form-control border-primary" (change)="tipoMedioPago($event)">
-            <option value="ins">Instrumento</option>
-            <option value="mpago">Medio De Pago</option>
-          </select>
-        </div>
-      </div>
-
-      <div fxFlex="100" fxLayout="row">
-        <button type="submit" class="btn btn-raised btn-primary shadow-z-1-hover">
+      <div fxFlex="50" fxLayoutAlign="end">
+        <button type="submit" class="btn btn-raised btn-primary shadow-z-1-hover mr-2">
           Guardar Asignación
         </button>
-      </div>
-    </div>
-
-    <div fxFlex="55" fxLayout="row wrap">
-      <div fxFlex="100" fxLayout="row" class="ml-4" *ngIf="instrumento">
-        <!-- <label class="col-md-3 label-control" >Instrumento </label> -->
-        <div class="input-text">
-          <select formControlName="instrumento" class=" form-control border-primary" name="instNP">
-            <option value="" disabled selected>Seleccione...</option>
-            <option *ngFor="let itm of dataSelectIns" value={{itm.instrumento}}>{{itm.titulo}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div fxFlex="100" fxLayout="row" class="ml-4" *ngIf="medioPago">
-        <!-- <label class="col-md-3 label-control" >Medio De Pago </label> -->
-        <div class="input-text">
-          <select formControlName="instrumento" class=" form-control border-primary" name="medP">
-            <option value="" disabled selected>Seleccione...</option>
-            <option *ngFor="let med of dataSelectMed" value={{med.instrumento}}>{{med.titulo}}</option>
-          </select>
-        </div>
       </div>
     </div>
 
@@ -104,9 +93,9 @@
                 <div class="col-sm-12">
                   <div class="card">
                     <div class="card-body">
-                      <div class="card-block">
+                      <div class="card-block pr-2 pl-2">
 
-                        <dx-data-grid class="max-width-none"
+                        <dx-data-grid class="max-width-100"
                           id="gridContainer"
                           [dataSource]="rowsCCI"
                           [showRowLines]="true"
@@ -117,19 +106,22 @@
                           [wordWrapEnabled]="true"
                           (onRowRemoved)="eliminarCCI($event)"><!-- Inicio de la tabla de cuentas contables instrumento -->
 
+                          <dxo-load-panel [enabled]="true"></dxo-load-panel>
                           <dxo-paging [enabled]="false"></dxo-paging>
                           <dxo-editing
                             mode="form"
                             [allowDeleting]="true"
                             [useIcons]="true">
+                            <dxo-texts confirmDeleteMessage="Se eliminará la asignación cuenta con instrumento!">
+                            </dxo-texts>
                           </dxo-editing>
-                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="center" [width]="170">
+                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="left" [width]="170">
                           </dxi-column>
-                          <dxi-column dataField="instrumento" caption="Instrumento / M De Pago" alignment="center" [width]="330">
+                          <dxi-column dataField="glosainst" caption="Instrumento / M De Pago" alignment="left" [width]="324">
                           </dxi-column>
-                          <dxi-column dataField="estado" caption="Estado" alignment="center" [width]="96">
+                          <dxi-column dataField="estado" caption="Estado" alignment="left" [width]="100">
                           </dxi-column>
-                          <dxi-column dataField="glosatipocuenta" caption="Tipo de Cuenta" alignment="center" [width]="96">
+                          <dxi-column dataField="glosatipocuenta" caption="Tipo de Cuenta" alignment="left" [width]="96">
                           </dxi-column>
                         </dx-data-grid><!-- Fin de la tabla de cuentas contables instrumento -->
 

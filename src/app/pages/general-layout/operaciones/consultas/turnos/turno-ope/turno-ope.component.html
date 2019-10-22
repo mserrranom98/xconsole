@@ -1,0 +1,29 @@
+<div class="card-header">
+  <h4 class="card-title"><i class="ft-list"></i>Detalle de operaciones del turno</h4>
+</div>
+
+<dx-data-grid id="tableTurno" class="mb-3 max-width-none"
+              [dataSource]="operaciones"
+              keyExpr="operacion"
+              [showRowLines]="true"
+              [rowAlternationEnabled]="true"
+              [allowColumnReordering]="true"
+              [showBorders]="true"
+              [showColumnLines]="false"
+              (onRowClick)="openDetalle($event)"
+              [wordWrapEnabled]="true">
+
+  <dxi-column dataField="rexGlosa" caption="Empresa"></dxi-column>
+  <dxi-column dataField="sucursalGlosa" caption="Sucursal"></dxi-column>
+  <dxi-column dataField="operacion" caption="Operación"></dxi-column>
+  <dxi-column dataField="fechaRegistro" caption="Fecha Registro"></dxi-column>
+  <dxi-column dataField="fechaRecaudacion" caption="Fecha Recaudación"></dxi-column>
+  <dxi-column dataField="tipoGlosa" caption="Tipo"></dxi-column>
+  <dxi-column dataField="estadoGlosa" caption="Estado"></dxi-column>
+  <dxi-column dataField="monto" caption="Monto" format=",###,###,##0"
+              [customizeText]="onEditorPreparing" [width]="175" alignment="right"></dxi-column>
+</dx-data-grid>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary btn-raised" (click)="volver()">Volver</button>
+</div>

@@ -58,8 +58,8 @@ export class ReglasPagoComponent implements OnInit {
   }
 
   listMediosPago() {
-    this.utilsService.getMedioPago(this.medioPago).subscribe(
-      (response:any) => {
+    this.utilsService.getMedioPago().subscribe(
+      (response: any) => {
         if (response.rowCount > 0) {
           for (let i = 0; i < response.rowCount; i++) {
             let mp: Object = {
@@ -153,6 +153,7 @@ export class ReglasPagoComponent implements OnInit {
         console.log('Error: ' + JSON.stringify(error));
       }
     )
+    $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
   }
 
   nuevaRegla() {

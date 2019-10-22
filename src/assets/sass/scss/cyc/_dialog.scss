@@ -1,0 +1,72 @@
+.dx-dialog {
+
+  .dx-dialog-message {
+    margin-left: 20% !important;
+    margin-right: 5% !important;
+  }
+
+  /*RB Texto Mensaje Advertencia*/
+  .dx-overlay-wrapper {
+    color: #333;
+    font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.33334;
+  }
+
+  /*RB Imagen Mensaje Advertencia*/
+  .dx-popup-wrapper > .dx-overlay-content {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    font-size: 1rem;
+    border-radius: 6px;
+    background: url(/assets/img/elements/boton_advertencia.png) no-repeat 7% 22%, #fff;
+  }
+
+  /*RB CSS Agregado*/
+  .dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-inherit-height {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    border-radius: 6px;
+    width: 28%;
+    height: 26% !important;
+  }
+
+  /*RB*/
+  .dx-toolbar-center {
+    margin: 0 auto !important;
+    margin-top: 5% !important
+  }
+
+  .dx-popup-content {
+    height: auto !important;
+  }
+
+  /*RB CSS agregado*/
+  .dx-popup-bottom.dx-toolbar.dx-popup-cancel {
+    display: none
+  }
+
+  /*RB*/
+  .dx-popup-content.dx-dialog-content {
+    min-width: 200px;
+    padding: 3px;
+    margin-top: 8%;
+    text-align: center;
+  }
+
+  .dx-toolbar-text-auto-hide .dx-button .dx-icon {
+    color: white !important;
+  }
+
+  /*RB 08082019*/
+  .dx-button-content {
+    border-radius: 4px;
+    background-color: rgba(0, 140, 201, 0.6);
+  }
+
+  .dx-button-text {
+    color: white;
+  }
+
+}

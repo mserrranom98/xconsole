@@ -19,7 +19,7 @@ $bs-height-xs:   (floor($font-size-sm * 1.2) + $padding-small-vertical + 1) !def
     top: 0;
     bottom: 0;
     width: $bs-height-base;
-    line-height: ($bs-height-base + 0.2);
+    line-height: ($bs-height-base + 1.93);
     font-size: 1.6em;
     text-align: center;
     border-right: 1px solid rgba(0, 0, 0, 0.2);

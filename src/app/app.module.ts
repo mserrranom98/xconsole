@@ -1,6 +1,4 @@
 import {NgModule} from '@angular/core';
-// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedModule} from './shared/shared.module';
@@ -18,23 +16,20 @@ import {FullLayoutComponent} from './layouts/full/full-layout.component';
 
 import {AuthService} from './shared/auth/auth.service';
 import {AuthGuard} from './shared/auth/auth-guard.service';
-
 import * as $ from 'jquery';
 
 // Desde XCONSOLE
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 // Servicios FALTA PONER ESTAS VAINASSSSSSSSSSSS
 import {LoginPassService} from './services/login-pass.service';
 import {MenuService} from './services/menu.service';
 import {GetActionService} from './services/getAction.service';
 import {LoginPassComponent} from './login-pass/login-pass.component';
 import {DataFilterPipe} from './pipes/data-filter.pipe';
-import {DxTreeListModule} from 'devextreme-angular';
+import {DxLookupModule, DxTreeListModule} from 'devextreme-angular';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
-// import { ForgotService } from './pages/content-layout-page/services/forgot.service';
-
+import {MaterialModule} from './shared/material/material.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -46,16 +41,18 @@ export function createTranslateLoader(http: HttpClient) {
     LoginPassComponent,
     FullLayoutComponent,
     ContentLayoutComponent,
-    DataFilterPipe
+    DataFilterPipe,
   ],
   imports: [
     // NoopAnimationsModule,
     BrowserAnimationsModule,
     FormsModule,
+    MaterialModule,
     StoreModule.forRoot({}),
     AppRoutingModule,
     SharedModule,
     DxTreeListModule,
+    DxLookupModule,
     DragulaModule.forRoot(),
     HttpClientModule,
     FlexLayoutModule,

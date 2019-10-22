@@ -42,8 +42,8 @@ export class CarnidalidadmpPropertiesComponent implements OnInit {
     }
 
     // Empresas EPS
-    this.utilsService.getEmpEps(this.utils).subscribe(
-      (response:any) => {
+    this.utilsService.getEmpEps().subscribe(
+      (response: any) => {
         const dir = response.rowCount;
         if (dir > 0) {
           this.listEps = response.rows;
@@ -55,11 +55,12 @@ export class CarnidalidadmpPropertiesComponent implements OnInit {
     )
 
     // Medios de Pago
-    this.utilsService.getMedioPago(this.utils).subscribe(
-      (response:any) => {
+    this.utilsService.getMedioPago().subscribe(
+      (response: any) => {
         this.medioPago = response.rows
       }
     )
+    $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
   }
 
   guardar() {

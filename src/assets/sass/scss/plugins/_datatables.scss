@@ -3,93 +3,93 @@ bootstrap table theme
 */
 
 .ngx-datatable.bootstrap {
-    box-shadow: none;
-    font-size: 1rem;
-    .datatable-header {
-      height: unset !important;
-      .datatable-header-cell {
-        vertical-align: bottom;
-        //padding: 0.75rem;
-        border-bottom: 1px solid #ffffff;
-        .datatable-header-cell-label {
-          line-height: 24px;
-        }
+  box-shadow: none;
+  font-size: 0.7rem; /*RB*/
+  .datatable-header {
+    height: unset !important;
+    .datatable-header-cell {
+      vertical-align: bottom;
+      //padding: 0.75rem;
+      border-bottom: 1px solid #ffffff;
+      .datatable-header-cell-label {
+        line-height: 24px;
       }
     }
-    .datatable-body {
-      .datatable-body-row {
+  }
+  .datatable-body {
+    .datatable-body-row {
       //  padding: 0.75rem;
-     
+
+      vertical-align: top;
+      border-top: 1px solid #aaa4a4d3;
+      &.datatable-row-even {
+        background-color: rgba(90, 209, 35, 0.03);
+      }
+      &.active {
+        background-color: rgba(19, 175, 241, 0.3);
+      }
+      .datatable-body-cell {
+        text-align: left;
         vertical-align: top;
-        border-top: 1px solid #aaa4a4d3;
-        &.datatable-row-even {
-          background-color: rgba(90, 209, 35, 0.03);
-        }
-        &.active {
-          background-color: rgba(19, 175, 241, 0.3);
-        }
-        .datatable-body-cell {
-          text-align: left;
-          vertical-align: top;
-        }
       }
     }
-    .datatable-footer {
-      background: white;
-      color: #06a872;
-      margin-top: 10px;
-      width: 30% !important;
-      text-align: left;
-      .page-count {
-        line-height: 70px;
-        height: 70px;
-        padding: 0px 0px 0px 0px;
-        //top right bottom left
-      }
-      .datatable-pager {
-        margin: 1px;
-        vertical-align: top;
-        ul {
-          li {
-            margin: 4px;
-            &:not(.disabled) {
-              &.active,
-              &:hover {
-                a {
-                  background-color: #34b0b400;
-                  font-weight: bold;
-                }
+  }
+  .datatable-footer {
+    background: white;
+    color: #06a872;
+    margin-top: 10px;
+    width: 30% !important;
+    text-align: left;
+    .page-count {
+      line-height: 70px;
+      height: 70px;
+      padding: 0px 0px 0px 0px;
+      //top right bottom left
+    }
+    .datatable-pager {
+      margin: 1px;
+      vertical-align: top;
+      ul {
+        li {
+          margin: 4px;
+          &:not(.disabled) {
+            &.active,
+            &:hover {
+              a {
+                background-color: #34b0b400;
+                font-weight: bold;
               }
             }
           }
         }
-        a {
-          height: 23px;
-          min-width: 2px;
-          line-height: 25px; //no cambio aparente 
-          padding: 0;
-          border-radius: 1px;
-          margin: 3px;
-          text-align: center;
-          vertical-align: top;
-          text-decoration: none;
-          vertical-align: bottom;
-          color: #ffffff;
-        }
-        //BOTONES PAGINADOR
-        .datatable-icon-left,
-        .datatable-icon-skip,
-        .datatable-icon-right,
-        .datatable-icon-prev {
-          font-size: 15px;
-          line-height: 27px;
-          padding: 0 3px;
-        }
+      }
+      a {
+        height: 23px;
+        min-width: 2px;
+        line-height: 25px; //no cambio aparente
+        padding: 0;
+        border-radius: 1px;
+        margin: 3px;
+        text-align: center;
+        vertical-align: top;
+        text-decoration: none;
+        vertical-align: bottom;
+        color: #ffffff;
+      }
+      //BOTONES PAGINADOR
+      .datatable-icon-left,
+      .datatable-icon-skip,
+      .datatable-icon-right,
+      .datatable-icon-prev {
+        font-size: 15px;
+        line-height: 27px;
+        padding: 0 3px;
       }
     }
   }
+}
 
-[dir="rtl"]{ 
+[dir="rtl"]{
 
   .ngx-datatable .datatable-header .datatable-header-cell {
     text-align: right;
@@ -98,16 +98,16 @@ bootstrap table theme
     text-align: right;
   }
   .ngx-datatable .empty-row{
-     text-align: right;
+    text-align: right;
   }
   .ngx-datatable .loading-row{
-     text-align: right;
+    text-align: right;
   }
   .ngx-datatable .datatable-footer .datatable-pager {
     text-align: left;
   }
   .ngx-datatable.scroll-horz .datatable-body {
     padding-right: 20px;
-   
+
   }
 }

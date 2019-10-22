@@ -1,0 +1,80 @@
+<div [formGroup]="formInstrumento">
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="label-control">Tipo de Industria: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" formControlName="tipoIndustria" (change)="getIndustrias()">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let tipo of tipoIndustria" value={{tipo.codigo}}>{{tipo.titulo}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="label-control">Empresa: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" [disabled]="disableEmpresa" formControlName="empresa">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let empresa of empresas" value={{empresa.codigo}}>{{empresa.titulo}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select mb-3">
+        <label fxFlex="100" class="label-control">Interacción: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" formControlName="standIn">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let interaccion of interacciones" value={{interaccion.item}}>{{interaccion.glosa}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayoutAlign="start start" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="label-control">Industria: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" [disabled]="disableIndustria" formControlName="industria" (change)="getEmpresas()">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let industria of industrias" value={{industria.codigo}}>{{industria.titulo}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select mb-3">
+        <label fxFlex="100" class="label-control">Tipo: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" formControlName="tipo">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let tipo of tipos" value={{tipo.item}}>{{tipo.glosa}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select mb-3">
+        <label fxFlex="100" class="label-control">Estado: </label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" formControlName="bloqueado">
+            <option value="" selected>Seleccione...</option>
+            <option value="S">Bloqueado</option>
+            <option value="N">Habilitado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="">
+  <div class="form-butt">
+    <button type="button" class="btn btn-social btn-limpiar btn-raised position-right mr-1" (click)="limpiar()"><i
+      class="fa icon-refresh"></i>Limpiar</button>
+    <a class="customizer-close-buscar">
+      <button type="button" class="btn btn-social btn-consultar btn-raised position-right mr-1"
+              (click)="enviarFiltro()"><i class="fa ft-search"></i> Consultar</button>
+    </a>
+  </div>
+</div>

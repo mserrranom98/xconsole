@@ -1,0 +1,28 @@
+<div class="filter-style">
+  <div class="customizer border-left-blue-grey border-left-lighten-4 d-none d-sm-none d-md-block" id="acquirers-filter"
+       id="acquirers-filter">
+    <a class="customizer-close">
+      <i class="ft-x font-medium-3"></i>
+    </a>
+    <a class="customizer-toggle bg-danger" id="customizer-toggle-icon">
+      <i class="ft-search font-medium-4 white align-middle"></i>
+    </a>
+    <div class="customizer-content p-3 ps-container ps-theme-dark"
+         data-ps-id="df6a5ce4-a175-9172-4402-dabd98fc9c0a">
+      <h4 class="text-uppercase mb-0 text-bold-400">filtros</h4>
+      <p>{{message}}</p>
+      <hr>
+      <h6 class="text-center text-bold-500 mb-3 text-uppercase">Opciones de Busqueda</h6>
+      <div class="cz-bg-color">
+
+        <app-filter-operaciones *ngIf="message === 'Operaciones'" ></app-filter-operaciones>
+        <app-filter-turnos *ngIf="message === 'Turnos'"></app-filter-turnos>
+        <app-filter-journal *ngIf="message === 'Journal'"></app-filter-journal>
+        <app-filter-alarmas *ngIf="message === 'Alarmas'"></app-filter-alarmas>
+        <app-filter-instrumentos *ngIf="message === 'Instrumentos'"></app-filter-instrumentos>
+        <app-filter-arqueo *ngIf="message === 'Arqueo'"></app-filter-arqueo>
+
+      </div>
+    </div>
+  </div>
+</div>

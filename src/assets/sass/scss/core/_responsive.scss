@@ -1,9 +1,9 @@
 @media (min-width: 992px) {
-	.main-panel{
-		.main-content{
-			padding-left:250px;
-		}
-	}
+  .main-panel{
+    .main-content{
+      padding-left:200px; /*RB*/
+    }
+  }
 
   .navbar {
     .navbar-header{
@@ -20,7 +20,7 @@
 
   .sidebar-sm{
     .main-panel .main-content{
-        padding-left: 220px;
+      padding-left: 220px;
     }
     .navbar {
       .navbar-header{
@@ -37,7 +37,7 @@
 
   .sidebar-lg{
     .main-panel .main-content{
-        padding-left: 280px;
+      padding-left: 280px;
     }
     .navbar {
       .navbar-header{
@@ -63,7 +63,7 @@
   .navbar-toggle {
     display: block;
   }
-	.navbar-toggle .icon-bar {
+  .navbar-toggle .icon-bar {
     display: block;
     position: relative;
     background: #fff;
@@ -176,8 +176,8 @@
 
     .sidebar-sm{
       .main-panel .main-content{
-          padding-right: 220px;
-          padding-left: 0  !important;
+        padding-right: 220px;
+        padding-left: 0  !important;
       }
       .navbar {
         .navbar-header{
@@ -197,8 +197,8 @@
 
     .sidebar-lg{
       .main-panel .main-content{
-          padding-right: 280px;
-          padding-left: 0  !important;
+        padding-right: 280px;
+        padding-left: 0  !important;
       }
       .navbar {
         .navbar-header{
@@ -220,9 +220,9 @@
   @media (max-width: 992px) {
     .navbar-header .navbar-toggle {
       margin: 10px 0 10px 15px;
-    } 
+    }
     .navbar-header .navbar-collapse-toggle {
-       margin: 20px 15px 10px 0px;
+      margin: 20px 15px 10px 0px;
     }
   }
 

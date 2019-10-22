@@ -1,0 +1,164 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"><!-- Inicio del card para la busqueda de grupos por fecha -->
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body pb-3">
+              <div class="form form-horizontal"> <!-- Inicio busqueda de grupos por estado -->
+
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Grupos de Correo</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+                <div class="col-md-6"><!-- Inicio seleccionar estado -->
+                  <div class="form-group row">
+                    <label class="col-md-5 label-control">Estado de Grupos: </label>
+                    <div class="input-text">
+                      <select class="form-control border-primary" id="activoSelect" #activoSelect (change)="changeEstado(activoSelect.value)">
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.estado }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div><!-- Fin seleccionar estado -->
+
+              </div><!-- Fin busqueda de grupos por estado -->
+
+              <div class="form-actions"><!-- Inicio tabla de grupos -->
+                <div class="row">
+                  <div class="col-md-12 table-main">
+
+                    <dx-data-grid class="max-width-none" *ngIf="viewGruposIntegrantes"
+                                  id="gridContainer"
+                                  [dataSource]="gruposIntegrantes"
+                                  keyExpr="idGrupo"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true"
+                                  (onSelectionChanged)="selectionChanged($event)"
+                                  (onRowUpdated)="editarGrupo($event)"
+                                  (onRowInserted)="addGrupo($event)"
+                                  (onRowValidating)="validarGrupo($event)"
+                                  (onEditorPreparing)="onEditorPreparing($event)"
+                                  [masterDetail]="{ enabled: false, template: 'detail' }" [noDataText]="noDataText">
+                      <!-- Inicio de la tabla de grupos -->
+
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-editing
+                        mode="form"
+                        [allowUpdating]="true"
+                        [allowAdding]="true"
+                        [useIcons]="true">
+                        <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                        </dxo-texts>
+                      </dxo-editing>
+
+                      <dxi-column dataField="correoGrupo" caption="Correo Principal" dataType="mail" alignment="left">
+                        <dxi-validation-rule type="required" message="El correo es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="glosaGrupo" caption="Glosa" alignment="left">
+                        <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="estado" caption="Estado" alignment="left">
+                        <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="estados" displayExpr="estado" valueExpr="id"></dxo-lookup>
+                      </dxi-column>
+
+                      <div fxLayout="column" fxLayoutAlign="center center" *dxTemplate="let grupo of 'detail'">
+                        <dx-data-grid fxFlex style="width: max-content" #integranteTable
+                                      [dataSource]="grupo.data.integrantes"
+                                      [showRowLines]="true"
+                                      [rowAlternationEnabled]="true"
+                                      [allowColumnReordering]="true"
+                                      [showBorders]="true"
+                                      [showColumnLines]="false"
+                                      [wordWrapEnabled]="true"
+                                      [width]="560"
+                                      keyExpr="idIntg"
+                                      (onEditorPreparing)="onEditorPreparingI($event)"
+                                      (onRowInserted)="addIntegrante($event, grupo.data.idGrupo)"
+                                      (onRowRemoved)="removeIntegrante($event, grupo.data.idGrupo)"
+                                      (onRowValidating)="validarIntegrante($event, grupo.data.integrantes)" [noDataText]="noDataText">
+
+                          <dxo-editing
+                            mode="form"
+                            [allowAdding]="true"
+                            [allowDeleting]="true"
+                            [useIcons]="true">
+                            <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                            </dxo-texts>
+                          </dxo-editing>
+
+                          <dxi-column dataField="correoIntg" caption="Correo CC" alignment="left">
+                            <dxo-lookup
+                              [dataSource]="integrantes"
+                              displayExpr="correoIntg"
+                              valueExpr="correoIntg">
+                            </dxo-lookup>
+                          </dxi-column>
+                          <dxi-column dataField="nombre" caption="Nombre" alignment="left" [allowEditing]="false">
+                            <dxo-form-item>
+                              <dxo-label text=" " [showColon]="false"></dxo-label>
+                            </dxo-form-item>
+                          </dxi-column>
+                        </dx-data-grid>
+                      </div>
+
+                    </dx-data-grid><!-- Fin de la tabla de grupos e integrantes -->
+
+                    <dx-data-grid class="max-width-none" *ngIf="viewGrupos"
+                                  id="gridContainerGrupo"
+                                  [dataSource]="grupos"
+                                  keyExpr="idGrupo"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true"
+                                  (onRowUpdated)="editarGrupo($event)"
+                                  (onRowInserted)="addGrupo($event)"
+                                  (onRowValidating)="validarGrupo($event)"
+                                  (onEditorPreparing)="onEditorPreparing($event)">
+                      <!-- Inicio de la tabla de grupos -->
+
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-editing
+                        mode="form"
+                        [allowUpdating]="true"
+                        [allowAdding]="true"
+                        [useIcons]="true">
+                        <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                        </dxo-texts>
+                      </dxo-editing>
+
+                      <dxi-column dataField="correoGrupo" caption="Correo Principal" dataType="mail" alignment="left">
+                        <dxi-validation-rule type="required" message="El correo es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="glosaGrupo" caption="Glosa" alignment="left">
+                        <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="estado" caption="Estado" alignment="left">
+                        <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="estados" displayExpr="estado" valueExpr="id"></dxo-lookup>
+                      </dxi-column>
+                    </dx-data-grid><!-- Fin de la tabla de grupos -->
+
+                  </div>
+                </div>
+              </div><!-- Fin tabla de grupos -->
+            </div>
+          </div>
+        </div>
+      </div><!-- Fin del card para la busqueda de grupos por fecha -->
+
+    </div>
+  </div>
+</section>

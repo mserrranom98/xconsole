@@ -1,68 +1,165 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+body {
+  font-family: "Montserrat";
+}
 .card-title {
-    color:  #03488a !important;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #dddddd;
-    padding-bottom: 10px !important;
-    font-weight: 600 !important;
+  color:  #03488a !important;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #dddddd;
+  padding-bottom: 10px !important;
+  font-weight: 600 !important;
+}
+.datatable-header-cell-template-wrap {
+  background-color: rgba(0, 140, 201, 0.6);
+  padding-top: 8px;
+  border-collapse: collapse;
+  text-align: center;
+  color: white;
+  border: 1px solid white;
+  vertical-align: bottom;
+  height: 40px !important;
+}
+.datatable-header {
+  height: 40px !important;
+}
+.ng-reflect-header-height {
+  height: 40px;
+}
+.datatable-body-cell {
+  border-collapse: collapse;
+  border-width: thin 0 0 0;
+  border-style:solid;
+  border-color: #e6e6e6;
+  padding: 1px;
+  color: #646464;
+  text-align: center;
+  vertical-align: middle;
+}
+.datatable-row-even {
+  background-color: #f2f2f2;
+}
+.datatable-group-header {
+  background-color: rgba(0, 140, 201, 0.2);
+  vertical-align: middle;
+  border-width: thin 0 thin 0;
+  border-style:solid;
+  border-color: rgba(0, 140, 201, 0.6);
+  padding-top: 5px;
+}
+.datatable-body-cell-label {
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px;
+}
+.datatable-row-center:hover {
+  background-color: rgb(0, 140, 201, 0.1);
+}
+
+.datatable-pager .pager li, .ngx-datatable .datatable-footer .datatable-pager .pager li a {
+  outline: none;
+  color: rgba(0, 140, 201, 10);
+}
+.col-sm-6 {
+  width: 90% !important;
+  padding: 8px;
+  float:none;
+}
+.input-group {
+  margin-bottom: 0rem !important;
+}
+
+.form-control {
+  font-size: 0.75rem;
+}
+.btn {
+  font-size: 0.75rem;
+}
+/*Ini - Botones Reca*/
+.btn-consultar {
+  background-color: #003da5 !important;
+}
+.btn-exportar {
+  background-color: #0088cc;
+}
+.btn-limpiar {
+  background-color: #868181;
+}
+
+.btn-outline-dropbox {
+  border: 1px solid #03488a !important;
+  color:#03488a !important;
+}
+
+.btn-social >:first-child {
+  line-height: 1.93rem;
+  font-size: 1.3em
+}
+/*Fin - Botones Reca*/
+
+.pure-checkbox input[type=checkbox]+label:before {
+  background-color:#0088cc !important;
+  border-radius: 4px !important;
+}
+
+.pure-checkbox input[type=checkbox]+label:after {
+  top: 46% !important;
+  left: 2px !important;
+  width: 9px !important;
+  height: 3px !important;
+  border-width: 0 0 2px 2px !important;
+}
+
+.pure-checkbox input[type=checkbox]+label {
+  color: black !important;
+}
+
+.selected-list .c-list .c-token {
+  background-color:#f3f5f8 !important;
+  border-radius: 5px !important;
+}
+
+.selected-list .c-list .c-token .c-remove svg {
+  fill: #0088cc !important;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0rem;
+}
+
+.pl-3, .px-3 {
+  padding-left: 0.3rem !important;
+}
+
+.hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  padding: 0rem 1.5rem !important;
+}
+
+.modal-header {
+  width: 100%;
+}
+
+.w100 {
+  width: 100% !important;
+}
+
+.dx-datagrid-rowsview .dx-row:hover {
+  background-color: rgb(0, 140, 201, 0.1);
+}
+
+@media screen and (max-width:992px) and (min-width:641px) {
+  .input-text{
+    width: 60%;
   }
-  .datatable-header-cell-template-wrap {
-    background-color: rgba(0, 140, 201, 0.6);
-    padding-top: 8px;
-    border-collapse: collapse;
-    text-align: center;
-    color: white;
-    border: 1px solid white;
-    vertical-align: bottom; 
-    height: 40px !important;
-  }
-  .datatable-header {
-    height: 40px !important;
-  }
-  .ng-reflect-header-height {
-    height: 40px;
-  }
-  .datatable-body-cell {
-    border-collapse: collapse;
-    border-width: 1px 0 0 0;
-    border-style:solid;
-    border-color: #e6e6e6;
-    padding: 3px;
-    color: #646464;
-    text-align: center;
-    vertical-align: middle; 
-  }
-  .datatable-row-even {
-    background-color: #f2f2f2;
-  }
-  .datatable-body-cell-label {
-    text-align: center;
-    vertical-align: middle; 
-    padding: 10px;
-  }
-  .datatable-row-center:hover {
-    background-color: #dddddd;
-  }
-  .datatable-footer {
-    background-color: #b4b4b4;
-    padding: 3px;
-    color:white;
-    width: 15% !important;
-    text-align: center;
-    border-radius: 10px;
-  }
-  .col-sm-6 {
-    width: 90% !important;
-    padding: 8px;
-    float:none;
-  }
-  .text-right {
-    text-align: center;
-    float:none;
-  }
-  @media screen and (max-width:992px) and (min-width:641px) {
   #horizontal-form-layouts {
     width:100%;
   }
@@ -70,74 +167,18 @@
     width: 100% !important;
   }
   .card {
-  padding: 8px !important;
+    padding: 8px !important;
   }
-    .px-3  {
-        display: block;
-        overflow: auto;
-    }
-    .form-body {
-      width: 850px !important;
+  .px-3  {
+    display: block;
+    overflow: auto;
+  }
+  .form-body {
+    width: 850px !important;
   }
   .navbar {
     width: 100%;
     height: 80px;
-  }
-  .navbar-header {
-  padding: 0px !important;
-  width: 40%;
-  height: 80px;
-  float: left;
-  }
-  .navbar-container {
-        padding: 0px !important;
-        width: 45%;
-        height: 80px;
-        float: right;
-  }
-  .collapse {
-      width: 100%;
-      float: right;
-      height: 80px;
-      display: block !important;
-  }
-  .navbar-nav {
-        width: 50%;
-        padding-top:12px;
-        height: 80px;
-        float: right;
-        text-align: right;
-  }
-  .nav-item {
-      padding: 0px !important;
-  }
-  #navbarSupportedContent {
-    width: 100%;
-    padding: 0px !important;
-    height: 80px;
-    float: right !important;
-  }  
-  }
-  @media screen and (max-width:640px) {
-    #horizontal-form-layouts {
-      width:100%;
-    }
-    .container-fluid {
-      width: 100% !important;
-  }
-  .card {
-    padding: 8px !important;
-  }
-      .px-3  {
-          display: block;
-          overflow: auto;
-      }
-      .form-body {
-        width: 850px !important;
-    }
-    .navbar {
-      width: 100%;
-      height: 80px;
   }
   .navbar-header {
     padding: 0px !important;
@@ -146,87 +187,26 @@
     float: left;
   }
   .navbar-container {
-          padding: 0px !important;
-          width: 45%;
-          height: 80px;
-          float: right;
-      }
-  .collapse {
-        width: 100%;
-        float: right;
-        height: 80px;
-        display: block !important;
-    }
-  .navbar-nav {
-          width: 55%;
-          padding-top:12px;
-          height: 80px;
-          float: right;
-          text-align: right;
-          margin-right: 2%;
-      }
-  .nav-item {
-        padding: 0px !important;
-    }
-  #navbarSupportedContent {
-      width: 100%;
-      padding: 0px !important;
-      height: 80px;
-      float: right !important;
-  }
-    }
-  @media screen and (max-width:480px) {
-  #horizontal-form-layouts {
-        width:100%;
-      }
-  .container-fluid {
-        width: 100% !important;
-  }
-  .card {
-  padding: 8px !important;
-  }
-  .px-3  {
-            display: block;
-            overflow: auto;
-  }
-  .form-body {
-          width: 850px !important;
-      }
-  .input {
-      width: 100% !important;
-      float: left;
-  }
-  .navbar {
-    width: 100%;
+    padding: 0px !important;
+    width: 45%;
     height: 80px;
+    float: right;
   }
-  .navbar-header {
-  padding: 0px !important;
-  width: 40%;
-  height: 80px;
-  float: left;
-  }
-  .navbar-container {
-        padding: 0px !important;
-        width: 45%;
-        height: 80px;
-        float: right;
-    }
   .collapse {
-      width: 100%;
-      float: right;
-      height: 80px;
-      display: block !important;
+    width: 100%;
+    float: right;
+    height: 80px;
+    display: block !important;
   }
   .navbar-nav {
-        width: 90%;
-        padding-top: 12px !important;
-        height: 80px;
-        float: right;
-        text-align: right;
-    }
-    .nav-item {
-      padding: 0px !important;
+    width: 50%;
+    padding-top:12px;
+    height: 80px;
+    float: right;
+    text-align: right;
+  }
+  .nav-item {
+    padding: 0px !important;
   }
   #navbarSupportedContent {
     width: 100%;
@@ -234,6 +214,130 @@
     height: 80px;
     float: right !important;
   }
-    
-      }
+}
+
+@media screen and (min-width:481px) and (max-width:640px) {
+  .input-text{
+    width: 30%;
+  }
+  #horizontal-form-layouts {
+    width:100%;
+  }
+  .container-fluid {
+    width: 100% !important;
+  }
+  .card {
+    padding: 8px !important;
+  }
+  .px-3  {
+    display: block;
+    overflow: auto;
+  }
+  .form-body {
+    width: 850px !important;
+  }
+  .navbar {
+    width: 100%;
+    height: 80px;
+  }
+  .navbar-header {
+    padding: 0px !important;
+    width: 40%;
+    height: 80px;
+    float: left;
+  }
+  .navbar-container {
+    padding: 0px !important;
+    width: 45%;
+    height: 80px;
+    float: right;
+  }
+  .collapse {
+    width: 100%;
+    float: right;
+    height: 80px;
+    display: block !important;
+  }
+  .navbar-nav {
+    width: 55%;
+    padding-top:12px;
+    height: 80px;
+    float: right;
+    text-align: right;
+    margin-right: 2%;
+  }
+  .nav-item {
+    padding: 0px !important;
+  }
+  #navbarSupportedContent {
+    width: 100%;
+    padding: 0px !important;
+    height: 80px;
+    float: right !important;
+  }
+}
+@media screen and (min-width:320px) and (max-width:480px) {
+  .input-text{
+    width: 30%;
+  }
+  #horizontal-form-layouts {
+    width:100%;
+  }
+  .container-fluid {
+    width: 100% !important;
+  }
+  .card {
+    padding: 8px !important;
+  }
+  .px-3  {
+    display: block;
+    overflow: auto;
+  }
+  .form-body {
+    width: 850px !important;
+  }
+  .input {
+    width: 100% !important;
+    float: left;
+  }
+  .navbar {
+    width: 100%;
+    height: 80px;
+  }
+  .navbar-header {
+    padding: 0px !important;
+    width: 40%;
+    height: 80px;
+    float: left;
+  }
+  .navbar-container {
+    padding: 0px !important;
+    width: 45%;
+    height: 80px;
+    float: right;
+  }
+  .collapse {
+    width: 100%;
+    float: right;
+    height: 80px;
+    display: block !important;
+  }
+  .navbar-nav {
+    width: 90%;
+    padding-top: 12px !important;
+    height: 80px;
+    float: right;
+    text-align: right;
+  }
+  .nav-item {
+    padding: 0px !important;
+  }
+  #navbarSupportedContent {
+    width: 100%;
+    padding: 0px !important;
+    height: 80px;
+    float: right !important;
+  }
+
+}
 

@@ -45,11 +45,11 @@ export class TerminalesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.empRexsService.getRex(this.rexSelect).subscribe(
-      (response:any) => {
+    this.empRexsService.getRex().subscribe(
+      (response: any) => {
         this.listEmpRex = response.rexs;
       }
-    )
+    );
 
     this.terSelect.rex = VAR_TER.rex;
     this.sucSelect.rex = VAR_TER.rex;
@@ -59,6 +59,7 @@ export class TerminalesComponent implements OnInit {
       this.buscar();
       this.sucursal();
     }
+    $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
 
   }
 
@@ -71,8 +72,8 @@ export class TerminalesComponent implements OnInit {
     this.listSuc = [];
     this.rows = [];
     this.divList = false;
-    this.sucursalesService.getSuc(this.sucSelect).subscribe(
-      (response:any) => {
+    this.sucursalesService.getSuc(this.sucSelect.rex).subscribe(
+      (response: any) => {
         this.listSuc = response.sucursales;
       }
     )
@@ -87,7 +88,7 @@ export class TerminalesComponent implements OnInit {
     }
     this.data = [];
     this.msj = '';
-    this.terminalesService.getTer(this.terSelect).subscribe(
+    this.terminalesService.getTer(this.terSelect.sucursal).subscribe(
       (response:any) => {
         if (response.code === '0') {
           const dir = response.terminales.length;

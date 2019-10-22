@@ -20,10 +20,13 @@ export class SucursalesService {
   constructor(public _http: HttpClient
   ) {}
 
-  getSuc(suc: SucSelect) {
-    suc.userName = VARGLOBAL.user;
-    suc.peticion = "SUCURSALES_SELECT";
-    return this._http.post(this.urlPath,suc);
+  getSuc(rex: String) {
+    const body = {
+      rex: rex,
+      userName: VARGLOBAL.user,
+      peticion: 'SUCURSALES_SELECT'
+    };
+    return this._http.post(this.urlPath, body);
   }
 
   insertSuc(suc: SucIU) {

@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 
 // Route for content layout with sidebar, navbar and footer
 export const Full_ROUTES: Routes = [
@@ -27,8 +27,11 @@ export const Full_ROUTES: Routes = [
     loadChildren: 'app/pages/emp-serv-reca-layaout/empserv.module#EmpServRecaModule'
   },
   {
-    path:'informes',
-    loadChildren:'app/pages/informes/informes.module#InformesModule'
+    path: 'informes',
+    loadChildren: 'app/pages/informes/informes.module#InformesModule'
+  },
+  {
+    path: 'analisis-financiero',
+    loadChildren: 'app/pages/analisis-financiero/analisis-financiero.module#AnalisisFinancieroModule'
   }
-  
 ];

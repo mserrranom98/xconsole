@@ -117,7 +117,7 @@ export class LoginPassComponent implements OnInit {
 
   onDone() {
     // Finalizar pantalla para elimianr cuentas de usuarios
-    if (this.remove = false) {
+    if (this.remove === false) {
       this.remove = true;
       this.done = false;
     } else {
@@ -138,6 +138,7 @@ export class LoginPassComponent implements OnInit {
           VARGLOBAL.sessionUUID = response.sessionUUID;
           VARGLOBAL.user = response.displayName;
           VARGLOBAL.jsessionID = response.jsessionID;
+          VARGLOBAL.directory = this.usuario.directoryName;
 
           this.onRecordar();
           /*if (VARGLOBAL.user === 'admin') {
@@ -241,6 +242,7 @@ export class LoginPassComponent implements OnInit {
     } else {
       this.usrLocal = [this.usuario.userName];
       localStorage.setItem('local', JSON.stringify(this.usrLocal));
+      localStorage.setItem('filterType', '');
     }
   }
 

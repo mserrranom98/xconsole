@@ -1,0 +1,95 @@
+<div [formGroup]="formAlarmas">
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="label-control">Fecha Desde:</label>
+        <div fxFlex="100" fxLayout="row">
+          <div class="input-text" fxFlex="80">
+            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi"
+                   formControlName="inputFechaIni" ngbDatepicker #d1="ngbDatepicker" maxlength="10" readonly>
+          </div>
+          <div class="input-group-append" fxFlex="20">
+            <div class="input-group-text border-primary" (click)="d1.toggle()">
+              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-3">
+        <label fxFlex="100" class="label-control">Tipo: </label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_mdpValue"
+            [dataSource]="mediosDePago"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="3"
+            valueExpr="codigo"
+            placeholder="Seleccione..."
+            displayExpr="titulo">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="col-md-3 label-control">Fecha Hasta:</label>
+        <div fxFlex="100" fxLayout="row">
+          <div class="input-text" fxFlex="80">
+            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpf"
+                   formControlName="inputFechaFin" ngbDatepicker #d2="ngbDatepicker" maxlength="10" readonly>
+          </div>
+          <div class="input-group-append" fxFlex="20">
+            <div class="input-group-text border-primary" (click)="d2.toggle()">
+              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-3">
+        <label fxFlex="100" class="label-control">Empresa: </label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_empresaValue"
+            [dataSource]="empresas"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="3"
+            valueExpr="codigo"
+            placeholder="Seleccione..."
+            displayExpr="titulo">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="48">
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-3">
+        <label fxFlex="100" class="label-control">Estado: </label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_estadoValue"
+            [dataSource]="estados"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="3"
+            valueExpr="codigo"
+            placeholder="Seleccione..."
+            displayExpr="titulo">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="pt-2">
+  <div class="form-butt">
+    <button type="button" class="btn btn-secondary btn-raised" (click)="limpiar()" >Limpiar</button>
+    <a class="customizer-close-buscar">
+      <button type="button" class="btn btn-indigo btn-raised" (click)="enviarFiltro()">Buscar</button>
+    </a>
+  </div>
+</div>

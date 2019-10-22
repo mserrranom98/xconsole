@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, ElementRef, Input } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import swal from 'sweetalert2';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Listas, ListaIU, LDelete, ListasItems } from '../../../pages-models/model-emp-serv-rec';
-import { ListasService } from '../../../pages-services/serv-emp-serv-rec/listas.services';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {NgForm} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LDelete, ListaIU, Listas, ListasItems} from '../../../pages-models/model-emp-serv-rec';
+import {ListasService} from '../../../pages-services/serv-emp-serv-rec/listas.services';
 
 @Component({
   selector: 'app-listas',
@@ -13,7 +13,7 @@ import { ListasService } from '../../../pages-services/serv-emp-serv-rec/listas.
 
 export class ListasComponent implements OnInit {
   @ViewChild(DatatableComponent) tblList: DatatableComponent;
-  @ViewChild('panel', { read: ElementRef }) public panel: ElementRef;
+  @ViewChild('panel', {read: ElementRef}) public panel: ElementRef;
   @ViewChild('f') f: NgForm;
   @Output() datos = new EventEmitter();
   @Input() tipo: string;
@@ -23,7 +23,7 @@ export class ListasComponent implements OnInit {
   lDelete: LDelete;
   listasItems: ListasItems;
   list = [];
-  opc = new Object();
+  opc = {};
   data = [];
   rows = [];
   temp = [];
@@ -48,27 +48,25 @@ export class ListasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.opc = new Object();
+    this.opc = {};
     this.list = [];
-    this.listasItems.lista = 'TIPOLI';
-    this.listasService.getListasDet(this.listasItems).subscribe(
-      (response:any) => {
+    this.listasService.getListasDet('TIPOLI').subscribe((response: any) => {
         this.list = response.items;
       },
       error => {
         console.log('Error: ' + JSON.stringify(error));
-      }
-    )
+      });
 
     this.buscar();
+    $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
   }
 
   buscar() {
     // Consultar Lista
     let list = '';
-    if (this.tipo == '') {
+    if (this.tipo === '') {
       list = this.listaIU.tipo;
-    } else if(this.tipoB != '') {
+    } else if (this.tipoB !== '') {
       list = this.tipoB;
     } else {
       list = this.tipo;
@@ -79,31 +77,28 @@ export class ListasComponent implements OnInit {
     } else {
       this.adm.adm = '0';
     }
-    this.opc = new Object();
-    this.data = [];    
-    this.listasService.getListas(this.adm).subscribe(
-      (response:any) => { 
-       /* console.log(JSON.stringify(response));*/
-       if(response.code=="6996"){         
+    this.opc = {};
+    this.data = [];
+    this.listasService.getListas(this.adm).subscribe((response: any) => {
+        /* console.log(JSON.stringify(response));*/
+        if (response.code === '6996') {
           swal('Listas', response.description + '. Verifique Servidor Netswitch', 'error');
-       }else{
-        const dir = response.listas.length;
-        for (let i = 0; i < dir; i++) {
-          this.opc = {
-            lista: response.listas[i].lista,
-            titulo: response.listas[i].titulo,
-            tipo: response.listas[i].tipo
+        } else {
+          const dir = response.listas.length;
+          for (let i = 0; i < dir; i++) {
+            this.opc = {
+              lista: response.listas[i].lista,
+              titulo: response.listas[i].titulo,
+              tipo: response.listas[i].tipo
+            };
+            this.data[i] = this.opc;
           }
-          this.data[i] = this.opc;
+          this.rows = this.data;
+          this.temp = this.data;
         }
-        this.rows = this.data;
-        this.temp = this.data; 
-       }        
-      },
-      error => {
+      }, error => {
         console.log('Error: ' + JSON.stringify(error));
-      }
-    )
+      });
   }
 
   nuevo() {
@@ -115,23 +110,20 @@ export class ListasComponent implements OnInit {
   }
 
   onNuevo() {
-    this.listasService.insertListas(this.listaIU).subscribe(
-      (response:any) => {
+    this.listasService.insertListas(this.listaIU).subscribe((response: any) => {
         if (response.code === '0') {
           swal('Listas', 'Registro Creado con Exito', 'success');
           this.buscar();
         } else {
           swal('Listas', response.description + '. Verifique Información', 'error');
         }
-      },
-      error => {
+      }, error => {
         console.log('Error: ' + JSON.stringify(error));
-      }
-    )
+      });
   }
 
   onCancel() {
-  this.limpiar();
+    this.limpiar();
   }
 
   editar(rowIndex) {
@@ -142,23 +134,20 @@ export class ListasComponent implements OnInit {
     this.listaIU.titulo = obj['titulo'];
     this.listaIU.tipo = obj['tipo'];
     this.gestion = 'actualizar';
-    this.panel.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+    this.panel.nativeElement.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'start'});
   }
 
   onEditar() {
-    this.listasService.updateListas(this.listaIU).subscribe(
-      (response:any) => {
+    this.listasService.updateListas(this.listaIU).subscribe((response: any) => {
         if (response.code === '0') {
           swal('Listas', 'Registro Actualizado con Exito', 'success');
           this.buscar();
         } else {
           swal('Listas', 'Verifique Información', 'error');
         }
-      },
-      error => {
+      }, error => {
         console.log('Error: ' + JSON.stringify(error));
-      }
-    )
+      });
   }
 
   guardar() {
@@ -187,7 +176,7 @@ export class ListasComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.listasService.deleteListas(this.lDelete).subscribe(
-          (response:any) => {
+          (response: any) => {
             if (response.code === '0') {
               swal('Listas', 'Registro Eliminado', 'success');
               this.buscar();
@@ -208,34 +197,30 @@ export class ListasComponent implements OnInit {
   onSelect(rowIndex) {
     this.datos.emit(JSON.stringify(this.rows[rowIndex]));
     console.log(JSON.stringify(this.rows[rowIndex]));
-    this.router.navigate(['/esr/configuracion/listas'], { relativeTo: this.route.parent });
+    this.router.navigate(['/esr/configuracion/listas'], {relativeTo: this.route.parent});
   }
 
   limpiar() {
     this.divIU = false;
     this.divTipo = true;
-    this.adm = new Listas('', '','');
+    this.adm = new Listas('', '', '');
     this.listaIU = new ListaIU('', '', '', '', '');
     this.lDelete = new LDelete('', '', '');
     this.buscar();
   }
 
   tipoFilter(val) {
-    const temp = this.temp.filter(function (d) {
+    this.rows = this.temp.filter(function (d) {
       return d.tipo.toLowerCase().indexOf(val) !== -1;
     });
-
-    this.rows = temp;
   }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
 
-    const temp = this.temp.filter(function (d) {
+    this.rows = this.temp.filter(function (d) {
       return d.titulo.toLowerCase().indexOf(val) !== -1;
     });
-
-    this.rows = temp;
     this.tblList.offset = 0;
   }
 

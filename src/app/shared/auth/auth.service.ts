@@ -29,11 +29,12 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    if (VARGLOBAL.userToken === '') {
+    return true;
+    /*if (VARGLOBAL.userToken === '') {
       this.router.navigate(['/login'], { relativeTo: this.route.parent });
       return false;
     } else {
       return true;
-    }
+    }*/
   }
 }

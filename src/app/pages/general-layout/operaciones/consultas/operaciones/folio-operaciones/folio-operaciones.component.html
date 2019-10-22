@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="modal-header width-100p">
+    <h4 class="modal-title">Ticket de {{folio.tipoglosa}} , Folio {{folio.folio}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="cerrar()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <dx-data-grid class="max-width-100"
+                  id="tableDOperaciones"
+                  [dataSource]="operaciones"
+                  keyExpr="detalle"
+                  [showRowLines]="true"
+                  [rowAlternationEnabled]="true"
+                  [allowColumnReordering]="true"
+                  [showBorders]="true"
+                  [showColumnLines]="false"
+                  (onRowClick)="openDetalle($event)"
+                  [wordWrapEnabled]="true"><!-- Inicio de la tabla de operaciones -->
+
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-paging [enabled]="false"></dxo-paging>
+
+      <dxi-column dataField="detalle" caption="Detalle" alignment="left" [width]="100">
+      </dxi-column>
+      <dxi-column dataField="instrumentoGlosa" caption="Instrumento" alignment="left" [width]="250">
+      </dxi-column>
+      <dxi-column dataField="monto" caption="Monto" format=",###,###,##0"
+                  [customizeText]="onEditorPreparing" alignment="right" [width]="200">
+      </dxi-column>
+    </dx-data-grid><!-- Fin de la tabla de operaciones -->
+
+  </div>
+</div>

@@ -33,9 +33,11 @@ export class CarnidalidadmpComponent implements OnInit {
         if (response.rowCount !== '0') {
           this.rows = response.rows;
           this.divList = true;
+          $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
         } else {
           this.divList = false;
           this.msj = 'No hay resultados';
+          $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
         }
       }
     )

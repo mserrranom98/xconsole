@@ -1,0 +1,177 @@
+<div [formGroup]="formOperaciones">
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-2">
+        <label fxFlex="100" class="label-control">Fecha Desde:</label>
+        <div fxFlex="100" fxLayout="row">
+          <div class="input-text" fxFlex="80">
+            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi"
+                   formControlName="inputFechaIni" ngbDatepicker #d1="ngbDatepicker" maxlength="10" readonly>
+          </div>
+          <div class="input-group-append" fxFlex="20">
+            <div class="input-group-text border-primary" (click)="d1.toggle()">
+              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="mb-2">
+        <label fxFlex="100" class="label-control">Recaudador (REX):</label>
+        <div fxFlex="100" class="input-text">
+          <select formControlName="rex" class="form-control border-primary" [attr.disabled]="disableEmpresa" name="rexSelect" (change)="getSucursales($event)">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let empresaREX of empresasREX" value={{empresaREX.rex}}>{{empresaREX.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-2">
+        <label fxFlex="100" class="label-control">Terminal:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_terminalValue"
+            [disabled]="disableTerminal"
+            [dataSource]="terminales"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="2"
+            valueExpr="terminal"
+            placeholder="Seleccione..."
+            displayExpr="descripcion">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayoutAlign="start start" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-2">
+        <label fxFlex="100" class="label-control">Fecha Hasta:</label>
+        <div fxFlex="100" fxLayout="row">
+          <div class="input-text" fxFlex="80">
+            <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpf"
+                   formControlName="inputFechaFin" ngbDatepicker #d2="ngbDatepicker" maxlength="10" readonly>
+          </div>
+          <div class="input-group-append" fxFlex="20">
+            <div class="input-group-text border-primary" (click)="d2.toggle()">
+              <i class="fa fa-calendar" style="cursor: pointer;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select">
+        <label fxFlex="100" class="label-control">Sucursal:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_sucursalValue"
+            [disabled]="disableSucursal"
+            [dataSource]="sucursales"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="2"
+            (onValueChanged)="getTerminales()"
+            valueExpr="sucursal"
+            placeholder="Seleccione..."
+            displayExpr="descripcion">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-2">
+        <label fxFlex="100" class="label-control">Empresa:</label>
+        <div fxFlex="100" class="input-text">
+          <select class="form-control border-primary" name="eps" formControlName="eps" (change)="selectEPS($event)">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let empresaEPS of empresasEPS" value={{empresaEPS.codigo}}>{{empresaEPS.titulo}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-2">
+        <label fxFlex="100" class="label-control">Medios de pago:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_mdpValue"
+            [dataSource]="mdps"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="1"
+            valueExpr="instrumento"
+            placeholder="Seleccione..."
+            displayExpr="titulo">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayout="row wrap" fxLayoutAlign="start start">
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-2">
+        <label fxFlex="100" class="label-control">Instrumento:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_instrumentoValue"
+            [disabled]="disableIns"
+            [dataSource]="instrumentos"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="1"
+            valueExpr="codigo"
+            placeholder="Seleccione..."
+            displayExpr="titulo">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap" fxLayoutAlign="start start">
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select">
+        <label fxFlex="100" class="label-control">Tipo Operacion:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_tipoValue"
+            [dataSource]="tipos"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="3"
+            valueExpr="item"
+            placeholder="Seleccione..."
+            displayExpr="glosa">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayout="row wrap" fxLayoutAlign="start start">
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select">
+        <label fxFlex="100" class="label-control">Estado Operacion:</label>
+        <div fxFlex="100" class="input-text">
+          <dx-tag-box
+            [(value)]="_estadoValue"
+            [dataSource]="estados"
+            [showSelectionControls]="true"
+            [maxDisplayedTags]="2"
+            valueExpr="item"
+            placeholder="Seleccione..."
+            displayExpr="glosa">
+          </dx-tag-box>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="">
+  <div class="form-butt">
+    <button type="button" class="btn btn-social btn-limpiar btn-raised position-right mr-1" (click)="limpiar()"><i
+      class="fa icon-refresh"></i>Limpiar</button>
+    <a class="customizer-close-buscar">
+      <button type="button" class="btn btn-social btn-consultar btn-raised position-right mr-1"
+              (click)="enviarFiltro()"><i class="fa ft-search"></i>Consultar</button>
+    </a>
+  </div>
+</div>

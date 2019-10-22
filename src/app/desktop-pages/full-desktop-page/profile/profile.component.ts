@@ -157,10 +157,13 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     this.onSave();
+    console.log(this.router.url);
     if (this.router.url === '/profiles/new') {
+      console.log('New');
       this.onNew();
       this.divEnabled = true;
     } else {
+      console.log('Update');
       this.onUpdate();
       this.divEnabled = false;
     }
@@ -205,8 +208,10 @@ export class ProfileComponent implements OnInit {
     this.argInsert.serviceArguments[1].value = 'USR$PROFILE';
     this.argInsert.serviceArguments[2].value = this.fields;
     this.argInsert.serviceArguments[3].value = this.values;
+    console.log(this.argInsert);
     this.getAction.doInsert(this.argInsert).subscribe(
       (response:any) => {
+        console.log(response);
         if (response.messageCode === '0') {
           this.lastId = response.lastId;
           this.savePerPag(this.lastId);
@@ -287,8 +292,11 @@ export class ProfileComponent implements OnInit {
     this.argUpdate.serviceArguments[3].value = this.fields;
     this.argUpdate.serviceArguments[4].argument = 'values';
     this.argUpdate.serviceArguments[4].value = this.values;
+
+    console.log(this.argUpdate);
     this.getAction.doUpdate(this.argUpdate).subscribe(
       (response:any) => {
+        console.log(response);
         if (response.messageCode === '0') {
           this.savePerPag(this.profile.id);
           this.divEnabled = false;

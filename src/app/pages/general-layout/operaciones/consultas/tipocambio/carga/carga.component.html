@@ -1,0 +1,50 @@
+<div class="modal-header"><!-- Inicio cabecera del popup -->
+  <h4 class="modal-title">Ingreso Masivo</h4>
+  <button type="button" class="close" aria-label="Close" (click)="cerrar()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div><!-- Fin cabecera del popup -->
+
+<div class="modal-body"><!-- Inicio cuerpo del popup -->
+
+  <div class="col-md-6">
+    <div class="form-group row">
+      <label class="col-md-5 label-control">Moneda:</label>
+      <div class="input-text">
+        <select class="form-control border-primary" id="moneda" #moneda (change)="getMoneda(moneda.value)">
+          <option value="" disabled selected>Seleccione...</option>
+          <option *ngFor="let emp of glosar" value={{emp.item}}>{{emp.glosa}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <input type="file" name="archivo" (change)="changeListener($event)" />
+  <button class="btn btn-raised gradient-mint white shadow-z-4" (click)="enviarArchivo()">
+      <i class="fa fa-check-square-o"></i> Procesar
+  </button>
+  <div class="col-md-6" *ngIf="ass">
+      <div class="form-group row">
+        <label class="col-md-5 label-control">Moneda:</label>
+        <div class="input-text">
+          <select class="form-control border-primary" id="moneda" #moneda (change)="getMoneda(moneda.value)">
+            <option value="" disabled selected>Seleccione...</option>
+            <option *ngFor="let emp of glosar" value={{emp.item}}>{{emp.glosa}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  
+
+ 
+
+                        
+
+
+</div><!-- Fin cuerpo del popup -->
+
+<p class="text-warning">* El archivo debe ser formato .txt generado por excell.</p>
+
+<div class="modal-footer"><!-- Inicio pie del popup con el boton cerrar -->
+  <button type="button" class="btn btn-secondary btn-raised" (click)="cerrar()">Close</button>
+</div><!-- Fin pie del pop con el boton cerrar -->
+

@@ -49,7 +49,7 @@
                 <!-- Segundo Nivel -->
                 <ul class="menu-content" *ngIf="menuItem.nivelDos.length > 0">
                     <li *ngFor="let menuSubItem of menuItem.nivelDos" [ngClass]="[menuSubItem.cssclass]"
-                        [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'">
+                        [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'" (click)="openLoading(menuSubItem)">
                         <a class="nav-link" [routerLink]="menuSubItem.cssclass === '' ? [menuSubItem.path] : null">
                             <i [ngClass]="[menuSubItem.icon]"></i>
                             <span class="menu-title">{{menuSubItem.title}}</span>
@@ -65,7 +65,7 @@
                         <!-- Tercer Nivel -->
                         <ul class="menu-content" *ngIf="menuSubItem.submenu.length > 0">
                             <li *ngFor="let menuSubsubItem of menuSubItem.submenu" [ngClass]="[menuSubsubItem.cssclass]"
-                                routerLinkActive="active">
+                                routerLinkActive="active" (click)="openLoading(menuSubsubItem)">
                                 <a class="nav-link" [routerLink]="menuSubsubItem.cssclass === '' ? [menuSubsubItem.path] : null">
                                     <i [ngClass]="[menuSubsubItem.icon]"></i>
                                     <span class="menu-title">{{menuSubsubItem.title}}</span>

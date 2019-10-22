@@ -11,7 +11,6 @@ export class AdminCuentasContablesComponent implements OnInit {
 
   cuentas = [];
 
-  estadoCuenta = '';
   estados = [
     {
       id: 'S',
@@ -30,35 +29,36 @@ export class AdminCuentasContablesComponent implements OnInit {
     public dialogRef: MatDialogRef<AdminCuentasContablesComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.getCuentas('S');
   }
 
+  ngOnInit() {}
+
+  /** (MS) - Recupera las cuentas contables segun el estado
+   * @param activo Contiene el estado por el cual se realizara la busqueda
+   * @method getCuentas Se conecta con el Servicio RSUMB */
   getCuentas(activo) {
-    let ccActivo = '';
-    if (activo.target) {
-      ccActivo = activo.target.value;
-    } else {
-      ccActivo = activo;
-    }
-    this.cuentasContablesServices.getCuentas(ccActivo).subscribe((response: any) => {
+    this.cuentasContablesServices.getCuentas(activo).subscribe((response: any) => {
       if (response.code !== '0') {
         swal('Cuentas', 'Disculpe las molestias contactese con El Administrador :\n' + response.description, 'error');
         $('#loading').css('display', 'none');
       } else {
         this.cuentas = response.cuentascontables;
       }
+    }, error => {
+      console.log('Error: ' + JSON.stringify(error));
     });
   }
 
-  editarCuenta(event) {
-    this.cuentasContablesServices.getEditarCuenta(event.data).subscribe((response: any) => {
-      console.log(event);
+  /** (MS) - Modificar cuentas contables
+   * @param row Contiene los datos y funciones de la fila en dx-data-grid
+   * @method getEditarCuenta Se comunica con los servios de RSUMB */
+  editarCuenta(row) {
+    this.cuentasContablesServices.getEditarCuenta(row.data).subscribe((response: any) => {
       if (response.code === '0') {
         swal('Cuenta Contable', 'Registro Editado con Exito', 'success');
-        this.getCuentas(event.data.activo);
+        this.getCuentas(row.data.activo);
       } else {
         swal('Cuenta Contable', response.description + '. Verifique Información', 'error');
       }
@@ -67,8 +67,11 @@ export class AdminCuentasContablesComponent implements OnInit {
     });
   }
 
-  addCuenta(event) {
-    this.cuentasContablesServices.getCrearCuenta(event.data).subscribe((response: any) => {
+  /** (MS) - Agregar una cuenta contable nueva
+   * @param row Contiene los datos y funciones de la fila en dx-data-grid
+   * @method getCrearCuenta Se comunica con los servios de RSUMB */
+  addCuenta(row) {
+    this.cuentasContablesServices.getCrearCuenta(row.data).subscribe((response: any) => {
       if (response.code === '0') {
         swal('Cuenta Contable', 'Registro Creado con Exito', 'success');
         this.getCuentas('S');
@@ -80,6 +83,9 @@ export class AdminCuentasContablesComponent implements OnInit {
     });
   }
 
+  /** (MS) - Crear validacion para comprobar si ya existe la cuenta contable en la variable cuentas al agregar una
+   * nueva cuenta contable en dx-data-grid
+   * @param e Contiene las funciones de validacion en dx-data-grid */
   validarCuenta(e) {
     if (e.isValid && this.cuentas.filter((item) => item.cuenta === e.newData.cuenta).length > 0) {
       e.isValid = false;
@@ -87,16 +93,27 @@ export class AdminCuentasContablesComponent implements OnInit {
     }
   }
 
+  /** (MS) - Modifica los campos al ejecutar las funciones de agregar y editar en dx-data-grid
+   * @param e Contiene las funciones de campos en dx-data-grid */
   onEditorPreparing(e) {
     if (!e.row.inserted && e.dataField === 'cuenta') {
       e.editorOptions.disabled = true;
+      console.log('101');
     }
     if (e.row.inserted && e.dataField === 'activo') {
+      console.log('103');
       e.editorOptions.value = 'S';
       e.editorOptions.disabled = true;
     }
+    if (e.parentType === 'dataRow' && (e.dataField === 'centroCosto' || e.dataField === 'producto')) {
+      e.editorOptions.maxLength = 3;
+    }
+    if (e.parentType === 'dataRow' && e.dataField === 'cuenta') {
+      e.editorOptions.inputAttr = { maxLength: 13 };
+    }
   }
 
+  /** (MS) - Cerrar el componente tipo dialogo */
   cerrar() {
     this.dialogRef.close();
   }

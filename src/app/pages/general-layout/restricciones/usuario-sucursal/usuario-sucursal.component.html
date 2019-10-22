@@ -1,0 +1,69 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"><!-- Inicio del card para la tabla de alarmas -->
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body pb-3">
+              <div class="form form-horizontal"> <!-- Inicio cabecera de alarmas -->
+
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Asignacion Usuarios-Sucursal</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+              </div><!-- Fin cabecera de alarmas -->
+
+              <div class="form-actions"><!-- Inicio tabla de alarmas -->
+                <div class="row">
+                  <div class="col-md-12 table-main">
+
+                    <dx-data-grid class="max-width-none"
+                                  id="gridContainer"
+                                  [dataSource]="usuarios"
+                                  keyExpr="id"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  (onRowInserted)="addUsuario($event)"
+                                  (onRowRemoved)="removeUsuario($event)"
+                                  [wordWrapEnabled]="true" [noDataText]="noDataText">
+
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-search-panel [visible]=true placeholder="Buscar...">
+                      </dxo-search-panel>
+                      <dxo-editing
+                        mode="form"
+                        [allowDeleting]="true"
+                        [allowAdding]="true"
+                        [useIcons]="true">
+                      <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                      </dxo-texts>
+                      </dxo-editing>
+
+                      <dxi-column dataField="usuario" caption="Usuario" alignment="left">
+                        <dxi-validation-rule type="required" message="El usuario es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="rex" caption="Empresa" alignment="left">
+                        <dxi-validation-rule type="required" message="La empresa es requerida"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="empresas" displayExpr="descripcion" valueExpr="rex"></dxo-lookup>
+                      </dxi-column>
+                      <dxi-column dataField="sucursal" caption="Sucursal" alignment="left">
+                        <dxo-lookup [dataSource]="sucursales" displayExpr="descripcion" valueExpr="sucursal"></dxo-lookup>
+                      </dxi-column>
+                      <dxi-column dataField="responsable" caption="Responsable" alignment="left" [formItem]="{visible: false}"></dxi-column>
+                      <dxi-column dataField="fecha" caption="Fecha Creacion" alignment="left" [formItem]="{visible: false}"></dxi-column>
+                    </dx-data-grid>
+
+                  </div>
+                </div>
+              </div><!-- Fin tabla de alarmas -->
+            </div>
+          </div>
+        </div>
+      </div><!-- Fin del card para la tabla de alarmas  -->
+
+    </div>
+  </div>
+</section>

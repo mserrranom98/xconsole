@@ -1,0 +1,195 @@
+.filter-style {
+
+  .customizer{
+    width: 550px;
+    right: -550px;
+    padding: 0;
+    background-color: white;
+    z-index: 1051;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    height: 100vh !important;
+    transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+    backface-visibility: hidden;
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+
+    &.open{
+      right: 0;
+    }
+    .customizer-content{
+      position: relative;
+      height: 100% !important;
+    }
+    a.customizer-toggle{
+      background: #FFF;
+      color:theme-color('primary');
+      display: block;
+      box-shadow: -3px 0px 8px rgba(0, 0, 0, 0.1);
+    }
+    a.customizer-close {
+      color: #000;
+    }
+    .customizer-close{
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 7px;
+      width: auto;
+      z-index: 10;
+    }
+    .customizer-close-buscar {
+      right: 10px;
+      top: 10px;
+      padding: 7px;
+      width: auto;
+      z-index: 10;
+    }
+    .customizer-toggle{
+      position: absolute;
+      top: 35%;
+      width: 54px;
+      height: 50px;
+      left: -54px;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+    }
+    .color-options{
+      a{
+        white-space:pre;
+      }
+    }
+    .cz-bg-color {
+      margin: 0 auto;
+      span{
+        &:hover{
+          cursor: pointer;
+        }
+        &.white{
+          color: #ddd !important;
+        }
+      }
+      .selected{
+        border: 3px solid #314fe5;
+      }
+    }
+    .cz-bg-image{
+      &:hover{
+        cursor: pointer;
+      }
+      img.rounded{
+        border-radius: 1rem !important;
+        border: 2px solid #e6e6e6;
+        &.selected{
+          border: 2px solid #FF586B;
+        }
+      }
+    }
+  }
+  .bg-danger {
+    background-color: #ee0015 !important;
+  }
+  .bg-danger:hover {
+    background-color: #c50011 !important;
+  }
+  .form-butt {
+    text-align: right;
+  }
+  .col {
+    float: left;
+    width: 50%;
+    padding-left: 0px !important;
+    padding-right: 10px !important;
+    height: 90px;
+  }
+  .panel_busqueda {
+    background-color: white;
+    width: 100%;
+  }
+  .col_fec {
+    float: left;
+    width: 50%;
+    padding-left: 12px !important;
+    padding-right: 5px !important;
+  }
+  .columna_one {
+    width: 100%;
+  }
+  /* Style the buttons that are used to open and close the accordion panel */
+  .accordion {
+    background-color: rgba(51, 197, 227, 0.1);
+    color: #064d98;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    margin-bottom: 5px;
+  }
+
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .accordion:hover {
+    background-color: rgba(51, 197, 227, 0.4);
+    color: #064d98;
+  }
+
+  /* Style the accordion panel. Note: hidden by default */
+  .panel {
+    padding: 0 10px;
+    background-color: white;
+    display: none;
+    overflow: hidden !important;
+  }
+  h6, h4 {
+    color:#064d98 !important;
+  }
+  @media screen and (min-width:641px) and (max-width:768px) {
+    .customizer{
+      width: 300px;
+      right: -300px;
+      padding: 0;
+      background-color: white;
+      z-index: 1051;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      height: 100vh !important;
+      transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+      backface-visibility: hidden;
+      border-left: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .d-md-block {
+      display: block !important;
+    }
+  }
+  @media screen and (min-width:320px) and (max-width:640px) {
+    .d-md-block {
+      display: block !important;
+    }
+    .customizer{
+      width: 280px;
+      right: -280px;
+      padding: 0;
+      background-color: white;
+      z-index: 1051;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      height: 100vh !important;
+      transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+      backface-visibility: hidden;
+      border-left: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+}
+
+.page-filter {
+  display: none;
+}

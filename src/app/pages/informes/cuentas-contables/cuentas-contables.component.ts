@@ -1,18 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {VoucherExport, VoucherSelect} from './model-cuentasContables';
 import {CuentaContableService} from './cuentas-contables.service'
 import {NgbDateCustomParserFormatter} from 'app/pipes/date-format.pipe';
 import swal from 'sweetalert2';
-import {NgbDateParserFormatter, NgbDatepickerConfig, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import * as XLSX from 'xlsx';
-import * as FileSaver from 'file-saver';
+import {NgbDateParserFormatter, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 import {MatDialog} from '@angular/material';
 import {AsignacionCuentasContablesComponent} from './asignacion-cuentas-contables/asignacion-cuentas-contables.component';
-import {FormControl} from '@angular/forms';
-
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
-
 
 @Component({
   selector: 'app-cuentas-contables',
@@ -22,17 +14,21 @@ const EXCEL_EXTENSION = '.xlsx';
   ]
 })
 export class CuentasContablesComponent implements OnInit {
-  fechaIni: NgbDateStruct;
 
-  datosVoucher: VoucherSelect;
-  exportarVou: VoucherExport;
+  fechaIni: any;
 
   dataVoucher = [];
-  dataFilterVoucher = [];
 
-  controlFilter = new FormControl();
-
-  nuevo = false;
+  tipoCuenta = [
+    {
+      value: 'Debe',
+      id: 'D'
+    },
+    {
+      value: 'Haber',
+      id: 'H'
+    }
+  ];
 
   constructor(
     private cuentasContablesServices: CuentaContableService,
@@ -40,72 +36,42 @@ export class CuentasContablesComponent implements OnInit {
     private configDataPicker: NgbDatepickerConfig,
     public dialog: MatDialog,
   ) {
-    this.datosVoucher = new VoucherSelect('', '', '');
-    this.exportarVou = new VoucherExport('', '', '');
+    /** (MS) - Recupera la fecha actual del sistema y se almacena en la variable fechaIni */
+    const date = new Date();
+    this.fechaIni = {
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear()
+    };
+
+    this.buscar();
   }
 
   ngOnInit() {
+    /** (MS) - Recupera la fecha actual del sistema y bloquea las fechas posteriores a esta en el campo de fecha */
     const currentDate = new Date();
     this.configDataPicker.maxDate = {year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()};
     this.configDataPicker.outsideDays = 'hidden';
+  }
 
-    this.controlFilter.valueChanges.pipe().subscribe(value => {
-      if (value) {
-        console.log(value);
-        value = value.toString().toLowerCase();
-        this.dataFilterVoucher = this.dataVoucher.filter((item) => item.cuentaContable.toString().toLowerCase().indexOf(value) !== -1);
+  /** (MS) - Recupera los datos del voucher contable y se almacenan en al variable dataVoucher
+   * @method getVoucher Metodo que se conecta con el RSUMB */
+  buscar() {
+    const fechaVoucher = this.formatoFechaString();
+    this.cuentasContablesServices.getVoucher(fechaVoucher).subscribe((response: any) => {
+      if (response.code !== '0') {
+        $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
+        swal('Voucher Contable', 'Disculpe las molestias contactese con El Administrador :\n' + response.description, 'error');
       } else {
-        console.log(value);
-        this.dataFilterVoucher = this.dataVoucher;
+        this.dataVoucher = response.voucher;
+        $('.page-loading').css({ 'z-index': '-1', 'opacity': '0' });
       }
     });
   }
 
-  buscar() {
-    if (this.fechaIni) {
-      this.cuentasContablesServices.getVoucher(this.formatoFechaString()).subscribe((response: any) => {
-        if (response.code !== '0') {
-          swal('Voucher Contable', 'Disculpe las molestias contactese con El Administrador :\n' + response.description, 'error');
-          $('#loading').css('display', 'none');
-        } else {
-          this.dataVoucher = response.voucher;
-          this.dataFilterVoucher = this.dataVoucher;
-        }
-      });
-    } else {
-      swal('Voucher Contable', 'Por favor, ingresar una fecha para realizar la busqueda', 'warning');
-    }
-  }
-
-  exportarXLSX() {
-    const ws = XLSX.utils.aoa_to_sheet([]);
-    XLSX.utils.sheet_add_json(ws, this.dataVoucher, {origin: 'A1'});
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Voucher');
-
-    ws['!cols'] = [{width: 18}, {width: 18}, {width: 18}, {width: 18}, {width: 18},
-      {width: 25}, {width: 25}, {width: 18}, {width: 18}, {width: 18}, {width: 18}];
-
-    const workbook: XLSX.WorkBook = {Sheets: {'Voucher': ws}, SheetNames: ['Voucher']};
-    const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array', cellDates: true, cellStyles: true});
-
-    this.saveAsExcelFile(excelBuffer, 'Voucher' + this.datosVoucher.fechacons);
-
-
-    this.buscar();
-    swal('Operaciones', 'Ha sido correcta la exportación de operaciones :', 'success');
-    $('#loading').css('display', 'none');
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
-  }
-
-  formatoFechaString(): string {
+  /** (MS) - Convierte la variable fechaIni en el formato fecha YYYYMMdd
+   * @return fecha */
+  formatoFechaString(): String {
     let dd = this.fechaIni.day.toString();
     let mm = this.fechaIni.month.toString();
 
@@ -119,19 +85,26 @@ export class CuentasContablesComponent implements OnInit {
     return this.fechaIni.year + mm + dd;
   }
 
-  exportar() {
-    this.exportarVou.fechacons = this.datosVoucher.fechacons;
-    this.cuentasContablesServices.getExportVoucher(this.exportarVou).subscribe((response: any) => {
-      if (response.code !== '0') {
-        swal('Exportar', 'Disculpe las molestias contactese con El Administrador :\n' + response.description, 'error');
-        $('#loading').css('display', 'none');
-      } else {
-        swal('Voucher', 'Exportado con Exito', 'success');
-      }
-    });
-  }
-
+  /** (MS) - Abre el componente tipo dialogo AsignacionCuentasContables */
   openAsignacion() {
     this.dialog.open(AsignacionCuentasContablesComponent, {width: '1000px', height: '750px'});
+  }
+
+  /** (MS) - Cambia los valores null por Sin definir
+   * @param cellInfo Contiene los atributos y metodos de dxi-column */
+  onEditorPreparingCC(cellInfo) {
+    if (cellInfo.valueText === '') {
+      return 'Sin definir';
+    } else {
+      return cellInfo.valueText;
+    }
+  }
+
+  /** (MS) - Cambia las comas por puntos de las columnas tipo currency
+   * @param cellInfo Contiene los atributos y metodos de dxi-column */
+  onEditorPreparing(cellInfo) {
+    const montoPositivo = cellInfo.valueText.replace(/-/g, '');
+    const formatCurrency = new Intl.NumberFormat().format(Number(montoPositivo));
+    return formatCurrency.toString().replace(/,/g, '.');
   }
 }

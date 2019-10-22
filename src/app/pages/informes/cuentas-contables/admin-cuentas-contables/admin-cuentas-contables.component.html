@@ -11,10 +11,9 @@
     <div class="form-group row"><!-- Inicio filtro de cuentas por estado -->
       <label class="col-md-5 label-control">Estado de Cuenta Contable: </label>
       <div class="input-text">
-        <select class="form-control border-primary" id="activoSelect" [ngModel]="estadoCuenta" (change)="getCuentas($event)">
+        <select class="form-control border-primary" id="activoSelect" #activoSelect (change)="getCuentas(activoSelect.value)">
           <option value="" disabled selected>Seleccione...</option>
-          <option value="S">Activo (S)</option>
-          <option value="N">Inactivo (N)</option>
+          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.estado }}</option>
         </select>
       </div>
     </div><!-- Fin filtro de cuentas por estado -->
@@ -30,9 +29,9 @@
                 <div class="col-sm-12">
                   <div class="card">
                     <div class="card-body">
-                      <div class="card-block">
+                      <div class="card-block pr-2 pl-2">
 
-                        <dx-data-grid class="max-width-none"
+                        <dx-data-grid class="max-width-100"
                           id="gridContainer"
                           [dataSource]="cuentas"
                           keyExpr="cuenta"
@@ -47,27 +46,33 @@
                           (onRowValidating)="validarCuenta($event)"
                           (onEditorPreparing)="onEditorPreparing($event)"><!-- Inicio de la tabla de cuentas contables -->
 
+                          <dxo-load-panel [enabled]="true"></dxo-load-panel>
                           <dxo-paging [enabled]="false"></dxo-paging>
                           <dxo-editing
                             mode="form"
                             [allowUpdating]="true"
                             [allowAdding]="true"
                             [useIcons]="true">
+                            <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                            </dxo-texts>
                           </dxo-editing>
 
-                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="cuenta" caption="Numero Cuenta" dataType="number" alignment="left" [width]="170">
+                            <dxi-validation-rule type="required" message="El numero de cuenta es requerido"></dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [min]="10" message="Numero de caracteres: 10 al 13"></dxi-validation-rule>
                           </dxi-column>
-                          <dxi-column dataField="glosaCuenta" caption="Glosa Cuenta" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="glosaCuenta" caption="Glosa Cuenta" alignment="left" [width]="170">
+                            <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
                           </dxi-column>
-                          <dxi-column dataField="producto" caption="Producto" alignment="center" [width]="170">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="producto" caption="Producto" dataType="string" alignment="left" [width]="170">
+                            <dxi-validation-rule type="required" message="El codigo del producto es requerido"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="'[0-9]+'" message="El codigo del producto es numerico"></dxi-validation-rule>
                           </dxi-column>
-                          <dxi-column dataField="centroCosto" caption="Centro Costo" alignment="center" [width]="160">
-                            <dxi-validation-rule type="required"></dxi-validation-rule>
+                          <dxi-column dataField="centroCosto" caption="Centro Costo" alignment="left" [width]="160">
+                            <dxi-validation-rule type="required" message="El centro de costo es requerido"></dxi-validation-rule>
+                            <dxi-validation-rule type="pattern" [pattern]="'[0-9]+'" message="El centro de costo es numerico"></dxi-validation-rule>
                           </dxi-column>
-                          <dxi-column dataField="activo" caption="Activo" alignment="center" [width]="96">
+                          <dxi-column dataField="activo" caption="Activo" alignment="left" [width]="96">
                             <dxi-validation-rule type="required"></dxi-validation-rule>
                             <dxo-lookup [dataSource]="estados" displayExpr="estado" valueExpr="id"></dxo-lookup>
                           </dxi-column>

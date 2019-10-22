@@ -294,7 +294,13 @@
     width: 50px !important;
 }
 .width-100 {
-    width: 100px !important;
+    width: 100% !important;
+}
+.max-width-100 {
+  max-width: 100% !important;
+}
+.width-100p {
+  width: 100% !important;
 }
 .width-150 {
     width: 150px !important;

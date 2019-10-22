@@ -4,7 +4,7 @@
       <div class="card"><!-- Inicio del card para la busqueda de cuentas contables por fecha -->
         <div class="card-body">
           <div class="px-3">
-            <div class="form-body">
+            <div class="form-body pb-3">
               <form class="form form-horizontal" name="frmTipoCambio"> <!-- Inicio busqueda de transacciones por fecha -->
 
                 <div class="card-header"><!-- Inicio titulo de la cabecera -->
@@ -17,8 +17,8 @@
                     <div class="form-group row">
                       <label class="col-md-3 label-control">Fecha:</label>
                       <div class="input-text">
-                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="ss" maxlength="10" readonly
-                               [(ngModel)]="fechaIni" ngbDatepicker #d1="ngbDatepicker">
+                        <input class="form-control border-primary" (dateSelect)="buscar()" placeholder="dd-mm-yyyy" name="ss"
+                               maxlength="10" readonly [(ngModel)]="fechaIni" ngbDatepicker #d1="ngbDatepicker">
                       </div>
                       <div class="input-group-append">
                         <div class="input-group-text border-primary" (click)="d1.toggle()">
@@ -31,10 +31,6 @@
                   <div><!-- Inicio boton buscar -->
                     <div class="form-group row">
                       <div>
-                        <button type="button" class="btn btn-raised btn-primary shadow-z-1-hover mr-1"
-                                (click)="buscar()">
-                          <i class="fa ft-search"></i> Buscar
-                        </button>
                         <button class="btn btn-raised gradient-mint white shadow-z-1-hover" (click)="openAsignacion()">
                           Asignación Instrumentos Ctas Contables
                         </button>
@@ -48,29 +44,42 @@
 
               <div class="form-actions"><!-- Inicio tabla de cuentas contables -->
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12 table-main">
+                    <dx-data-grid class="max-width-none"
+                                  id="gridContainer"
+                                  [dataSource]="dataVoucher"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true"><!-- Inicio de la tabla de voucher -->
 
-                    <input type="number" style="padding:8px;margin:15px auto;width:30%;" placeholder="Filtrar por numero de cuenta" [formControl]="controlFilter"/>
-                    <ngx-datatable id="tabla-trans" [columnMode]="'force'" [rows]="dataFilterVoucher"
-                                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-search-panel [visible]=true placeholder="Buscar...">
+                      </dxo-search-panel>
 
-                      <ngx-datatable-column prop="fechaRecaudacion" name="Hora Trx"></ngx-datatable-column>
-                      <ngx-datatable-column prop="productoCuenta" name="Glosa cta"></ngx-datatable-column>
-                      <ngx-datatable-column [width]="250" prop="cuentaContable" name="Cuenta Contable"></ngx-datatable-column>
-                      <ngx-datatable-column prop="tipoCuenta" name="Anotación"></ngx-datatable-column>
-                      <ngx-datatable-column [width]="250" prop="titulo" name="Instrumento / M de pago"></ngx-datatable-column>
-                      <ngx-datatable-column prop="currency" name="Moneda"></ngx-datatable-column>
-                      <ngx-datatable-column prop="currencyConvertion" name="Conversión"></ngx-datatable-column>
-                      <ngx-datatable-column prop="detmonto" name="Monto">
-                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                          <div style="text-align: right">
-                            <a>{{row['detmonto'] | number }}</a>
-                          </div>
-                        </ng-template>
-                      </ngx-datatable-column>
-                      <ngx-datatable-column prop="ticketfolio" name="Ticket xCash"></ngx-datatable-column>
-
-                    </ngx-datatable>
+                      <dxi-column dataField="fechaRecaudacion" caption="Hora Trx" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="productoCuenta" caption="Glosa cta" alignment="left" [visible]="false">
+                      </dxi-column>
+                      <dxi-column dataField="cuentaContable" caption="Cuenta Contable"[customizeText]="onEditorPreparingCC" alignment="left" [width]="175">
+                      </dxi-column>
+                      <dxi-column dataField="titulo" caption="Instrumento / M de pago" alignment="left" [width]="320">
+                      </dxi-column>
+                      <dxi-column dataField="tipoCuenta" caption="Tipo Cuenta" alignment="left">
+                        <dxo-lookup [dataSource]="tipoCuenta" displayExpr="value" valueExpr="id"></dxo-lookup>
+                      </dxi-column>
+                      <dxi-column dataField="currency" caption="Moneda" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="currencyConvertion" caption="Conversión" alignment="left" [visible]="false">
+                      </dxi-column>
+                      <dxi-column dataField="monto" caption="Monto" format=",###,###,##0" [customizeText]="onEditorPreparing" [width]="175" alignment="right">
+                      </dxi-column>
+                      <dxi-column dataField="ticketfolio" caption="Ticket xCash" alignment="left">
+                      </dxi-column>
+                    </dx-data-grid><!-- Fin de la tabla de voucher -->
                   </div>
                 </div>
               </div><!-- Fin tabla de cuentas contables -->

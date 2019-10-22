@@ -1,498 +1,68 @@
 <section id="horizontal-form-layouts">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="px-3">
-              <div class="form-body">
-                <form class="form form-horizontal" name="frmInstrumentos" #frmTipoCambio="ngForm"  *ngIf="editarVaina">
-                    <div class="card-header">
-                        <h4 class="card-title"><i class="ft-list"></i>Instrumentos</h4>
-                      </div>
-                  <div #panel class="row">
-
-                        <div class="col-md-4">
-                                <div class="form-group row">
-                                  <label class="col-md-6 label-control" for="rex">Tipo de Industria: </label>
-                                  <div class="input-text">
-                                    <select class="form-control border-primary"  [(ngModel)]="filtroind.lista" name="rex" #rex="ngModel" 
-                                        [ngModelOptions]="{standalone: true}" (change)="getIndustria()">
-                                  <option value="" selected>Seleccione...</option>
-                                  <option *ngFor="let emp of listEps" value={{emp.codigo}}>{{emp.titulo}}</option>
-                                </select>
-                              </div>
-                            </div>
-                        </div>
-                      
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                              <label class="col-md-6 label-control" for="rex2">Industria: </label>
-                              <div class="input-text">
-                                <select class="form-control border-primary"   name="rex2" #rex2="ngModel" [(ngModel)]="filtroind2.lista"
-                                    [ngModelOptions]="{standalone: true}" (change)="getEmpresa()">
-                              <option value="" selected>Seleccione...</option>
-                              <option *ngFor="let emp of listEps2" value={{emp.codigo}}>{{emp.titulo}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-5">
-                          <div class="form-group row">
-                            <label class="col-md-5 label-control" for="rex3">Empresa: </label>
-                            <div class="input-text">
-                              <select class="form-control border-primary"   name="rex3" #rex3="ngModel" [(ngModel)]="filtroInstrumento.empresa" [(ngModel)]="listainstrumentoFull.empresa"
-                                  [ngModelOptions]="{standalone: true}">
-                            <option value="" selected>Seleccione...</option>
-                            <option *ngFor="let emp of listEps3" value={{emp.codigo}}>{{emp.titulo}}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                        
-                       
-                       
-                  </div>
-                  <div class="row">
-
-                      <div class="col-md-4">
-                          <div class="form-group row">
-                            <label class="col-md-6 label-control" for="rex1">Tipo: </label>
-                            <div class="input-text">
-                              <select class="form-control border-primary" name="rex1" #rex1="ngModel" 
-                                  [(ngModel)]="filtroInstrumento.tipo" [(ngModel)]="listainstrumentoFull.tipo" 
-                                  [ngModelOptions]="{standalone: true}">
-                            <option value="" selected>Seleccione...</option>
-                            <option *ngFor="let tipo of ddListTipo" value={{tipo.id}}>{{tipo.itemName}}</option>
-                          </select>
-                        </div>
-                        </div>
-                     </div>
-
-                        <div class="col-md-3">
-                                <div class="form-group row">
-                                  <label class="col-md-6 label-control" for="rex2">Interaccion: </label>
-                                  <div class="input-text">
-                                    <select class="form-control border-primary" name="rex2" #rex2="ngModel" 
-                                        [(ngModel)]="filtroInstrumento.interaccion"  [(ngModel)]="listainstrumentoFull.standIn" 
-                                        [ngModelOptions]="{standalone: true}">
-                                  <option value="" selected>Seleccione...</option>
-                                  <option *ngFor="let inter of dddListTipo" value={{inter.id}}>{{inter.itemName}}</option>
-                                </select>
-                              </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-5">
-                            <div class="form-group row">
-                              <label class="col-md-5 label-control" for="rex3">Bloqueado: </label>
-                              <div class="input-text">
-                                <select class="form-control border-primary" name="rex3" #rex2="ngModel" 
-                                    [(ngModel)]="filtroInstrumento.bloqueado" [(ngModel)]="listainstrumentoFull.bloqueado" [ngModelOptions]="{standalone: true}">
-                              <option value="" selected>Seleccione...</option>
-                              <option value="S">S</option>
-                              <option value="N">N</option>
-                            </select>
-                          </div>
-                        </div>
-                    </div>
-
-                  </div>
-
-                  <button type="button" class="btn btn-raised btn-primary shadow-z-4" (click)="buscar()" >
-                      <i class="fa ft-search"></i> Buscar
-                  </button>
-
-                </form>
-
-
-
-
-
-                <!--COMIENZO SECCIÓN EDITAR INSTRUMENTO-->
-                
-                <form class="form form-horizontal" name="frmEdit" #frmEdit="ngForm"  *ngIf="editarVaina2">
-                    <h4 class="form-section"><i class="ft-list"></i>Editar Instrumentos</h4>
-                <div #panel class="row">
-
-                    <div class="col-md-4">
-                            <div class="form-group row">
-                              <label class="col-md-6 label-control" for="rex">Instrumento: </label>
-                              <div class="input-text">
-                                <input type="text" class="form-control border-primary"  
-                                [(ngModel)]="editarInstrumento.instrumento" [ngModelOptions]="{standalone: true}" name="inst" #inst="ngModel" readonly>
-                              </div>
-                        </div>
-                    </div>
-                  
-                    <div class="col-md-3">
-                        <div class="form-group row">
-                            <label class="col-md-6 label-control" for="rex1">Tipo: </label>
-                            <div class="input-text">
-                              <select class="form-control border-primary" name="tipoe" #tipoe="ngModel" 
-                                  [(ngModel)]="editarInstrumento.tipo"  
-                                  [ngModelOptions]="{standalone: true}">
-                            <option value="" selected>Seleccione...</option>
-                            <option *ngFor="let tipo of ddListTipo" value={{tipo.id}}>{{tipo.itemName}}</option>
-                          </select>
-                        </div>
-                        </div>
-                  </div>
-
-                  <div class="col-md-5">
-                      <div class="form-group row">
-                          <label class="col-md-4 label-control" for="rex">Titulo: </label>
-                          <div class="input-text">
-                            <input type="text" class="form-control border-primary "  
-                            [(ngModel)]="editarInstrumento.titulo" [ngModelOptions]="{standalone: true}" name="titu" #titu="ngModel" >
-                          </div>
-                    </div>
-                      
-                </div>  
-              </div>
-
-              <div class="row">
-
-                  <div class="col-md-4">
-                      <div class="form-group row">
-                          <label class="col-md-6 label-control" for="rex3">Control: </label>
-                          <div class="input-text">
-                            <select class="form-control border-primary" name="ctrl" #ctrl="ngModel" 
-                                 [(ngModel)]="editarInstrumento.control" [ngModelOptions]="{standalone: true}">
-                          <option value="" selected>Seleccione...</option>
-                          <option value="S">S</option>
-                          <option value="N">N</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                
-                  <div class="col-md-3">
-                      <div class="form-group row">
-                          <label class="col-md-6 label-control" for="rex3">Bloqueado: </label>
-                          <div class="input-text">
-                            <select class="form-control border-primary" name="bloq" #bloq="ngModel" 
-                                 [(ngModel)]="editarInstrumento.bloqueado" [ngModelOptions]="{standalone: true}">
-                          <option value="" selected>Seleccione...</option>
-                          <option value="S">S</option>
-                          <option value="N">N</option>
-                        </select>
-                      </div>
-                    </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body">
+              <form class="form form-horizontal">
+                <div class="card-header">
+                  <h4 class="card-title"><i class="ft-list"></i>Instrumentos</h4>
                 </div>
 
-                <div class="col-md-5">
-                  <div class="form-group row">
-                      <label class="col-md-4 label-control" for="rex3">Empresa: </label>
-                      <div class="input-text">
-                      <select class="form-control border-primary"   name="rex3" #rex3="ngModel" 
-                      [(ngModel)]="editarInstrumento.empresa" [ngModelOptions]="{standalone: true}" >
-                    <option value="" selected disabled>Seleccione...</option>
-                    <option *ngFor="let emp of listEps3" value={{emp.codigo}} >{{emp.titulo}}</option>
-                  </select>
-                  </div>
-                </div>
-              </div>  
-            </div>
+                <dx-data-grid id="tableTurno" class="mb-3 max-width-none"
+                              [dataSource]="instrumentos"
+                              keyExpr="instrumento"
+                              [showRowLines]="true"
+                              [rowAlternationEnabled]="true"
+                              [allowColumnReordering]="true"
+                              [showBorders]="true"
+                              [showColumnLines]="false"
+                              [wordWrapEnabled]="true" [noDataText]="noDataText"
+                              (onRowUpdated)="editarIns($event)"
+                              (onRowInserted)="addIns($event)"
+                              (onRowValidating)="validarIns($event)"
+                              (onEditorPreparing)="onEditorPreparing($event)">
 
-            <div class="row">
+                  <dxo-editing
+                    mode="form"
+                    [allowUpdating]="true"
+                    [allowAdding]="true"
+                    [useIcons]="true">
+                    <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar" >
+                    </dxo-texts>
+                  </dxo-editing>
 
-                <div class="col-md-4">
-                    <div class="form-group row">
-                        <label class="col-md-6 label-control" for="rex3">SAF: </label>
-                        <div class="input-text">
+                  <dxi-column dataField="instrumento" caption="Instrumento"></dxi-column>
+                  <dxi-column dataField="titulo" caption="Titulo" [width]="200"></dxi-column>
+                  <dxi-column dataField="tipo" caption="Tipo">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxo-lookup [dataSource]="tipos" displayExpr="glosa" valueExpr="item"></dxo-lookup>
+                  </dxi-column>
+                  <dxi-column dataField="empresa" caption="Empresa" [width]="200">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxo-lookup [dataSource]="empresas" displayExpr="titulo" valueExpr="codigo"></dxo-lookup>
+                  </dxi-column>
+                  <dxi-column dataField="bloqueado" caption="Estado">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxo-lookup [dataSource]="estados" displayExpr="value" valueExpr="id"></dxo-lookup>
+                  </dxi-column>
+                  <dxi-column dataField="control" caption="Control"></dxi-column>
+                  <dxi-column dataField="saf" caption="SAF"></dxi-column>
+                  <dxi-column dataField="standIn" caption="Interaccion">
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                    <dxo-lookup [dataSource]="interacciones" displayExpr="glosa" valueExpr="item"></dxo-lookup>
+                  </dxi-column>
+                  <dxi-column dataField="moneda" caption="Moneda"></dxi-column>
+                </dx-data-grid>
 
-                           <select class="form-control border-primary" name="saf" #saf="ngModel" 
-                               [(ngModel)]="editarInstrumento.saf" [ngModelOptions]="{standalone: true}">
-                        <option value="" selected>Seleccione...</option>
-                        <option value="S">S</option>
-                        <option value="N">N</option>
-                      </select> 
-
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-md-6 label-control" for="rex2">Interaccion: </label>
-                        <div class="input-text">
-                        <select class="form-control border-primary" name="rex2" #rex2="ngModel" 
-                              [(ngModel)]="editarInstrumento.standIn"  [ngModelOptions]="{standalone: true}" readonly>
-                        <option value="" selected disabled>Seleccione...</option>
-                        <option *ngFor="let inter of dddListTipo" value={{inter.id}} disabled>{{inter.itemName}}</option>
-                      </select> 
-                    </div>
-                  </div>
-              </div>
-
-            <div class="col-md-5">    
-              <div class="form-group row">
-                <div> 
-                    &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                    &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                    &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                    <button type="button" class="btn btn-raised gradient-mint white shadow-z-4" (click)="onEditar()"  *ngIf="noEditarIns">
-                        Editar
-                       </button>  
-                       &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                  <button class="btn btn-raised gradient-ibiza-sunset white shadow-z-4" (click)="volverEditarInstrumento()" >Volver</button>
-                </div>
-              </div> 
-            </div>  
-
-          </div>
-        </form>
-                <!--TABLA-->
-
-              <div class="form-actions" *ngIf="editarVaina">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group row">
-                        <div class="col-md-12">
-                          <section id="filter">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <div class="card">
-                                  <div class="card-body">
-                                    <div class="card-block">
-                                     
-                                        <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'"  [rows]="rows" 
-                                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
-                                          <ngx-datatable-column prop='instrumento' name='Instrumento' ></ngx-datatable-column>
-                                          <ngx-datatable-column prop='titulo' name='titulo'></ngx-datatable-column>
-                                          <ngx-datatable-column prop="tipo" name="tipo"></ngx-datatable-column>
-                                      <!--<ngx-datatable-column prop="tipodesc" name="tipo"></ngx-datatable-column> -->
-                                          <ngx-datatable-column prop="empresa" name="empresa" ></ngx-datatable-column>
-                                          <ngx-datatable-column prop="empresadesc" name="Nombre Empresa" ></ngx-datatable-column>                                         
-                                         <ngx-datatable-column prop="bloqueado" name="bloqueado"></ngx-datatable-column>
-                                          <ngx-datatable-column prop="control" name="control"></ngx-datatable-column>
-                                         <ngx-datatable-column prop="saf" name="saf"></ngx-datatable-column>
-                                         <ngx-datatable-column prop="standIn" name="interaccion"></ngx-datatable-column>
-                                         <!-- <ngx-datatable-column prop="insXcash" name="insXcash"></ngx-datatable-column>
-                                         <ngx-datatable-column prop="acceso" name="acceso"></ngx-datatable-column> -->
-                                         <ngx-datatable-column name="Acción">
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                            <i href="javascript:void(0)" class="ft-edit-2 info font-medium-1 mr-2" (click)="editar(rowIndex)" [id]="value"></i>
-                                          </ng-template>
-                                         </ngx-datatable-column>   
-                                         <ngx-datatable-column name='Atributos'>
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                                            <a href="javascript:void(0)" class="ft-list" title="Ver detalle" (click)="open(content, rowIndex)" [id]="value"></a>
-                                          </ng-template>
-                                       </ngx-datatable-column>   
-                                      </ngx-datatable>
+              </form>
 
 
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> 
-
-                
-
-              </div>
             </div>
           </div>
         </div>
       </div>
-    <!--COMIENZO DEL MODAL-->
-
-
-    <ng-template #content let-c="close" let-d="dismiss" >  
-      <div class="modal-header"> 
-          <h4 class="modal-title">Atributos</h4>  
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-       
-        <div class="modal-body">
-     
-
-          <button class="btn btn-raised gradient-ibiza-sunset white shadow-z-4" (click)="actualizarWea()" *ngIf="atributoNormal" >Actualizar</button>
-          <!--INICIO TABLA ATRIBUTOS-->
-
-           <ngx-datatable #tblList id="tabla" [columnMode]="'force'" [rows]="dataAtrib" 
-                  [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50" *ngIf="atributoNormal">  
-              <ngx-datatable-column prop="atributo" name="Atributo"></ngx-datatable-column> 
-              <ngx-datatable-column name="Acción">
-                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                    <i href="javascript:void(0)" class="ft-edit-2 info font-medium-1 mr-2" (click)="editarAtrib(rowIndex)" [id]="value"></i>
-                  </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="orden" name="Orden"></ngx-datatable-column> 
-              <ngx-datatable-column prop="protegido" name="Prot."></ngx-datatable-column> 
-              <ngx-datatable-column prop="largoMax" name="largoMax"></ngx-datatable-column>
-              <ngx-datatable-column prop="llave" name="llave"></ngx-datatable-column>
-             <!-- <ngx-datatable-column prop="tipo" name="tipo"></ngx-datatable-column> -->
-              <ngx-datatable-column prop="tipo" name="Tipo"></ngx-datatable-column>
-              <ngx-datatable-column prop="lista" name="Lista"></ngx-datatable-column>
-              <ngx-datatable-column prop="titulo" name="titulo"></ngx-datatable-column>
-              <ngx-datatable-column prop="visible" name="visible"></ngx-datatable-column>
-              <ngx-datatable-column prop="opcional" name="Opci"></ngx-datatable-column>
-              <ngx-datatable-column prop="ordenImpresionTicket" name="Ord. Ticket"></ngx-datatable-column>
-            </ngx-datatable>
-
-            <!--FIN TABLA ATRIBUTOS--> 
-
-            <!--COMIENZO FORMULARIO EDICIÓN DE ATRIBUTO EN MODAL-->
-            <form class="form form-horizontal"  id="registro" *ngIf="editarAtri">
-                <h4 class="form-section"><i class="ft-list"></i>Editar Atributo</h4>
-
-                <div #panel class="row" >
-                 <div class=" col-md-5">
-                    <div class="form-group row">
-                      <label class="col-md-6 label-control">Atributo</label>
-                      <input type="text"  class="form-control border-primary col-md-6" 
-                      [(ngModel)]="editarAtributo.atributo" [ngModelOptions]="{standalone: true}" name="cuentaI" id="cuentaI"  #cuentaI="ngModel" readonly>
-                      
-                    </div>
-                  </div>
-                  <div class="col-md-5">
-                      <div class="form-group row">
-                        <label class="col-md-6 label-control">Largo</label>
-                        <input type="text" class="form-control border-primary col-md-6"  
-                        [(ngModel)]="editarAtributo.largoMax" [ngModelOptions]="{standalone: true}" name="tipoI" #tipoI="ngModel">
-                      </div>
-                    </div>
-                </div>
-
-              <div class="row">
-                  <div class="col-md-5">
-                      <div class="form-group row">
-                        <label class="col-md-6 label-control">Llave</label>
-                        <select class="form-control border-primary col-md-6"  [(ngModel)]="editarAtributo.llave" [ngModelOptions]="{standalone: true}">
-                          <option value="" disabled selected>Seleccione...</option>
-                          <option value="S">Si(S)</option>
-                          <option value="N">No(N)</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Tipo</label>
-                          <input type="text" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="editarAtributo.tipo" [ngModelOptions]="{standalone: true}" name="sucursalI" #sucursalI="ngModel" readonly>
-                        </div>
-                      </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Titulo</label>
-                          <input type="text" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="editarAtributo.titulo" [ngModelOptions]="{standalone: true}" name="centroI" #centroI="ngModel" >
-                        </div>
-                      </div>
-                      <div class="col-md-5">
-                          <div class="form-group row">
-                              <label class="col-md-6 label-control" >Visible: </label>
-                              <div class="input-text">
-                                <select class="form-control border-primary"  [(ngModel)]="editarAtributo.visible" [ngModelOptions]="{standalone: true}">
-                                  <option value="" disabled selected>Seleccione...</option>
-                                  <option value="S">Visible(S)</option>
-                                  <option value="N">No Visible(N)</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-5">
-                          <div class="form-group row">
-                            <label class="col-md-6 label-control">Orden: </label>
-                            <input type="number" class="form-control border-primary col-md-6"  
-                            [(ngModel)]="editarAtributo.orden" [ngModelOptions]="{standalone: true}" name="orden" #orden="ngModel" >
-                          </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group row">
-                                <label class="col-md-6 label-control" >Protegido: </label>
-                                <div class="input-text">
-                                  <select class="form-control border-primary"  [(ngModel)]="editarAtributo.protegido" [ngModelOptions]="{standalone: true}">
-                                    <option value="" disabled selected>Seleccione...</option>
-                                    <option value="S">Si(S)</option>
-                                    <option value="N">No(N)</option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-5">
-                        <div class="form-group row">
-                          <label class="col-md-6 label-control">Orden IMP: </label>
-                          <input type="number" class="form-control border-primary col-md-6"  
-                          [(ngModel)]="editarAtributo.ordenImpresionTicket" [ngModelOptions]="{standalone: true}" name="ordenim" #ordenim="ngModel" >
-                        </div>
-                      </div>
-                          <div class="col-md-5">
-                              <div class="form-group row">
-                                  <label class="col-md-6 label-control" >Opcional: </label>
-                                  <div class="input-text">
-                                    <select class="form-control border-primary"  [(ngModel)]="editarAtributo.opcional" [ngModelOptions]="{standalone: true}">
-                                      <option value="" disabled selected>Seleccione...</option>
-                                      <option value="S">Si(S)</option>
-                                      <option value="N">No(N)</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                      </div>
-                      <div class="row">
-                            <div class="col-md-8">
-                              <div class="form-group row">
-                                  <label class="col-md-4 label-control" >Lista: </label>
-                                  <div class="input-text">
-                                    <select class="col-md-8 form-control border-primary"  [(ngModel)]="editarAtributo.lista" [ngModelOptions]="{standalone: true}">
-                                      <option value="" disabled >Seleccione...</option>
-                                      <option value="      " >Vacío</option>
-                                      <option value="ST    " >ST</option>
-                                      <option *ngFor="let emp of rowsS" value={{emp.lista}}>{{emp.titulo}}</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>                       
-                        </div>
-                  
-                  <div>
-                      <div class="form-group row">
-                          <div>  
-                              &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                              &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                              <button type="button" class="btn btn-raised gradient-mint white shadow-z-4" (click)="onEditarAtrib()" >
-                                  Editar
-                                 </button>  
-                                 &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                                <button class="btn btn-raised gradient-ibiza-sunset white shadow-z-4" (click)="volverEditarAtributo()" >Volver</button>
-                          </div>
-                       
-                      </div>
-                    </div>    
-
-              </form>
-            <!--Fin formulario edición atributo-->
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
-        </div>  
-     </ng-template>
-
-<!--FIN MODAL-->
-
-
-
-
     </div>
-  </section>
+  </div>
+</section>

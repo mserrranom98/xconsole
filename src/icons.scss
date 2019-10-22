@@ -1,0 +1,43 @@
+/*RB */
+.dx-datagrid-group-opened:before {
+  content: "\e928";
+}
+
+/*RB*/
+.dx-datagrid-group-closed:before {
+  content: "\e929";
+}
+
+/*RB 08082019 */
+.dx-datagrid-addrow-button .dx-icon-edit-button-addrow:before {
+  content: "\e99d";
+  color: white;
+}
+
+/*RB Editar*/
+.dx-icon-edit:before {
+  content: "\e94d";
+  color: #00BCD4;
+}
+
+/*RB Volver*/
+.dx-icon-revert:before {
+  content: "\e9a6";
+}
+
+/*RB Guardar*/
+.dx-icon-save:before {
+  content: "\e9a8";
+  color: #009DA0;
+}
+
+/*RB Eliminar*/
+.dx-icon-trash:before {
+  content: "\e9c7";
+  color: red;
+}
+
+/*RB Select*/
+.dx-dropdowneditor-icon:before {
+  content: "\e927";
+}

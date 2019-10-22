@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { Router } from '@angular/router';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {Router} from '@angular/router';
 import swal from 'sweetalert2';
-import { MetaListaItemSelect, MetaListaItemSet, ListasItems, DatosMetaLista } from '../../../pages-models/model-emp-serv-rec';
-import { MetaListasService } from '../../../pages-services/serv-emp-serv-rec/meta-listas.services';
-import { ListasService } from '../../../pages-services/serv-emp-serv-rec/listas.services';
+import {DatosMetaLista, ListasItems, MetaListaItemSelect, MetaListaItemSet} from '../../../pages-models/model-emp-serv-rec';
+import {MetaListasService} from '../../../pages-services/serv-emp-serv-rec/meta-listas.services';
+import {ListasService} from '../../../pages-services/serv-emp-serv-rec/listas.services';
 
 @Component({
   selector: 'app-meta-listas-items',
@@ -23,11 +23,11 @@ export class MetaListasItemsComponent implements OnInit {
   items: {
     'itemAcceso': string,
     'itemDato': string
-  }
+  };
   editingAcceso = {};
   cancelAcceso = {};
 
-  @Input() metaLista: DatosMetaLista; 
+  @Input() metaLista: DatosMetaLista;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   rows: any[] = [];
@@ -37,9 +37,9 @@ export class MetaListasItemsComponent implements OnInit {
     private metaListasService: MetaListasService,
     private listasService: ListasService,
     private router: Router
-  ) { 
+  ) {
     this.metaListaItemSelect = new MetaListaItemSelect('', '', '');
-    this.metaListaItemSet = new MetaListaItemSet('', '', '', [{itemAcceso:'', itemDato:''}]);
+    this.metaListaItemSet = new MetaListaItemSet('', '', '', [{itemAcceso: '', itemDato: ''}]);
     this.listasItemsD = new ListasItems('', '', '');
     this.listasItemsA = new ListasItems('', '', '');
     this.metaLista = new DatosMetaLista('', '', '', '', '', '', '', '');
@@ -47,31 +47,29 @@ export class MetaListasItemsComponent implements OnInit {
 
   ngOnInit() {
     this.listaDatos = [];
-   // this.metaListaItemSelect.metaLista = this.metaLista[0].metaLista;
     this.metaListaItemSelect.metaLista = this.metaLista.metaLista;
     $('#loading').css('display', 'block');
     this.metaListasService.getMetaListaItem(this.metaListaItemSelect).subscribe(
-      (response:any) => { 
+      (response: any) => {
         if (response.rowCount > 0) {
           this.divList = true;
-         // this.rows = response.rows;
-          for(let i=0; i < response.rows.length; i++){
-            let rowLD: Object = {
+          // this.rows = response.rows;
+          for (let i = 0; i < response.rows.length; i++) {
+            this.rows[i] = {
               glosaD: response.rows[i].itemDatoTitulo,
               itemD: response.rows[i].itemDato,
               glosaA: response.rows[i].itemAccesoTitulo,
               itemA: response.rows[i].itemAcceso
-            }
-            this.rows[i] = rowLD;
+            };
           }
           this.listadoAcceso();
           $('#loading').css('display', 'none');
         }
-        if(response.rowCount == 0 && response.code === '0') {
+        if (response.rowCount === 0 && response.code === '0') {
           $('#loading').css('display', 'none');
-          this.asociarMetaListas();          
+          this.asociarMetaListas();
         }
-        if(response.code != '0'){
+        if (response.code !== '0') {
           swal('Meta Items', response.description, 'error');
           $('#loading').css('display', 'none');
         }
@@ -82,30 +80,27 @@ export class MetaListasItemsComponent implements OnInit {
     )
   }
 
-  onVolver(){
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+  onVolver() {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
       this.router.navigate(['/esr/configuracion/meta-listas']));
   }
 
-  asociarMetaListas(){
+  asociarMetaListas() {
     this.listados();
   }
 
-  listados(){    
-   // this.listasItemsD.lista = this.metaLista[0].listaDatos;
-    this.listasItemsD.lista = this.metaLista.listaDatos;
-    this.listasService.getListasDet(this.listasItemsD).subscribe(
-      (response:any) => { 
+  listados() {
+    this.listasService.getListasDet(this.metaLista.listaDatos).subscribe(
+      (response: any) => {
         this.listaDatos = response.items;
-        if(this.listaDatos.length > 0){
-          for(let i=0; i < this.listaDatos.length; i++){
-            let rowLD: Object = {
+        if (this.listaDatos.length > 0) {
+          for (let i = 0; i < this.listaDatos.length; i++) {
+            this.rows[i] = {
               glosaD: this.listaDatos[i].glosa,
               itemD: this.listaDatos[i].item,
               glosaA: '',
               itemA: ''
-            }
-            this.rows[i] = rowLD;
+            };
           }
           this.listadoAcceso();
           this.divList = true;
@@ -114,14 +109,12 @@ export class MetaListasItemsComponent implements OnInit {
       error => {
         console.log('Error: ' + JSON.stringify(error));
       }
-    )    
+    )
   }
 
-  listadoAcceso(){
-   // this.listasItemsA.lista = this.metaLista[0].listaAcceso;
-    this.listasItemsA.lista = this.metaLista.listaAcceso;
-    this.listasService.getListasDet(this.listasItemsA).subscribe(
-      (response:any) => { 
+  listadoAcceso() {
+    this.listasService.getListasDet(this.metaLista.listaAcceso).subscribe(
+      (response: any) => {
         this.listaAcceso = response.items;
       },
       error => {
@@ -138,44 +131,44 @@ export class MetaListasItemsComponent implements OnInit {
     this.rows = [...this.rows];
   }
 
-  validarMetaItems(){
+  validarMetaItems() {
     this.msj = '';
-    let cont = 0;   
-    for(let i=0; i < this.rows.length; i++){
-      if(this.rows[i].itemA === ''){
+    let cont = 0;
+    for (let i = 0; i < this.rows.length; i++) {
+      if (this.rows[i].itemA === '') {
         cont++;
       }
     }
-    if(cont == 0){
+    if (cont === 0) {
       this.guardarMetaItems();
     } else {
       this.msj = 'Debe indicar todos los accesos.';
     }
   }
-  
-  guardarMetaItems(){
-    for(let i=0; i < this.rows.length; i++){
+
+  guardarMetaItems() {
+    for (let i = 0; i < this.rows.length; i++) {
       this.items = {
         itemAcceso: this.rows[i].itemA,
-        itemDato: this.rows[i].itemD 
-      }        
+        itemDato: this.rows[i].itemD
+      };
       this.metaListaItemSet.rows[i] = this.items;
     }
-   // this.metaListaItemSet.metaLista = this.metaLista[0].metaLista;
+    // this.metaListaItemSet.metaLista = this.metaLista[0].metaLista;
     this.metaListaItemSet.metaLista = this.metaLista.metaLista;
     this.metaListasService.setMetaListaItem(this.metaListaItemSet).subscribe(
-      (response:any) => {
-        if(response.code === '0'){
+      (response: any) => {
+        if (response.code === '0') {
           swal('Meta Items', 'Registros guardados con éxito', 'success');
           this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
             this.router.navigate(['/esr/configuracion/meta-listas']));
         } else {
           swal('Meta Items', response.description, 'error');
-        }        
+        }
       },
       error => {
         console.log('Error: ' + JSON.stringify(error));
       }
-    ) 
+    )
   }
 }

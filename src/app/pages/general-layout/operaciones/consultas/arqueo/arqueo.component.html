@@ -1,0 +1,53 @@
+<section id="horizontal-form-layouts"> 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body"> 
+            <div class="px-3">  
+              <div class="form-body">
+                <div class="form form-horizontal">
+
+                  <form class="form form-horizontal">
+                    <div class="card-header">
+                      <h4 class="card-title">Consulta de Arqueo</h4>
+                    </div>
+                  </form>
+
+                  <dx-data-grid id="tableArqueo" class="mb-3"
+                                [dataSource]="arqueoData"
+                                [showBorders]="true">
+
+                    <dxo-export [enabled]="true"></dxo-export>
+                    <dxi-column dataField="empresa" caption="Empresa" [groupIndex]="0"></dxi-column>
+                    <dxi-column dataField="usuario" caption="Usuario" [groupIndex]="1"></dxi-column>
+                    <dxi-column dataField="turno" caption="Turno" [groupIndex]="2" [customizeText]="onEditorTurno"></dxi-column>
+                    <dxi-column dataField="tipo" caption="Tipo" [visible]="false" ></dxi-column>
+                    <dxi-column dataField="instrumento" caption="Glosa"></dxi-column>
+                    <dxi-column dataField="monto" caption="Monto" format=",###,###,##0" [customizeText]="onEditorPreparing" alignment="right"></dxi-column>
+
+
+                    <dxo-summary [calculateCustomSummary]="calculateTotal">
+                      <dxi-group-item
+                        column="tipo"
+                        summaryType="count"
+                        [alignByColumn]="true">
+                      </dxi-group-item>
+
+                      <dxi-group-item
+                        name="Recaudado"
+                        summaryType="custom"
+                        valueFormat=",###,###,##0" [customizeText]="onEditorPreparing"
+                        displayFormat="Total recaudado: {0}"
+                        [alignByColumn]="true"
+                        showInColumn="monto">
+                      </dxi-group-item>
+                    </dxo-summary>
+                  </dx-data-grid>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+</section>

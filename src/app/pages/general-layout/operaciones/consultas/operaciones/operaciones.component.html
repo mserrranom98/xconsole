@@ -4,244 +4,67 @@
       <div class="card">
         <div class="card-body">
           <div class="px-3">
-            <div class="form-body">
-              <form class="form form-horizontal" name="frmOpr" #f="ngForm">
-
-                  <div class="card-header">
-                <h4 class="card-title" id="lss" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" >
-                  <i class="ft-list" ></i>Consulta de Operaciones
-                  <i class="ft-chevrons-down" *ngIf="!isCollapsed"></i>
-                  <i class="ft-chevrons-up" *ngIf="isCollapsed" ></i>
+            <div class="form-body pb-3">
+              <div class="card-header"><!-- Inicio cabecera donde se puede mostrar o ocultar los filtros -->
+                <h4 class="card-title">
+                  <i class="ft-list"></i>Consulta de Operaciones
                 </h4>
-              </div>
-
-                  <!--Div Colapsar-->
-                  <div id="collapseExample" [ngbCollapse]="isCollapsed">
-
-
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control">Fecha Desde:</label>
-                      <div class="input-text">
-                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi" [(ngModel)]="fechaIni"
-                          ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="validaFecha(fechaIni,'in')" maxlength="10" readonly>
-                      </div>
-                      <div class="input-group-append">
-                        <div class="input-group-text border-primary" (click)="d1.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control">Fecha Hasta:</label>
-                      <div class="input-text">
-                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpf" [(ngModel)]="fechaFin"
-                          ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="validaFecha(fechaFin,'out')" maxlength="10" readonly> 
-                      </div>
-                      <div class="input-group-append">
-                        <div class="input-group-text border-primary" (click)="d2.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="rex">Empresa (Rex): </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex"
-                          [(ngModel)]="terSelect.rex" [(ngModel)]="oprLevelI.rex" [ngModelOptions]="{standalone: true}"
-                          (change)="sucursal()">
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="eps">Empresa EPS: </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="eps" #eps="ngModel" [(ngModel)]="oprLevelI.eps"
-                          [ngModelOptions]="{standalone: true}">
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listEps" value={{emp.codigo}}>{{emp.titulo}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="suc">Sucursal: </label>
-                      <div class="input-text">
-                        <angular2-multiselect select [data]="dropdownList" [(ngModel)]="listSuc" [settings]="dropdownSettings"
-                          [ngModelOptions]="{standalone: true}" (ngModelChange)="terminal()"></angular2-multiselect>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="terminal">Terminal: </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="terminal" [(ngModel)]="oprLevelI.terminalList" >
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listTer" value={{emp.terminal}}>{{emp.descripcion}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="tipo">Tipo: </label>
-                      <div class="input-text">
-                        <angular2-multiselect class="form-control border-primary" [data]="ddListTipo" [(ngModel)]="listTipo"
-                          [settings]="dropdownSettings" [ngModelOptions]="{standalone: true}"></angular2-multiselect>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="suc">Estado: </label>
-                      <div class="input-text">
-                        <angular2-multiselect class="form-control border-primary"  
-                                              [data]="ddListEdo"  
-                                              [(ngModel)]="listEdo" 
-                                              [settings]="dropdownSettings" 
-                                              [ngModelOptions]="{standalone: true}" 
-                                              (onSelect)="onItemSelect($event)">
-                                            
-                                            </angular2-multiselect>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="inst">Instrumentos: </label>
-                      <div class="input-text">
-                          <angular2-multiselect class="form-control border-primary" [data]="ddListIns" [(ngModel)]="listInst"
-                          [settings]="dropdownSettings" [ngModelOptions]="{standalone: true}"></angular2-multiselect>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="mp">Medio de Pago: </label>
-                      <div class="input-text">
-                        <angular2-multiselect [data]="ddListPag" [(ngModel)]="listPago" [settings]="dropdownSettings"
-                          [ngModelOptions]="{standalone: true}"></angular2-multiselect>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-                  </div>
-
-                  <!--Fin Colapse-->
-
-                 
-
-                <div class="form-actions right">
-                  <div> 
-
-                    <button type="button" class="btn btn-raised gradient-crystal-clear white shadow-z-4" (click)="buscar()" >
-                      <i class="fa ft-search"></i> Consultar
-                    </button>
-
-              <!-- <button *ngIf="divSig" type="button" class="btn btn-raised btn-secondary white" (click)="siguiente()">
-                      <i class="fa ft-fast-forward"></i> Siguiente
-                    </button> -->  
-
-                           &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
-                    <button *ngIf="divList" class="btn btn-raised gradient-mint white shadow-z-4" (click)="exportar()" >
-                      Exportar
-                    </button>   
-
-                  </div>
-                </div>
-
-              </form>
-              <small *ngIf="msjFecha" class="label label danger">{{msjFecha}}</small>
+              </div><!-- Fin cabecera donde se puede mostrar o ocultar los filtros -->
               <div class="form-actions">
                 <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <section id="filter">
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <div class="card">
-                                <div  class="card-body">
-                                  <small *ngIf="msj" class="label label danger">{{msj}}</small>
-                                  <div class="card-block" *ngIf="divList" >
-                                    
-                                      <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows"
-                                        [rowHeight]="'auto'" [scrollbarH]="false"  [selectionType]="'single'" (select)="open(content,$event)"
-                                        [footerHeight]="auto"  [limit]="auto" id="tabla">
+                  <div class="col-md-12 table-main">
+                    <dx-data-grid class="max-width-none"
+                                  id="tableOperaciones"
+                                  [dataSource]="operaciones"
+                                  keyExpr="folio"
+                                  [showRowLines]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  (onRowClick)="openDetalle($event)"
+                                  [wordWrapEnabled]="true"
+                                  [rowAlternationEnabled]="true" [noDataText]="noDataText"><!-- Inicio de la tabla de operaciones -->
 
-                                        <ngx-datatable-column prop="rexGlosa" name="Rex"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="sucursalGlosa" name="Sucursal"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="terminalGlosa" name="Terminal"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="usuario" name="Usuario"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="turno" name="Turno">
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                            let-row="row">
-                                            <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
-                                          </ng-template>
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column prop="fechaRegistro" name="Registro">
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                            let-row="row">
-                                            <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
-                                          </ng-template>
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column prop="fechaRecaudacion" name="Recaudación">
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                            let-row="row">
-                                            <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
-                                          </ng-template>
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column prop="monto" name="Monto">
-                                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                            let-row="row">
-                                            <div style="text-align: right">
-                                              <a>{{row['monto'] | number}}</a>
-                                            </div>
-                                          </ng-template>
-                                        </ngx-datatable-column>
-                                        <ngx-datatable-column prop="tipoGlosa" name="Tipo"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="estadoGlosa" name="Estado"></ngx-datatable-column>
-                                        <ngx-datatable-column prop="folio" name="Folio"></ngx-datatable-column>
-                                       <ngx-datatable-column [width]="300" prop= "detalle" name='Detalle'></ngx-datatable-column>                         
-                                      </ngx-datatable>
-                                  </div>
+                      <dxo-export [enabled]="true" [customizeExcelCell]="customizeExcelCell"></dxo-export>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-search-panel [visible]=true placeholder="Buscar...">
+                      </dxo-search-panel>
+                      <dxo-grouping #expand [autoExpandAll]="true" ></dxo-grouping>
 
-                                  <!--Comienzo Mejora-->
-
-                                  <!--Fin Mejora-->
-
-
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </div>
-                    </div>
+                      <dxi-column dataField="grupo" caption="" [visible]="false" [customizeText]="onEditorPreparingGroup"
+                                  [groupIndex]="0" alignment="left" [encodeHtml]="false">
+                      </dxi-column>
+                      <dxi-column dataField="usuario" caption="Usuario" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="turno" caption="Turno" alignment="left" [width]="90">
+                      </dxi-column>
+                      <dxi-column dataField="fechaRegistro" caption="Registro" alignment="left" [width]="90">
+                      </dxi-column>
+                      <dxi-column dataField="fechaRecaudacion" caption="Recaudación" alignment="left" [width]="100">
+                      </dxi-column>
+                      <dxi-column dataField="monto" caption="Monto" format=",###,###,##0"
+                                  [customizeText]="onEditorPreparing" [width]="150" alignment="right">
+                      </dxi-column>
+                      <dxi-column dataField="moneda" caption="Moneda" [width]="80" [customizeText]="onEditorPreparingDetalle"
+                                  alignment="left" [encodeHtml]="false">
+                      </dxi-column>
+                      <dxi-column dataField="conversion" caption="Conversion" format=",###,###,##0"
+                                  [customizeText]="onEditorPreparing" [width]="90" alignment="right">
+                      </dxi-column>
+                      <dxi-column dataField="total" caption="Monto Total" format=",###,###,##0"
+                                  [customizeText]="onEditorPreparing" [width]="150" alignment="right">
+                      </dxi-column>
+                      <dxi-column dataField="tipoGlosa" caption="Tipo" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="estadoGlosa" caption="Estado" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="folio" caption="Folio" alignment="left">
+                      </dxi-column>
+                      <dxi-column dataField="detalle" [width]="280" caption="Detalle" [customizeText]="onEditorPreparingDetalle"
+                                  alignment="left" [encodeHtml]="false">
+                      </dxi-column>
+                    </dx-data-grid><!-- Fin de la tabla de operaciones -->
                   </div>
                 </div>
               </div>
@@ -250,85 +73,6 @@
         </div>
       </div>
     </div>
-
-    
-        <!--COMIENZO DEL MODAL-->
-
-
-        <ng-template #content let-c="close" let-d="dismiss" >  
-          <div class="modal-header"> 
-              <h4 class="modal-title">Ticket de {{tipoglosa}} , Folio {{folio}} </h4>  
-                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-           
-          <div class="modal-body">
-
-            
-          <!--  <div class="form-actions right">
-                  <button type="button" class="btn btn-raised btn-secondary" (click)="anteriorop()"
-              [disabled]='antDisable'>
-                <i class="fa ft-rewind"></i> Anterior
-              </button>
-              <button type="button" class="btn btn-raised btn-secondary" (click)="siguienteop()"
-              [disabled]='sigDisable'>
-                <i class="fa ft-fast-forward"></i> Siguiente
-              </button>
-            </div>
-          
-            -->
-          
-              <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows2"
-              [headerHeight]="50" [rowHeight]="'auto'" [limit]="50" >
-              <ngx-datatable-column prop="detalle" name="Detalle"></ngx-datatable-column>
-              <ngx-datatable-column prop="instrumentoGlosa" name="Instrumento"></ngx-datatable-column>
-              <ngx-datatable-column prop="monto" name="Monto">
-                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"
-                      let-value="value" let-row="row">
-                      <div style="text-align: right">
-                          <a>{{value | number}}</a>
-                      </div>
-                  </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="calidadGlosa" name="Modalidad"></ngx-datatable-column>
-              <div *ngIf="resultI.tipo != 'CIERRC'">
-                  <ngx-datatable-column >
-                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                      let-row="row">
-                      <a href="javascript:void(0)" class="ft-search" title="Detalle"
-                      (click)="open2(content2, rowIndex)" [id]="value">
-                      </a>
-                  </ng-template>
-                  </ngx-datatable-column>
-              </div>            
-          </ngx-datatable>
-          
-          </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
-            </div>  
-         </ng-template>
-    
-    <!--FIN MODAL-->
-
-    <ng-template #content2 let-c="close" let-d="dismiss">
-        <div class="modal-header">
-          <h4 class="modal-title">Detalle: {{glosa}} </h4>
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
-
-          
-          <app-detalle-ticket [datos]="datos"></app-detalle-ticket>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Cerrar</button>
-        </div>
-      </ng-template>
 
 
   </div>

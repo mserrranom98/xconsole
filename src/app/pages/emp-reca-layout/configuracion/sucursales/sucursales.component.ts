@@ -40,13 +40,14 @@ export class SucursalesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.empRexsService.getRex(this.rexSelect).subscribe(
-      (response:any) => {
+    this.empRexsService.getRex().subscribe(
+      (response: any) => {
         this.listEmpRex = response.rexs;
       }
-    )
+    );
     this.sucSelect.rex = VAR_SUC.rex;
     this.buscar();
+    $('.page-loading').css({'z-index': '-1', 'opacity': '0'});
   }
 
   buscar() {
@@ -58,8 +59,8 @@ export class SucursalesComponent implements OnInit {
     } else {
       this.disNuevo = false;
     }
-    this.sucursalesService.getSuc(this.sucSelect).subscribe(
-      (response:any) => {
+    this.sucursalesService.getSuc(this.sucSelect.rex).subscribe(
+      (response: any) => {
         if (response.code === '0') {
           const dir = response.sucursales.length;
           if (dir > 0) {
@@ -128,7 +129,7 @@ export class SucursalesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.sucursalesService.deleteSuc(this.sucDelete).subscribe(
-          (response:any) => {
+          (response: any) => {
             if (response.code === '0') {
               swal('Sucursales', 'Registro Eliminado', 'success');
               this.buscar();

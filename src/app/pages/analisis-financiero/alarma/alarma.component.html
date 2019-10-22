@@ -1,0 +1,56 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"><!-- Inicio del card para la tabla de alarmas -->
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body pb-3">
+              <div class="form form-horizontal"> <!-- Inicio cabecera de alarmas -->
+
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Alarmas UAF</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+              </div><!-- Fin cabecera de alarmas -->
+
+              <div class="form-actions"><!-- Inicio tabla de alarmas -->
+                <div class="row">
+                  <div class="col-md-12 table-main">
+
+                    <dx-data-grid class="max-width-none"
+                                  id="gridContainer"
+                                  [dataSource]="alarmas"
+                                  keyExpr="id"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true" [noDataText]="noDataText">
+
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-search-panel [visible]=true placeholder="Buscar...">
+                      </dxo-search-panel>
+
+                      <dxi-column dataField="folio" caption="Ticket" alignment="left"></dxi-column>
+                      <dxi-column dataField="empresa" caption="Empresa" alignment="left"></dxi-column>
+                      <dxi-column dataField="rut" caption="Rut" alignment="left"></dxi-column>
+                      <dxi-column dataField="nombre" caption="Nombre" alignment="left"></dxi-column>
+                      <dxi-column dataField="estado" caption="Estado" [customizeText]="onEditorPreparingEstado" alignment="left"></dxi-column>
+                      <dxi-column dataField="turno" caption="Turno" alignment="left"></dxi-column>
+                      <dxi-column dataField="tipo" caption="Tipo de Regla" alignment="left"></dxi-column>
+                      <dxi-column dataField="detalle" caption="Detalle" alignment="left"></dxi-column>
+                    </dx-data-grid>
+
+                  </div>
+                </div>
+              </div><!-- Fin tabla de alarmas -->
+            </div>
+          </div>
+        </div>
+      </div><!-- Fin del card para la tabla de alarmas  -->
+
+    </div>
+  </div>
+</section>

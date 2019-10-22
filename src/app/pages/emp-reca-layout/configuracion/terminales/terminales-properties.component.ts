@@ -33,11 +33,11 @@ export class TerminalesPropertiesComponent implements OnInit {
   mon: {
     'medioPago': string,
     'monto': string,
-  }
+  };
   aut: {
     'medioPago': string,
     'monto': string,
-  }
+  };
   editingMon = {};
   editingAut = {};
   msjMon = '';
@@ -73,15 +73,15 @@ export class TerminalesPropertiesComponent implements OnInit {
     }
 
     // Empresa(REX)
-    this.empRexsService.getRex(this.rexSelect).subscribe(
-      (response:any) => {
+    this.empRexsService.getRex().subscribe(
+      (response: any) => {
         this.listEmpRex = response.rexs;
       }
     )
 
     // Medios de Pago
-    this.utilsService.getMedioPago(this.medioPago).subscribe(
-      (response:any) => {
+    this.utilsService.getMedioPago().subscribe(
+      (response: any) => {
         this.listMP = response.rows;
       },
       error => {
@@ -120,8 +120,8 @@ export class TerminalesPropertiesComponent implements OnInit {
 
   sucursal() {
     this.listSucursal = [];
-    this.sucursalesService.getSuc(this.sucSelect).subscribe(
-      (response:any) => {
+    this.sucursalesService.getSuc(this.sucSelect.rex).subscribe(
+      (response: any) => {
         this.listSucursal = response.sucursales;
       }
     )
@@ -229,7 +229,7 @@ export class TerminalesPropertiesComponent implements OnInit {
     VAR_TER.rex = this.terIU.rex;
     VAR_TER.suc = this.terIU.sucursal;
     this.terminalesService.updateTer(this.terIU).subscribe(
-      (response:any) => {
+      (response: any) => {
         if (response.code === '0') {
           swal('Terminales', 'Registro Actualizado con Exito', 'success');
           this.limpiar();

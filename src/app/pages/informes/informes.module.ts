@@ -7,20 +7,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SucursalesService } from '../pages-services/serv-emp-rec/sucursales.service';
 import { EmpRexsService } from '../pages-services/serv-emp-rec/emp-rexs.service';
 import { InformesRoutingModule } from './informes-routing.module';
-import { ArqueoComponent} from './caja/arqueo/arqueo.component';
-import { ArqueoService } from './caja/arqueo/arqueo.service';
-import {MatTreeModule, MatIconModule, MatButtonModule, MatDialogModule} from '@angular/material';
+import { ArqueoService } from '../general-layout/operaciones/consultas/arqueo/arqueo.service';
 import { CuentasContablesComponent } from './cuentas-contables/cuentas-contables.component';
 import { CuentaContableService } from './cuentas-contables/cuentas-contables.service';
 import { NgbDateCustomParserFormatter } from 'app/pipes/date-format.pipe';
-import {
-  MatFormFieldModule,
-  MatInputModule
-} from '@angular/material';
 import {DxDataGridModule, DxTreeListModule} from 'devextreme-angular';
 import {FlexModule} from '@angular/flex-layout';
 import { AdminCuentasContablesComponent } from './cuentas-contables/admin-cuentas-contables/admin-cuentas-contables.component';
 import {AsignacionCuentasContablesComponent} from './cuentas-contables/asignacion-cuentas-contables/asignacion-cuentas-contables.component';
+import {MaterialModule} from '../../shared/material/material.module';
 
 @NgModule({
   imports: [
@@ -30,22 +25,13 @@ import {AsignacionCuentasContablesComponent} from './cuentas-contables/asignacio
     NgxDatatableModule,
     Ng2SmartTableModule,
     InformesRoutingModule,
-    // NestedTreeControl,
-    //  BrowserModule,
-    //  BrowserAnimationsModule
-    MatTreeModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
     DxTreeListModule,
     ReactiveFormsModule,
     FlexModule,
-    DxDataGridModule
+    DxDataGridModule,
+    MaterialModule
   ],
   declarations: [
-    ArqueoComponent,
     CuentasContablesComponent,
     AsignacionCuentasContablesComponent,
     AdminCuentasContablesComponent

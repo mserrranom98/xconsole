@@ -73,7 +73,7 @@ export class TurnosAbiertosComponent implements OnInit {
         this.fechaFin = JSON.parse(params['fh']);
       }
       if (params['rex'] != null && params['rex'] != 'undefined') {
-        this.empRexsService.getRex(this.rexSelect).subscribe(
+        this.empRexsService.getRex().subscribe(
           (response:any) => {
             this.listEmpRex = response.rexs;
             this.sucSelect.rex = params['rex'];
@@ -100,7 +100,7 @@ export class TurnosAbiertosComponent implements OnInit {
           }
         )
       } else { // Valores iniciales
-        this.empRexsService.getRex(this.rexSelect).subscribe(
+        this.empRexsService.getRex().subscribe(
           (response:any) => {
             this.listEmpRex = response.rexs;
           },
@@ -117,7 +117,7 @@ export class TurnosAbiertosComponent implements OnInit {
     this.listTer = [];
     this.divList = false;
     if (this.suc != '') { // Con valor de url
-      this.sucursalesService.getSuc(this.sucSelect).subscribe(
+      this.sucursalesService.getSuc(this.sucSelect.rex).subscribe(
         (response:any) => {
           this.listSuc = response.sucursales;
         },
@@ -129,7 +129,7 @@ export class TurnosAbiertosComponent implements OnInit {
       this.terSelect.sucursal = '';
       this.turnosAbiertosSelect.sucursal = '';
       this.rexDesc = args.target.options[args.target.selectedIndex].text;
-      this.sucursalesService.getSuc(this.sucSelect).subscribe(
+      this.sucursalesService.getSuc(this.sucSelect.rex).subscribe(
         (response:any) => {
           this.listSuc = response.sucursales;
         },
@@ -144,7 +144,7 @@ export class TurnosAbiertosComponent implements OnInit {
     this.listTer = [];
     this.divList = false;
     if (this.ter != '') { // Con valor de url
-      this.terminalesService.getTer(this.terSelect).subscribe(
+      this.terminalesService.getTer(this.terSelect.sucursal).subscribe(
         (response:any) => {
           this.listTer = response.terminales;
           this.buscar();
@@ -160,7 +160,7 @@ export class TurnosAbiertosComponent implements OnInit {
       this.turnosAbiertosSelect.terminal = '';
       this.termi = '';
       this.sucDesc = args.target.options[args.target.selectedIndex].text;
-      this.terminalesService.getTer(this.terSelect).subscribe(
+      this.terminalesService.getTer(this.terSelect.sucursal).subscribe(
         (response:any) => {
           this.listTer = response.terminales;
         },

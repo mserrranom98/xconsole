@@ -5,109 +5,9 @@
         <div class="card-body">
           <div class="px-3">
             <div class="form-body">
-              <form class="form form-horizontal" name="frmJou" #f="ngForm">
-                  <div class="card-header">
-                  <h4 class="card-title" id="lss" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-                  <i class="ft-list"></i>Consulta de Journal
-                  <i class="ft-chevrons-down" *ngIf="!isCollapsed"></i>
-                  <i class="ft-chevrons-up" *ngIf="isCollapsed" ></i>
-                </h4>
-              </div>
-                <!--Comienzo Formulario de Colapse-->
-                <div id="collapseExample" [ngbCollapse]="isCollapsed">
-
-
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control">Fecha Desde:</label>
-                      <div class="input-text">
-                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi" [(ngModel)]="fechaIni"
-                          ngbDatepicker #d1="ngbDatepicker" (ngModelChange)="validaFecha(fechaIni,'in')" maxlength="10" readonly>
-                      </div>
-                      <div class="input-group-append">
-                        <div class="input-group-text border-primary" (click)="d1.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control">Fecha Hasta:</label>
-                      <div class="input-text">
-                        <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpf" [(ngModel)]="fechaFin"
-                          ngbDatepicker #d2="ngbDatepicker" (ngModelChange)="validaFecha(fechaFin,'out')" maxlength="10" readonly>
-                      </div>
-                      <div class="input-group-append">
-                        <div class="input-group-text border-primary" (click)="d2.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="rex">Empresa (Rex): </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="rex" #rex="ngModel" [(ngModel)]="sucSelect.rex"
-                          [(ngModel)]="terSelect.rex" [ngModelOptions]="{standalone: true}" (change)="sucursal()">
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listEmpRex" value={{emp.rex}}>{{emp.descripcion}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="suc">Sucursal: </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="suc" #suc="ngModel" [(ngModel)]="terSelect.sucursal"
-                          (change)="selTerminal()">
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listSuc" value={{emp.sucursal}}>{{emp.descripcion}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="terminal">Terminal: </label>
-                      <div class="input-text">
-                        <select class="form-control border-primary" name="terminal" #terminal="ngModel" [(ngModel)]="journalSelect.terminal"
-                          [ngModelOptions]="{standalone: true}">
-                          <option value="" selected>Seleccione...</option>
-                          <option *ngFor="let emp of listTer" value={{emp.terminal}}>{{emp.descripcion}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-             <!-- <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control" for="modulo">Usuario: </label>
-                      <div class="input-text">
-                        <input type="text" class="form-control border-primary" (keyup)='updateFilter($event)' maxlength="15">
-                      </div>
-                    </div>
-                  </div>-->
-                </div>
-
-
-                </div>
-                <!--Fin Formulario Colapse-->
-
-
-                <small *ngIf="msjFecha" class="label label danger">{{msjFecha}}</small>
-                <div class="form-actions right">
-                  <button *ngIf="divList" type="button" class="btn btn-raised gradient-mint white" (click)="exportar()">Exportar</button>
-                  <button type="button" class="btn btn-raised btn-primary" (click)="buscar()">
-                    <i class="fa ft-search"></i> Buscar
-                  </button>
+              <form class="form form-horizontal">
+                <div class="card-header">
+                  <h4 class="card-title">Consulta de Journal</h4>
                 </div>
               </form>
               <div class="form-actions">
@@ -120,20 +20,21 @@
                             <div class="col-sm-12">
                               <div class="card">
                                 <div class="card-body">
-                                  <small *ngIf="msj" class="label label danger">{{msj}}</small>
-                                  <div class="card-block" *ngIf="divList">
-                                    <ngx-datatable #tblList class="bootstrap" [columnMode]="'force'" [rows]="rows"
-                                      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="50">
-                               <!--  <ngx-datatable-column prop="cajero" name="Usuario"></ngx-datatable-column> -->
-                                      <ngx-datatable-column prop="eventData" name="Evento"></ngx-datatable-column>
-                                      <ngx-datatable-column prop="eventDate" name="Fecha">
-                                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                          let-row="row">
-                                          <a>{{value | date:'dd/MM/yyyy hh:mm:ss'}}</a>
-                                        </ng-template>
-                                      </ngx-datatable-column>
-                                      <ngx-datatable-column prop="terminal" name="Terminal"></ngx-datatable-column>
-                                    </ngx-datatable>
+                                  <div class="card-block">
+                                    <dx-data-grid id="tableTurno" class="mb-3 max-width-none"
+                                                  [dataSource]="journal"
+                                                  [showRowLines]="true"
+                                                  [rowAlternationEnabled]="true"
+                                                  [allowColumnReordering]="true"
+                                                  [showBorders]="true"
+                                                  [showColumnLines]="false"
+                                                  [wordWrapEnabled]="true" [noDataText]="noDataText">
+
+                                      <dxo-export [enabled]="true"></dxo-export>
+                                      <dxi-column dataField="eventData" caption="Evento"></dxi-column>
+                                      <dxi-column dataField="eventDate" caption="Fecha"></dxi-column>
+                                      <dxi-column dataField="terminal" caption="Terminal"></dxi-column>
+                                    </dx-data-grid>
                                   </div>
                                 </div>
                               </div>

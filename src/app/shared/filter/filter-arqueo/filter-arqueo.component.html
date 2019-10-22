@@ -1,0 +1,57 @@
+<div [formGroup]="formArqueo" fxLayout="row wrap">
+  <div fxFlex="48" fxLayout="row wrap">
+    <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+      <label fxFlex="100" class="label-control font-small-3">Fecha:</label>
+      <div fxFlex="100" fxLayout="row">
+        <div class="input-text" fxFlex="80">
+          <input class="form-control border-primary" placeholder="dd-mm-yyyy" name="dpi"
+                 formControlName="inputFecha" ngbDatepicker #d1="ngbDatepicker" maxlength="10" readonly>
+        </div>
+        <div class="input-group-append" fxFlex="20">
+          <div class="input-group-text border-primary" (click)="d1.toggle()">
+            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="4%">
+    <div fxFlex="48" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="mb-3">
+        <label fxFlex="100" class="label-control font-small-3">Empresa (Rex): </label>
+        <div fxFlex="100" class="input-text">
+          <select formControlName="empresa" class="form-control border-primary" name="rex" [attr.disabled]="disableEmpresa" (change)="getSucursales($event)">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let empresa of empresas" value={{empresa.rex}}>{{empresa.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex="48" fxLayoutAlign="start start" fxLayout="row wrap">
+      <div fxLayout="row wrap" fxFlex="100" class="input-text dx-select" class="mb-3">
+        <label fxFlex="100" class="label-control font-small-3">Sucursal: </label>
+        <div fxFlex="300" class="input-text dx-select">
+          <select class="form-control border-primary" formControlName="sucursal" [attr.disabled]="disableSucursal">
+            <option value="" selected>Seleccione...</option>
+            <option *ngFor="let emp of sucursales" value={{emp.sucursal}}>{{emp.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="">
+  <div class="form-butt">
+
+    <button type="button" class="btn btn-social btn-limpiar btn-raised position-right mr-1" (click)="limpiar()"><i
+      class="fa icon-refresh"></i>Limpiar</button>
+    <a class="customizer-close-buscar">
+      <button type="button" class="btn btn-social btn-consultar btn-raised position-right mr-1"
+              (click)="enviarFiltro()"><i class="fa ft-search"></i> Consultar</button>
+    </a>
+  </div>
+</div>

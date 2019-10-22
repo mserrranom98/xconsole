@@ -8,7 +8,6 @@ import { BitacoraComponent } from './bitacora/bitacora.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 import { ImageCropperModule } from 'ng2-img-cropper';
 import { UiSwitchModule } from 'ngx-ui-switch';
-//import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BitacoraService } from '../pages-services/serv-reca/bitacora.service';
 import { NotificacionService } from '../pages-services/serv-reca/notificacion.service';
@@ -38,7 +37,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     declarations: [
     BitacoraComponent,
     NotificacionesComponent,
-    //PdfViewerComponent,
     TurnosAbiertosComponent,
     RendicionComponent
     ],

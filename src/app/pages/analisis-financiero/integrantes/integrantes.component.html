@@ -1,0 +1,84 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"><!-- Inicio del card para la busqueda de cuentas contables por fecha -->
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body pb-3">
+              <form class="form form-horizontal" name="frmTipoCambio"> <!-- Inicio busqueda de integrantes por estado -->
+
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Integrantes</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+                <div class="row"><!-- Inicio busqueda por estado -->
+
+                  <div class="col-md-6"><!-- Inicio seleccionar estado -->
+                    <div class="form-group row">
+                      <label class="col-md-5 label-control">Estado de Integrantes: </label>
+                      <div class="input-text">
+                        <select class="form-control border-primary" id="activoSelect" #activoSelect (change)="getIntegrantes(activoSelect.value)">
+                          <option value="" disabled selected>Seleccione...</option>
+                          <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.estado }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div><!-- Fin seleccionar estado -->
+
+                </div><!-- Fin busqueda por estado -->
+
+              </form><!-- Fin busqueda de integrantes por estado -->
+
+              <div class="form-actions"><!-- Inicio tabla de cuentas contables -->
+                <div class="row">
+                  <div class="col-md-12 table-main">
+
+                    <dx-data-grid class="max-width-none"
+                                  id="gridContainer"
+                                  [dataSource]="integrantes"
+                                  keyExpr="idIntg"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true"
+                                  (onRowUpdated)="editarIntegrante($event)"
+                                  (onRowInserted)="addIntegrante($event)"
+                                  (onRowValidating)="validarIntegrante($event)"
+                                  (onEditorPreparing)="onEditorPreparing($event)" [noDataText]="noDataText"><!-- Inicio de la tabla de cuentas contables -->
+
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-editing
+                        mode="form"
+                        [allowUpdating]="true"
+                        [allowAdding]="true"
+                        [useIcons]="true">
+                        <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar" >
+                        </dxo-texts>
+                      </dxo-editing>
+
+                      <dxi-column dataField="correoIntg" caption="Correo" dataType="mail" alignment="left">
+                        <dxi-validation-rule type="required" message="El correo es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="nombre" caption="Nombre" alignment="left">
+                        <dxi-validation-rule type="required" message="La glosa es requerida"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="estado" caption="Estado" alignment="left">
+                        <dxi-validation-rule type="required" message="El codigo del producto es requerido"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="estados" displayExpr="estado" valueExpr="id"></dxo-lookup>
+                      </dxi-column>
+                    </dx-data-grid><!-- Fin de la tabla de cuentas contables -->
+
+                  </div>
+                </div>
+              </div><!-- Fin tabla de cuentas contables -->
+            </div>
+          </div>
+        </div>
+      </div><!-- Fin del card para la busqueda de cuentas contables por fecha -->
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+<section id="horizontal-form-layouts">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"><!-- Inicio del card para la busqueda de reglas por fecha -->
+        <div class="card-body">
+          <div class="px-3">
+            <div class="form-body pb-3">
+              <div class="form form-horizontal"> <!-- Inicio busqueda de transacciones por fecha -->
+
+                <div class="card-header"><!-- Inicio titulo de la cabecera -->
+                  <h4 class="card-title"><i class="ft-list"></i>Reglas de UAF</h4>
+                </div><!-- Fin titulo de la cabecera -->
+
+              </div><!-- Fin busqueda de transacciones por fecha -->
+
+              <div class="form-actions"><!-- Inicio tabla de reglas -->
+                <div class="row">
+                  <div class="col-md-12 table-main">
+
+                    <dx-data-grid class="max-width-none"
+                                  id="gridContainer"
+                                  [dataSource]="reglas"
+                                  keyExpr="id"
+                                  [showRowLines]="true"
+                                  [rowAlternationEnabled]="true"
+                                  [allowColumnReordering]="true"
+                                  [showBorders]="true"
+                                  [showColumnLines]="false"
+                                  [wordWrapEnabled]="true"
+                                  (onEditorPreparing)="onEditorPreparing($event)"
+                                  (onRowInserted)="addRegla($event)"
+                                  (onRowRemoved)="removeRegla($event)"
+                                  (onRowValidating)="validarRegla($event)" [noDataText]="noDataText"><!-- Inicio de la tabla de reglas -->
+
+                      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                      <dxo-paging [enabled]="false"></dxo-paging>
+                      <dxo-editing
+                        mode="form"
+                        [allowAdding]="true"
+                        allowDeleting="true"
+                        [useIcons]="true">
+                        <dxo-texts saveRowChanges="Guardar" cancelRowChanges="Cancelar" editRow="Editar">
+                        </dxo-texts>
+                      </dxo-editing>
+
+                      <dxi-column dataField="codigo" caption="Elemento" alignment="left">
+                        <dxi-validation-rule type="required" message="El elemento es requerido"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="mediosDePago" displayExpr="titulo" valueExpr="codigo"></dxo-lookup>
+                      </dxi-column>
+                      <dxi-column dataField="desde" caption="Monto Desde" dataType="number" alignment="left">
+                        <dxi-validation-rule type="required" message="El monto es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="hasta" caption="Monto Hasta" dataType="number" alignment="left">
+                        <dxi-validation-rule type="required" message="El monto es requerido"></dxi-validation-rule>
+                      </dxi-column>
+                      <dxi-column dataField="grupoid" caption="Grupos" editCellTemplate="editGrupoTemplate" [customizeText]="getGruposNames">
+                        <div *dxTemplate="let grupo of 'editGrupoTemplate'">
+                          <dx-tag-box
+                            [dataSource]="grupos"
+                            [(value)]="grupo.value"
+                            valueExpr="idGrupo"
+                            displayExpr="glosaGrupo"
+                            (onValueChanged)="onTagBoxValueChanged($event)">
+                          </dx-tag-box>
+                        </div>
+                      </dxi-column>
+                      <dxi-column dataField="codigoEMP" caption="Empresa" alignment="left">
+                        <dxi-validation-rule type="required" message="La empresa es requerida"></dxi-validation-rule>
+                        <dxo-lookup [dataSource]="empresas" displayExpr="titulo" valueExpr="codigo"></dxo-lookup>
+                      </dxi-column>
+
+                    </dx-data-grid><!-- Fin de la tabla de reglas -->
+
+                  </div>
+                </div>
+              </div><!-- Fin tabla de reglas -->
+            </div>
+          </div>
+        </div>
+      </div><!-- Fin del card para la busqueda de reglas por fecha -->
+
+    </div>
+  </div>
+</section>
